@@ -1,0 +1,16 @@
+﻿.wrapper-header {
+  height: 80px;
+  margin: 0 0 20px 0;
+  padding: 20px 0 10px 0;
+  background: url("/static/image/bgHeader.png") left top repeat-x;
+}
+
+  .wrapper-header .wrapper-logo {
+  }
+
+    .wrapper-header .wrapper-logo h2 {
+      margin: 0;
+    }
+
+  .wrapper-header .wrapper-nav {
+  }
