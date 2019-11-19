@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DalSalesGoods.cs" />
+    <Compile Include="DalSalesContract.cs" />
+    <Compile Include="DalSalesCompany.cs" />
     <Compile Include="DalAdmin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

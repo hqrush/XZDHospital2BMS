@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="list.aspx.cs"
-  Inherits="XZDHospital2BMS.BackManager.admin.list" %>
+  Inherits="XZDHospital2BMS.BackManager.sales_company.list" %>
 
 <%@ Register Src="~/BackManager/wucHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
 
@@ -7,7 +7,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>欢迎使用信州区第二人民医院后台管理系统 管理员列表</title>
+  <title>医药器械销售公司列表</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
@@ -26,6 +26,11 @@
     <div class="row">
       <div class="col-lg-12">
         <form id="formShow" runat="server">
+
+          <div runat="server" id="divAlert" class="alert alert-info" role="alert">
+            <h4>暂无数据！</h4>
+          </div>
+
           <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
@@ -36,59 +41,28 @@
 
               <Columns>
 
-                <asp:TemplateField HeaderText="用户名">
+                <asp:TemplateField HeaderText="公司名称">
                   <ItemStyle Width="90px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblUsername"
-                      Text='<%# Eval("username").ToString() %>' />
+                    <asp:Label runat="server" ID="lblName"
+                      Text='<%# Eval("name").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="真实姓名">
+                <asp:TemplateField HeaderText="添加人">
                   <ItemStyle Width="80px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblRealname"
-                      Text='<%# Eval("real_name").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="身份证号">
-                  <ItemStyle Width="120px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblIdCard"
-                      Text='<%# Eval("id_card").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="手机号码">
-                  <ItemStyle Width="90px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblMobilePhone"
-                      Text='<%# Eval("mobile_phone").ToString() %>' />
+                    <asp:Label runat="server" ID="lblAdminId"
+                      Text='<%# Eval("id_admin").ToString() %>' />
+                    <asp:Label runat="server" ID="lblRealName" />
                   </ItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="添加时间">
-                  <ItemStyle Width="70px" />
+                  <ItemStyle Width="120px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblTimeAdd"
-                      Text='<%# Eval("time_add").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="最后登录">
-                  <ItemStyle Width="70px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblTimeLastLogin"
-                      Text='<%# Eval("time_last_login").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="启用">
-                  <ItemStyle Width="40px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblEnabled"
-                      Text='<%# Eval("enabled").ToString() %>' />
+                    <asp:Label runat="server" ID="lblTimeCreate"
+                      Text='<%# Eval("time_create").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -100,15 +74,11 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="操作">
-                  <ItemStyle Width="150px" />
+                <asp:TemplateField>
+                  <ItemStyle Width="30px" />
                   <ItemTemplate>
-                    <asp:Button runat="server" ID="btnEditPurviews" CssClass="btn btn-primary btn-xs"
-                      CommandName="EditPurviews" Text="查看权限" />
                     <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs"
                       CommandName="Edit" Text="编辑" />
-                    <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs"
-                      CommandName="Delete" Text="删除" />
                   </ItemTemplate>
                   <EditItemTemplate>
                     <asp:LinkButton runat="server" ID="lbtnUpdate" Text="更新" CommandName="Update" />

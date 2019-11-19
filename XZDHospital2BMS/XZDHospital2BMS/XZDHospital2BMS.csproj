@@ -49,6 +49,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BackManager\sales_company\form.aspx" />
+    <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
@@ -113,6 +115,20 @@
     </Compile>
     <Compile Include="BackManager\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\sales_company\form.aspx.cs">
+      <DependentUpon>form.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\sales_company\form.aspx.designer.cs">
+      <DependentUpon>form.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\sales_company\list.aspx.cs">
+      <DependentUpon>list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\sales_company\list.aspx.designer.cs">
+      <DependentUpon>list.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\wucHeader.ascx.cs">
       <DependentUpon>WUCHeader.ascx</DependentUpon>

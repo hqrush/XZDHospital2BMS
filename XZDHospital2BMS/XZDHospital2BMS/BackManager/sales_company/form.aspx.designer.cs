@@ -7,11 +7,11 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace XZDHospital2BMS.BackManager.admin
+namespace XZDHospital2BMS.BackManager.sales_company
 {
 
 
-  public partial class list
+  public partial class form
   {
 
     /// <summary>
@@ -24,21 +24,21 @@ namespace XZDHospital2BMS.BackManager.admin
     protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
 
     /// <summary>
-    /// formShow 控件。
+    /// tbName 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlForm formShow;
+    protected global::System.Web.UI.HtmlControls.HtmlInputText tbName;
 
     /// <summary>
-    /// gvShow 控件。
+    /// btnSubmit 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.GridView gvShow;
+    protected global::System.Web.UI.WebControls.Button btnSubmit;
   }
 }

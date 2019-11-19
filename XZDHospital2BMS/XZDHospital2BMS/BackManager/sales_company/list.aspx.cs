@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace XZDHospital2BMS.BackManager.admin
+namespace XZDHospital2BMS.BackManager.sales_company
 {
   public partial class list : System.Web.UI.Page
   {
@@ -57,8 +57,17 @@ namespace XZDHospital2BMS.BackManager.admin
 
     public void LoadData()
     {
-      gvShow.DataSource = Bll.BllAdmin.getDataTableAll();
-      gvShow.DataBind();
+      DataTable objDT = Bll.BllSalesCompany.getDataTableAll();
+      if (objDT != null)
+      {
+        divAlert.Visible = false;
+        gvShow.DataSource = objDT;
+        gvShow.DataBind();
+      }
+      else
+      {
+        divAlert.Visible = true;
+      }
     }
 
   }

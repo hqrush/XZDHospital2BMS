@@ -14,3 +14,9 @@
 
   .wrapper-header .wrapper-nav {
   }
+
+
+.wrapper-gvshow th,
+.wrapper-gvshow td {
+  text-align: center;
+}

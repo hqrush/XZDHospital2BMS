@@ -104,7 +104,6 @@
                 </div>
               </div>
 
-
               <div class="panel panel-info">
                 <div class="panel-heading">
                   <h3 class="panel-title">出库单管理</h3>
@@ -202,7 +201,7 @@
               </div>
 
               <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
+                <div class="col-sm-offset-5 col-sm-7">
                   <asp:Button runat="server" ID="btnSubmit" Text="确认提交" CssClass="btn btn-primary" />
                 </div>
               </div>

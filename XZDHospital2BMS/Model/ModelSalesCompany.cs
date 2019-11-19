@@ -11,6 +11,7 @@ namespace Model
     private string _name = "";
     private int _id_admin = 0;
     private DateTime _time_create = DateTime.Now;
+    private int _is_deleted = 0;
 
     public ModelSalesCompany() { }
 
@@ -66,6 +67,18 @@ namespace Model
       }
     }
 
+    public int is_deleted
+    {
+      get
+      {
+        return _is_deleted;
+      }
+
+      set
+      {
+        _is_deleted = value;
+      }
+    }
   }
 
 }
