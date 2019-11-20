@@ -42,9 +42,15 @@ namespace Bll
       return DalAdmin.getRecordsAmount();
     }
 
-    public static int login(string strUsername, string strPassword)
+    public static void login(string strUsername, string strPassword,
+      out int intId, out string strPurviews, out int intEnabled)
     {
-      return DalAdmin.login(strUsername, strPassword);
+      DalAdmin.login(strUsername, strPassword, out intId, out strPurviews, out intEnabled);
+    }
+
+    public static bool hasUsername(string strUsername)
+    {
+      return DalAdmin.hasUsername(strUsername);
     }
 
   }

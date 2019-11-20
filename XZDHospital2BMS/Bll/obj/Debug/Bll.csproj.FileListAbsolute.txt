@@ -12,3 +12,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.csprojAssemblyR
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.csproj.CopyComplete
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\Aspose.Cells.xml

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Bll;
+using Helper;
+using System;
 using System.Collections.Generic;
-
+using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,15 +16,8 @@ namespace XZDHospital2BMS.BackManager.admin
     {
       if (!IsPostBack)
       {
-        int intAdminId = 0;
-        if (Session["AdminId"] != null)
-          intAdminId = Convert.ToInt32(Session["AdminId"]);
-        else
-          Response.Redirect("/BackManager/login.aspx");
-        if (intAdminId > 0)
-          LoadData();
-        else
-          Response.Redirect("/BackManager/login.aspx");
+        int intAdminId = HelperUtility.checkPurview("SysAdmin_del,SysAdmin_show");
+        LoadDataAll();
       }
     }
 
@@ -36,37 +31,102 @@ namespace XZDHospital2BMS.BackManager.admin
       }
     }
 
-    protected void gvShow_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    public void OP_Command(object sender, CommandEventArgs e)
     {
-      gvShow.PageIndex = e.NewPageIndex;
-      // LoadDataByName((string)ViewState["Name"], (string)ViewState["DateStart"], (string)ViewState["DateEnd"]);
+      int intId = (int)e.CommandArgument;
+      if (e.CommandName == "Edit")
+      {
+        Response.Redirect("edit.aspx?id=" + intId.ToString());
+      }
+      else if (e.CommandName == "Del")
+      {
+        BllAdmin.deleteById(intId);
+        LoadDataPage();
+      }
     }
 
-    protected void gvShow_RowEditing(object sender, GridViewEditEventArgs e)
-    {
-      gvShow.EditIndex = e.NewEditIndex;
-      // LoadDataByName((string)ViewState["Name"], (string)ViewState["DateStart"], (string)ViewState["DateEnd"]);
-    }
-
-    protected void gvShow_RowDeleting(object sender, GridViewDeleteEventArgs e)
-    {
-
-    }
-
-    protected void gvShow_RowUpdating(object sender, GridViewUpdateEventArgs e)
-    {
-    }
-
-    protected void gvShow_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-    {
-      gvShow.EditIndex = -1;
-      // LoadDataByName((string)ViewState["Name"], (string)ViewState["DateStart"], (string)ViewState["DateEnd"]);
-    }
-
-    public void LoadData()
+    public void LoadDataAll()
     {
       gvShow.DataSource = Bll.BllAdmin.getAll();
       gvShow.DataBind();
+    }
+
+    private int intCurrentPage = 1; //当前页
+    private int intPageSize = 20; //每页记录数
+    private int intPageCount = 0; //总页数
+    private int intRecordCount = 0; //总记录数
+
+    public void LoadDataPage()
+    {
+      DataTable objDT;
+      // “/”相当于整数除法中的除号，“%”相当于余号
+      // 5 / 2 = 2，2/2=1,1/2=0
+      // 5 % 2 = 1
+      intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
+      // 得到总记录数
+      intRecordCount = BllAdmin.getRecordsAmount();
+      // 计算总页数
+      intPageCount = (intRecordCount + intPageSize - 1) / intPageSize;
+      lblPageCount.Text = intPageCount.ToString();
+      // 根据当前页获取当前页的分页记录DataTable
+      if (intRecordCount > 0)
+      {
+        objDT = BllAdmin.getPage(intCurrentPage, intPageSize);
+      }
+      else
+      {
+        lblCurentPage.Text = "1";
+        objDT = null;
+      }
+      if (objDT != null && objDT.Rows.Count > 0)
+      {
+        lbtnFirst.Enabled = true;
+        lbtnPrev.Enabled = true;
+        lbtnNext.Enabled = true;
+        lbtnLast.Enabled = true;
+
+        if (intCurrentPage == 1)
+        {
+          lbtnFirst.Enabled = false;
+          lbtnPrev.Enabled = false;
+        }
+        if (intCurrentPage == intPageCount)
+        {
+          lbtnNext.Enabled = false;
+          lbtnLast.Enabled = false;
+        }
+      }
+      else
+      {
+        lbtnFirst.Enabled = false;
+        lbtnPrev.Enabled = false;
+        lbtnNext.Enabled = false;
+        lbtnLast.Enabled = false;
+      }
+      gvShow.DataSource = objDT;
+      gvShow.DataBind();
+      lblRecordCount.Text = intRecordCount.ToString();
+    }
+
+    protected void lbtnFirst_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = "1";
+      LoadDataPage();
+    }
+    protected void lbtnPrev_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = Convert.ToString(Convert.ToInt32(lblCurentPage.Text) - 1);
+      LoadDataPage();
+    }
+    protected void lbtnNext_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = Convert.ToString(Convert.ToInt32(lblCurentPage.Text) + 1);
+      LoadDataPage();
+    }
+    protected void lbtnLast_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = lblPageCount.Text;
+      LoadDataPage();
     }
 
   }

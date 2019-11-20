@@ -45,7 +45,7 @@
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">系统设置<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/BackManager/admin/form.aspx?op=add">添加管理员</a></li>
+                <li><a href="/BackManager/admin/add.aspx">添加管理员</a></li>
                 <li><a href="/BackManager/admin/list.aspx">管理管理员</a></li>
                 <li><a href="/BackManager/logout.aspx">退出重登录</a></li>
               </ul>

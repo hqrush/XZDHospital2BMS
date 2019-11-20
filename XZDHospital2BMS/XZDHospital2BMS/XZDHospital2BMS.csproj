@@ -64,6 +64,7 @@
     <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="BackManager\handler\CheckAdminHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -72,7 +73,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BackManager\admin\form.aspx" />
+    <Content Include="BackManager\admin\add.aspx" />
     <Content Include="BackManager\admin\list.aspx" />
     <Content Include="BackManager\home.aspx" />
     <Content Include="BackManager\logout.aspx" />
@@ -90,12 +91,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackManager\admin\form.aspx.cs">
-      <DependentUpon>form.aspx</DependentUpon>
+    <Compile Include="BackManager\admin\add.aspx.cs">
+      <DependentUpon>add.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="BackManager\admin\form.aspx.designer.cs">
-      <DependentUpon>form.aspx</DependentUpon>
+    <Compile Include="BackManager\admin\add.aspx.designer.cs">
+      <DependentUpon>add.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\admin\list.aspx.cs">
       <DependentUpon>list.aspx</DependentUpon>
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="BackManager\admin\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\handler\CheckAdminHandler.ashx.cs">
+      <DependentUpon>CheckAdminHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>

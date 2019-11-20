@@ -29,10 +29,7 @@
           <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
-              OnRowDataBound="gvShow_RowDataBound" OnRowEditing="gvShow_RowEditing"
-              OnRowDeleting="gvShow_RowDeleting" OnRowUpdating="gvShow_RowUpdating"
-              OnRowCancelingEdit="gvShow_RowCancelingEdit"
-              CssClass="table table-condensed">
+              OnRowDataBound="gvShow_RowDataBound" CssClass="table table-condensed">
 
               <Columns>
 
@@ -103,22 +100,30 @@
                 <asp:TemplateField HeaderText="操作">
                   <ItemStyle Width="150px" />
                   <ItemTemplate>
-                    <asp:Button runat="server" ID="btnEditPurviews" CssClass="btn btn-primary btn-xs"
-                      CommandName="EditPurviews" Text="查看权限" />
-                    <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs"
-                      CommandName="Edit" Text="编辑" />
-                    <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs"
-                      CommandName="Delete" Text="删除" />
+                    <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs" Text="编辑"
+                      OnCommand="OP_Command" CommandName="Edit" CommandArgument='<%# Eval("id") %>' />
+                    <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs" Text="删除"
+                      OnClientClick="return confirm('确定要删除？');"
+                      OnCommand="OP_Command" CommandName="Delete" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
-                  <EditItemTemplate>
-                    <asp:LinkButton runat="server" ID="lbtnUpdate" Text="更新" CommandName="Update" />
-                    <asp:LinkButton runat="server" ID="lbtnCancel" Text="取消" CommandName="Cancel" />
-                  </EditItemTemplate>
                 </asp:TemplateField>
 
               </Columns>
 
             </asp:GridView>
+
+            <div class="wrapper-pager">
+              <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+                当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
+                总页数：<asp:Label ID="lblPageCount" runat="server" />
+              </span>
+              <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+              <asp:TextBox runat="server" ID="tbPageNum" />
+              <asp:Button runat="server" ID="btnJumpTo" Text="跳转至" />
+            </div>
 
           </div>
         </form>

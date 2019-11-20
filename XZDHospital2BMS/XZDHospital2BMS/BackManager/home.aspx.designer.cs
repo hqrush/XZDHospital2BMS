@@ -22,5 +22,23 @@ namespace XZDHospital2BMS.BackManager
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
     protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
+
+    /// <summary>
+    /// lblAdminId 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblAdminId;
+
+    /// <summary>
+    /// btnNetButtonTest 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnNetButtonTest;
   }
 }

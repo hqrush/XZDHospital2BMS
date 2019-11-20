@@ -169,17 +169,47 @@ LIMIT @PageSize
       return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
     }
 
-    public static int login(string strUsername, string strPassword)
+    public static void login(string strUsername, string strPassword,
+      out int intId, out string strPurviews, out int intEnabled)
     {
-      string strSQL = @"SELECT id FROM sys_admin WHERE username = @username AND password = @password";
+      string strSQL = @"
+SELECT
+  id,
+  purviews,
+  enabled
+FROM sys_admin
+WHERE
+  username = @username AND
+  password = @password
+";
       MySqlParameter[] aryParams = new MySqlParameter[2];
       aryParams[0] = new MySqlParameter("@username", strUsername);
       aryParams[1] = new MySqlParameter("@password", strPassword);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
       if (objDT != null && objDT.Rows.Count > 0)
-        return Convert.ToInt32(objDT.Rows[0][0]);
+      {
+        intId = Convert.ToInt32(objDT.Rows[0]["id"]);
+        strPurviews = Convert.ToString(objDT.Rows[0]["purviews"]);
+        intEnabled = Convert.ToInt32(objDT.Rows[0]["enabled"]);
+      }
       else
-        return 0;
+      {
+        intId = 0;
+        strPurviews = "";
+        intEnabled = 0;
+      }
+    }
+
+    public static bool hasUsername(string strUsername)
+    {
+      string strSQL = @"SELECT id FROM sys_admin WHERE username = @username";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@username", strUsername);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      if (objDT != null && objDT.Rows.Count > 0)
+        return true;
+      else
+        return false;
     }
 
   }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Web;
 using System.Web.UI.WebControls;
 
 namespace Helper
@@ -11,6 +12,35 @@ namespace Helper
   {
     public HelperUtility()
     {
+    }
+
+    public static int checkPurview(string strPurviewsNeed)
+    {
+      // 根据 session 中是否有 AdminId 来判断是否登录
+      if (HttpContext.Current.Session["AdminId"] == null)
+        HttpContext.Current.Response.Redirect("/BackManager/login.aspx");
+      int intAdminId = Convert.ToInt32(HttpContext.Current.Session["AdminId"]);
+      if (intAdminId <= 0) HttpContext.Current.Response.Redirect("/BackManager/login.aspx");
+      // 下面开始验证权限
+      if (HttpContext.Current.Session["Purviews"] == null)
+        HttpContext.Current.Response.Redirect("~/BackManager/login.aspx");
+      string strPurviewsSession = HttpContext.Current.Session["Purviews"].ToString();
+      if ("".Equals(strPurviewsSession))
+        HttpContext.Current.Response.Redirect("~/BackManager/login.aspx");
+      List<string> listPurviewsSession = new List<string>(strPurviewsSession.Split(','));
+      // 如果是 SUPERADMIN 或者该页面不需要权限即可访问，就直接结束验证
+      if (listPurviewsSession.Contains("SUPERADMIN") || "".Equals(strPurviewsNeed))
+        return intAdminId;
+      // 验证 session 里的用户所拥有的权限是否包含该页面所需要的权限
+      List<string> listPurviewsNeed = new List<string>(strPurviewsNeed.Split(','));
+      bool boolHasPurview = false;
+      for (int i = 0; i < listPurviewsNeed.Count; i++)
+      {
+        if (listPurviewsSession.Contains(listPurviewsNeed[i]))
+          boolHasPurview = true;
+      }
+      if (!boolHasPurview) HttpContext.Current.Response.Redirect("~/BackManager/login.aspx");
+      return intAdminId;
     }
 
     // 根据时间下拉列表设置起始时间
@@ -60,24 +90,6 @@ namespace Helper
       //除10000调整为10位
       long longTime = (dtTime.Ticks - dtTimeStart.Ticks) / 10000000;
       return longTime;
-    }
-
-    // 删除字符串数组中的重复值
-    public static string[] delArrayRepeatedValue(string[] arySource)
-    {
-      ArrayList objAL = new ArrayList();
-      for (int i = 0; i < arySource.Length; i++)
-      {
-        //判断数组值是否已经存在 
-        if (objAL.Contains(arySource[i]) == false && arySource[i] != "")
-        {
-          objAL.Add(arySource[i]);
-        }
-      }
-      //把ArrayList转换数组 
-      //aryResult = new string[objAL.Count];
-      //aryResult = (string[])objAL.ToArray(typeof(string));
-      return (string[])objAL.ToArray(typeof(string));
     }
 
     // 两表合并方法有两个：一是表1加到新表中，然后再加表2，二是先判断哪个表的行数多，就先添加哪个表，然后再添加行少的表
@@ -159,14 +171,15 @@ namespace Helper
     /// <param name="intValueMin">最小值（包含）</param>
     /// <param name="intValueMax">最大值（不包含）</param>
     /// <returns></returns>
-    public static int GetRandom(int intValueMin, int intValueMax)
+    public static int getRandom(int intValueMin, int intValueMax)
     {
       //这样产生0 ~ 100的强随机数（不含100）
       int intM = intValueMax - intValueMin;
       int intRnd = int.MinValue;
       decimal dcmBase = long.MaxValue;
       byte[] aryRndSeries = new byte[8];
-      System.Security.Cryptography.RNGCryptoServiceProvider objRNG = new System.Security.Cryptography.RNGCryptoServiceProvider();
+      System.Security.Cryptography.RNGCryptoServiceProvider objRNG =
+        new System.Security.Cryptography.RNGCryptoServiceProvider();
       objRNG.GetBytes(aryRndSeries);
       long lngL = BitConverter.ToInt64(aryRndSeries, 0);
       intRnd = (int)(Math.Abs(lngL) / dcmBase * intM);
@@ -178,7 +191,7 @@ namespace Helper
     /// </summary>
     /// <param name="aryRows"></param>
     /// <returns></returns>
-    public static string[] ClearBlankRow(string[] aryRows)
+    public static string[] removeArrayBlankRow(string[] aryRows)
     {
       List<string> list = new List<string>();
       foreach (string s in aryRows)
@@ -189,6 +202,24 @@ namespace Helper
         }
       }
       return list.ToArray();
+    }
+
+    // 删除字符串数组中的重复值
+    public static string[] removeArrayRepeatedValue(string[] arySource)
+    {
+      ArrayList objAL = new ArrayList();
+      for (int i = 0; i < arySource.Length; i++)
+      {
+        //判断数组值是否已经存在 
+        if (objAL.Contains(arySource[i]) == false && arySource[i] != "")
+        {
+          objAL.Add(arySource[i]);
+        }
+      }
+      //把ArrayList转换数组 
+      //aryResult = new string[objAL.Count];
+      //aryResult = (string[])objAL.ToArray(typeof(string));
+      return (string[])objAL.ToArray(typeof(string));
     }
 
   }
