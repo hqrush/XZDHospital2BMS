@@ -14,7 +14,15 @@ namespace XZDHospital2BMS.BackManager.admin
     {
       if (!IsPostBack)
       {
-        LoadData();
+        int intAdminId = 0;
+        if (Session["AdminId"] != null)
+          intAdminId = Convert.ToInt32(Session["AdminId"]);
+        else
+          Response.Redirect("/BackManager/login.aspx");
+        if (intAdminId > 0)
+          LoadData();
+        else
+          Response.Redirect("/BackManager/login.aspx");
       }
     }
 
@@ -57,7 +65,7 @@ namespace XZDHospital2BMS.BackManager.admin
 
     public void LoadData()
     {
-      gvShow.DataSource = Bll.BllAdmin.getDataTableAll();
+      gvShow.DataSource = Bll.BllAdmin.getAll();
       gvShow.DataBind();
     }
 

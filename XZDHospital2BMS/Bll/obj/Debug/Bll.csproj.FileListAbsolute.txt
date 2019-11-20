@@ -8,7 +8,6 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\Aspose.Cells.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\Dal.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\Model.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\Helper.pdb
-F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\Aspose.Cells.xml
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.csprojAssemblyReference.cache
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.csproj.CopyComplete
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.dll

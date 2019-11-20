@@ -6,31 +6,31 @@ using Helper;
 
 namespace Dal
 {
-  public class DalSalesCompany
+  public class DalInventoryRecord
   {
 
-    public static int add(ModelSalesCompany model)
+    public static int add(ModelInventoryRecord model)
     {
       string strSQL = @"
-INSERT INTO sales_company (
-  name,
-  id_admin,
-  time_create,
-  is_deleted
+INSERT INTO inventory_record (
+  id_contract,
+  id_goods,
+  amount_real,
+  amount_show
 ) VALUES (
-  @name,
-  @id_admin,
-  @time_create,
-  @is_deleted
+  @id_contract,
+  @id_goods,
+  @amount_real,
+  @amount_show
 )";
       MySqlParameter[] aryParams = new MySqlParameter[4];
-      aryParams[0] = new MySqlParameter("@name", model.name);
-      aryParams[1] = new MySqlParameter("@id_admin", model.id_admin);
-      aryParams[2] = new MySqlParameter("@time_create", model.time_create);
-      aryParams[3] = new MySqlParameter("@is_deleted", model.is_deleted);
+      aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
+      aryParams[1] = new MySqlParameter("@id_goods", model.id_goods);
+      aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
+      aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
       if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
       {
-        strSQL = "SELECT MAX(id) FROM sales_company";
+        strSQL = "SELECT MAX(id) FROM inventory_record";
         return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
       }
       else return 0;
@@ -38,47 +38,47 @@ INSERT INTO sales_company (
 
     public static void deleteById(int intId)
     {
-      string strSQL = @"DELETE FROM sales_company WHERE id=@id";
+      string strSQL = @"DELETE FROM inventory_record WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       HelperMySql.ExcuteNoQuery(strSQL, aryParams);
     }
 
-    public static int update(ModelSalesCompany model)
+    public static int update(ModelInventoryRecord model)
     {
       string strSQL = @"
-UPDATE sales_company
+UPDATE inventory_record
 SET
-  name = @name,
-  id_admin = @id_admin,
-  time_create = @time_create,
-  is_deleted = @is_deleted
+  id_contract = @id_contract,
+  id_goods = @id_goods,
+  amount_real = @amount_real,
+  amount_show = @amount_show
 WHERE
-    id = @id
+  id = @id
 ";
       MySqlParameter[] aryParams = new MySqlParameter[5];
-      aryParams[0] = new MySqlParameter("@name", model.name);
-      aryParams[1] = new MySqlParameter("@id_admin", model.id_admin);
-      aryParams[2] = new MySqlParameter("@time_create", model.time_create);
-      aryParams[3] = new MySqlParameter("@is_deleted", model.is_deleted);
+      aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
+      aryParams[1] = new MySqlParameter("@id_goods", model.id_goods);
+      aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
+      aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
       aryParams[4] = new MySqlParameter("@id", model.id);
       return HelperMySql.ExecuteScalar(strSQL, aryParams);
     }
 
-    public static ModelSalesCompany getById(int intId)
+    public static ModelInventoryRecord getById(int intId)
     {
-      string strSQL = @"SELECT * FROM sales_company WHERE id = @id";
+      string strSQL = @"SELECT * FROM inventory_record WHERE id = @id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
       if (objDT != null && objDT.Rows.Count > 0)
       {
-        ModelSalesCompany model = new ModelSalesCompany();
+        ModelInventoryRecord model = new ModelInventoryRecord();
         model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.name = Convert.ToString(objDT.Rows[0]["name"]);
-        model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
-        model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
-        model.is_deleted = Convert.ToInt32(objDT.Rows[0]["is_deleted"]);
+        model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_contract"]);
+        model.id_goods = Convert.ToInt32(objDT.Rows[0]["id_goods"]);
+        model.amount_real = Convert.ToInt32(objDT.Rows[0]["amount_real"]);
+        model.amount_show = Convert.ToInt32(objDT.Rows[0]["amount_show"]);
         return model;
       }
       else return null;
@@ -86,7 +86,7 @@ WHERE
 
     public static DataTable getAll()
     {
-      string strSQL = @"SELECT * FROM sales_company";
+      string strSQL = @"SELECT * FROM inventory_record";
       return HelperMySql.GetDataTable(strSQL);
     }
 
@@ -97,11 +97,11 @@ WHERE
     {
       string strSQL = @"
 SELECT *
-FROM sales_company
+FROM inventory_record
 WHERE id <=
 (
   SELECT id
-  FROM sales_company
+  FROM inventory_record
   ORDER BY id DESC
   LIMIT " + (intPage - 1) * intPageSize + @" , 1
 )
@@ -118,7 +118,7 @@ LIMIT @PageSize
     /// </summary>
     public static int getRecordsAmount()
     {
-      string strSQL = @"SELECT COUNT(*) FROM sales_company";
+      string strSQL = @"SELECT COUNT(*) FROM inventory_record";
       return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
     }
 

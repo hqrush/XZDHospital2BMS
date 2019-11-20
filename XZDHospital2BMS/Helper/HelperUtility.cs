@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Web.UI.WebControls;
 
-namespace XZDHospital2BMS.Helper
+namespace Helper
 {
 
   public class HelperUtility

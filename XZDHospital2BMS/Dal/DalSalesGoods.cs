@@ -2,11 +2,10 @@
 using System.Data;
 using Model;
 using MySql.Data.MySqlClient;
-using XZDHospital2BMS.Helper;
+using Helper;
 
 namespace Dal
 {
-
   public class DalSalesGoods
   {
 
@@ -138,10 +137,42 @@ WHERE
       else return null;
     }
 
-    public static DataTable getDataTableAll()
+    public static DataTable getAll()
     {
       string strSQL = @"SELECT * FROM sales_goods";
       return HelperMySql.GetDataTable(strSQL);
+    }
+
+    /// <summary>
+    /// 分页查询
+    /// </summary>
+    public static DataTable getPage(int intPage, int intPageSize)
+    {
+      string strSQL = @"
+SELECT *
+FROM sales_goods
+WHERE id <=
+(
+  SELECT id
+  FROM sales_goods
+  ORDER BY id DESC
+  LIMIT " + (intPage - 1) * intPageSize + @" , 1
+)
+ORDER BY id DESC
+LIMIT @PageSize
+";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@PageSize", intPageSize);
+      return HelperMySql.GetDataTable(strSQL, aryParams);
+    }
+
+    /// <summary>
+    /// 得到记录总数
+    /// </summary>
+    public static int getRecordsAmount()
+    {
+      string strSQL = @"SELECT COUNT(*) FROM sales_goods";
+      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
     }
 
   }

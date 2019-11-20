@@ -45,7 +45,8 @@
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <asp:Button runat="server" ID="btnLogin" Text="登录" CssClass="btn btn-primary" OnClick="btnLogin_Click" />
+              <asp:Button runat="server" ID="btnLogin" Text="登录"
+                CssClass="btn btn-primary" OnClick="btnLogin_Click" />
             </div>
           </div>
         </form>

@@ -27,9 +27,19 @@ namespace Bll
       return DalAdmin.getById(intId);
     }
 
-    public static DataTable getDataTableAll()
+    public static DataTable getAll()
     {
-      return DalAdmin.getDataTableAll();
+      return DalAdmin.getAll();
+    }
+
+    public static DataTable getPage(int intPage, int intPageSize)
+    {
+      return DalAdmin.getPage(intPage, intPageSize);
+    }
+
+    public static int getRecordsAmount()
+    {
+      return DalAdmin.getRecordsAmount();
     }
 
     public static int login(string strUsername, string strPassword)

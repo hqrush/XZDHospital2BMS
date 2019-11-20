@@ -202,7 +202,8 @@
 
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
-                  <asp:Button runat="server" ID="btnSubmit" Text="确认提交" CssClass="btn btn-primary" />
+                  <asp:Button runat="server" ID="btnSubmit" Text="确认提交"
+                    CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
                 </div>
               </div>
             </form>

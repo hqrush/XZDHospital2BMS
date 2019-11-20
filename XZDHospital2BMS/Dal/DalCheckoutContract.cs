@@ -1,42 +1,42 @@
 ﻿using System;
 using System.Data;
+using Helper;
 using Model;
 using MySql.Data.MySqlClient;
-using Helper;
 
 namespace Dal
 {
-  public class DalSalesContract
+  public class DalCheckoutContract
   {
 
-    public static int add(ModelSalesContract model)
+    public static int add(ModelCheckoutContract model)
     {
       string strSQL = @"
-INSERT INTO sales_contract (
-  id_company,
+INSERT INTO checkout_contract (
   id_admin,
-  time_sign,
   time_create,
-  photo_urls,
-  comment
+  name_unit,
+  name_department,
+  name_sign,
+  photo_urls
 ) VALUES (
-  @id_company,
   @id_admin,
-  @time_sign,
   @time_create,
-  @photo_urls,
-  @comment
+  @name_unit,
+  @name_department,
+  @name_sign,
+  @photo_urls
 )";
       MySqlParameter[] aryParams = new MySqlParameter[6];
-      aryParams[0] = new MySqlParameter("@id_company", model.id_company);
-      aryParams[1] = new MySqlParameter("@id_admin", model.id_admin);
-      aryParams[2] = new MySqlParameter("@time_sign", model.time_sign);
-      aryParams[3] = new MySqlParameter("@time_create", model.time_create);
-      aryParams[4] = new MySqlParameter("@photo_urls", model.photo_urls);
-      aryParams[5] = new MySqlParameter("@comment", model.comment);
+      aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
+      aryParams[1] = new MySqlParameter("@time_create", model.time_create);
+      aryParams[2] = new MySqlParameter("@name_unit", model.name_unit);
+      aryParams[3] = new MySqlParameter("@name_department", model.name_department);
+      aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
+      aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
       if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
       {
-        strSQL = "SELECT MAX(id) FROM sales_contract";
+        strSQL = "SELECT MAX(id) FROM checkout_contract";
         return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
       }
       else return 0;
@@ -44,53 +44,53 @@ INSERT INTO sales_contract (
 
     public static void deleteById(int intId)
     {
-      string strSQL = @"DELETE FROM sales_contract WHERE id=@id";
+      string strSQL = @"DELETE FROM checkout_contract WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       HelperMySql.ExcuteNoQuery(strSQL, aryParams);
     }
 
-    public static int update(ModelSalesContract model)
+    public static int update(ModelCheckoutContract model)
     {
       string strSQL = @"
-UPDATE sales_contract
+UPDATE checkout_contract
 SET
-  id_company = @id_company,
   id_admin = @id_admin,
-  time_sign = @time_sign,
   time_create = @time_create,
-  photo_urls = @photo_urls,
-  comment = @comment
+  name_unit = @name_unit,
+  name_department = @name_department,
+  name_sign = @name_sign,
+  photo_urls = @photo_urls
 WHERE
   id = @id
 ";
       MySqlParameter[] aryParams = new MySqlParameter[7];
-      aryParams[0] = new MySqlParameter("@id_company", model.id_company);
-      aryParams[1] = new MySqlParameter("@id_admin", model.id_admin);
-      aryParams[2] = new MySqlParameter("@time_sign", model.time_sign);
-      aryParams[3] = new MySqlParameter("@time_create", model.time_create);
-      aryParams[4] = new MySqlParameter("@photo_urls", model.photo_urls);
-      aryParams[5] = new MySqlParameter("@comment", model.comment);
+      aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
+      aryParams[1] = new MySqlParameter("@time_create", model.time_create);
+      aryParams[2] = new MySqlParameter("@name_unit", model.name_unit);
+      aryParams[3] = new MySqlParameter("@name_department", model.name_department);
+      aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
+      aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[6] = new MySqlParameter("@id", model.id);
       return HelperMySql.ExecuteScalar(strSQL, aryParams);
     }
 
-    public static ModelSalesContract getById(int intId)
+    public static ModelCheckoutContract getById(int intId)
     {
-      string strSQL = @"SELECT * FROM sales_contract WHERE id = @id";
+      string strSQL = @"SELECT * FROM checkout_contract WHERE id = @id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
       if (objDT != null && objDT.Rows.Count > 0)
       {
-        ModelSalesContract model = new ModelSalesContract();
+        ModelCheckoutContract model = new ModelCheckoutContract();
         model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.id_company = Convert.ToInt32(objDT.Rows[0]["id_company"]);
         model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
-        model.time_sign = Convert.ToDateTime(objDT.Rows[0]["time_sign"]);
         model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
+        model.name_unit = Convert.ToString(objDT.Rows[0]["name_unit"]);
+        model.name_department = Convert.ToString(objDT.Rows[0]["name_department"]);
+        model.name_sign = Convert.ToString(objDT.Rows[0]["name_sign"]);
         model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
-        model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
         return model;
       }
       else return null;
@@ -98,7 +98,7 @@ WHERE
 
     public static DataTable getAll()
     {
-      string strSQL = @"SELECT * FROM sales_contract";
+      string strSQL = @"SELECT * FROM checkout_contract";
       return HelperMySql.GetDataTable(strSQL);
     }
 
@@ -109,11 +109,11 @@ WHERE
     {
       string strSQL = @"
 SELECT *
-FROM sales_contract
+FROM checkout_contract
 WHERE id <=
 (
   SELECT id
-  FROM sales_contract
+  FROM checkout_contract
   ORDER BY id DESC
   LIMIT " + (intPage - 1) * intPageSize + @" , 1
 )
@@ -130,7 +130,7 @@ LIMIT @PageSize
     /// </summary>
     public static int getRecordsAmount()
     {
-      string strSQL = @"SELECT COUNT(*) FROM sales_contract";
+      string strSQL = @"SELECT COUNT(*) FROM checkout_contract";
       return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
     }
 

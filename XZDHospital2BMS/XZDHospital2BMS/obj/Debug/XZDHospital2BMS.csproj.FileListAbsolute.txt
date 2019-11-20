@@ -11,7 +11,6 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Helper.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Aspose.Cells.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\MySql.Data.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Helper.pdb
-F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Aspose.Cells.xml
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Bll.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Dal.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Bll.pdb

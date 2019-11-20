@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Bll;
+using System;
 using System.Data;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.sales_company
@@ -57,8 +55,8 @@ namespace XZDHospital2BMS.BackManager.sales_company
 
     public void LoadData()
     {
-      DataTable objDT = Bll.BllSalesCompany.getDataTableAll();
-      if (objDT != null)
+      DataTable objDT = BllSalesCompany.getAll();
+      if (objDT != null && objDT.Rows.Count > 0)
       {
         divAlert.Visible = false;
         gvShow.DataSource = objDT;

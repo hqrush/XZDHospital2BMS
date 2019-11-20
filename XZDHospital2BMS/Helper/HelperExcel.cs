@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.OleDb;
 using Aspose.Cells;
 
-namespace XZDHospital2BMS.Helper
+namespace Helper
 {
 
   public class HelperExcel

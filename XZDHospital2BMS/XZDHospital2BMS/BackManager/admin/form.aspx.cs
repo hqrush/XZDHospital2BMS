@@ -13,5 +13,15 @@ namespace XZDHospital2BMS.BackManager.admin
     {
 
     }
+
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+      string strUsername = tbUsername.Value.ToString().Trim();
+      string strPassword = tbPassword.Value.ToString().Trim();
+      string strRealName = tbRealName.Value.ToString().Trim();
+      string strIdCard = tbIdCard.Value.ToString().Trim();
+      string strMobilePhone = tbMobilePhone.Value.ToString().Trim();
+
+    }
   }
 }

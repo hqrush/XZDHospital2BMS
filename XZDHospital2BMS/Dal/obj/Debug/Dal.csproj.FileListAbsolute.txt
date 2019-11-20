@@ -2,12 +2,11 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Dal.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Dal.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Helper.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Model.dll
-F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\MySql.Data.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Aspose.Cells.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Helper.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Model.pdb
-F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Aspose.Cells.xml
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.csprojAssemblyReference.cache
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.csproj.CopyComplete
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\MySql.Data.dll
