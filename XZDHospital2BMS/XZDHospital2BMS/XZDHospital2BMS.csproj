@@ -58,6 +58,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BackManager\admin\edit.aspx" />
     <Content Include="BackManager\sales_company\form.aspx" />
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
@@ -91,6 +92,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackManager\admin\edit.aspx.cs">
+      <DependentUpon>edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\admin\edit.aspx.designer.cs">
+      <DependentUpon>edit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BackManager\admin\add.aspx.cs">
       <DependentUpon>add.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

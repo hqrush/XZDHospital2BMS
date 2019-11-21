@@ -11,7 +11,7 @@ namespace XZDHospital2BMS.BackManager.admin
 {
 
 
-  public partial class add
+  public partial class edit
   {
 
     /// <summary>

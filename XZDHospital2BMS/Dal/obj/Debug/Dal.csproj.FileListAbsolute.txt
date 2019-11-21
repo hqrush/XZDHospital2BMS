@@ -10,3 +10,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.csproj.CopyComp
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\Aspose.Cells.xml
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\MySql.Data.dll

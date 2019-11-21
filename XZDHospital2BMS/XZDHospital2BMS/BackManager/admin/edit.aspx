@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add.aspx.cs"
-  Inherits="XZDHospital2BMS.BackManager.admin.add" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="edit.aspx.cs"
+  Inherits="XZDHospital2BMS.BackManager.admin.edit" %>
 
 <%@ Register Src="~/BackManager/wucHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
 
@@ -37,7 +37,7 @@
               <div class="form-group">
                 <label for="tbUsername" class="col-sm-2 control-label">用户名：</label>
                 <div class="col-sm-10">
-                  <input runat="server" class="form-control" id="tbUsername" type="text" placeholder="输入登录时填写的用户名...">
+                  <input runat="server" class="form-control" id="tbUsername" type="text" disabled>
                 </div>
               </div>
               <div class="form-group">
@@ -348,5 +348,6 @@
       });
     })
   </script>
+
 </body>
 </html>

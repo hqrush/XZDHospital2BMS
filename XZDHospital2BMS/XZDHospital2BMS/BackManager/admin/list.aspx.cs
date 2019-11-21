@@ -33,11 +33,9 @@ namespace XZDHospital2BMS.BackManager.admin
 
     public void OP_Command(object sender, CommandEventArgs e)
     {
-      int intId = (int)e.CommandArgument;
+      int intId = Convert.ToInt32(e.CommandArgument);
       if (e.CommandName == "Edit")
-      {
         Response.Redirect("edit.aspx?id=" + intId.ToString());
-      }
       else if (e.CommandName == "Del")
       {
         BllAdmin.deleteById(intId);
