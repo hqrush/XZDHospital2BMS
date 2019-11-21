@@ -33,6 +33,15 @@ namespace XZDHospital2BMS.BackManager.admin
     protected global::System.Web.UI.HtmlControls.HtmlInputText tbUsername;
 
     /// <summary>
+    /// UsernameError 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label UsernameError;
+
+    /// <summary>
     /// tbPassword 控件。
     /// </summary>
     /// <remarks>
@@ -40,6 +49,15 @@ namespace XZDHospital2BMS.BackManager.admin
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlInputPassword tbPassword;
+
+    /// <summary>
+    /// PasswordError 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label PasswordError;
 
     /// <summary>
     /// tbPassword2 控件。
@@ -51,6 +69,15 @@ namespace XZDHospital2BMS.BackManager.admin
     protected global::System.Web.UI.HtmlControls.HtmlInputPassword tbPassword2;
 
     /// <summary>
+    /// Password2Error 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label Password2Error;
+
+    /// <summary>
     /// tbRealName 控件。
     /// </summary>
     /// <remarks>
@@ -60,13 +87,13 @@ namespace XZDHospital2BMS.BackManager.admin
     protected global::System.Web.UI.HtmlControls.HtmlInputText tbRealName;
 
     /// <summary>
-    /// tbIdCard 控件。
+    /// RealNameError 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputText tbIdCard;
+    protected global::System.Web.UI.WebControls.Label RealNameError;
 
     /// <summary>
     /// tbMobilePhone 控件。
@@ -76,6 +103,15 @@ namespace XZDHospital2BMS.BackManager.admin
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlInputText tbMobilePhone;
+
+    /// <summary>
+    /// MobilePhoneError 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label MobilePhoneError;
 
     /// <summary>
     /// pnlPurviews 控件。

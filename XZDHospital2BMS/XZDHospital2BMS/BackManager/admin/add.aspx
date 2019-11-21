@@ -36,20 +36,29 @@
 
               <div class="form-group">
                 <label for="tbUsername" class="col-sm-2 control-label">用户名：</label>
-                <div class="col-sm-10">
+                <div class="col-sm-5">
                   <input runat="server" class="form-control" id="tbUsername" type="text" placeholder="输入登录时填写的用户名...">
+                </div>
+                <div class="col-sm-5">
+                  <asp:Label runat="server" ID="UsernameError" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="tbPassword" class="col-sm-2 control-label">密码：</label>
-                <div class="col-sm-10">
+                <div class="col-sm-5">
                   <input runat="server" class="form-control" id="tbPassword" type="password" placeholder="输入登录时填写的密码...">
+                </div>
+                <div class="col-sm-5">
+                  <asp:Label runat="server" ID="PasswordError" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="tbPassword2" class="col-sm-2 control-label">密码确认：</label>
-                <div class="col-sm-10">
+                <div class="col-sm-5">
                   <input runat="server" class="form-control" id="tbPassword2" type="password" placeholder="再输入一次确认密码...">
+                </div>
+                <div class="col-sm-5">
+                  <asp:Label runat="server" ID="Password2Error" />
                 </div>
               </div>
               <div class="form-group">
@@ -57,17 +66,17 @@
                 <div class="col-sm-10">
                   <input runat="server" class="form-control" id="tbRealName" type="text" placeholder="输入真实姓名...">
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="tbIdCard" class="col-sm-2 control-label">身份证号：</label>
-                <div class="col-sm-10">
-                  <input runat="server" class="form-control" id="tbIdCard" type="text" placeholder="输入身份证号...">
+                <div class="col-sm-5">
+                  <asp:Label runat="server" ID="RealNameError" />
                 </div>
               </div>
               <div class="form-group">
                 <label for="tbMobilePhone" class="col-sm-2 control-label">手机号码：</label>
                 <div class="col-sm-10">
                   <input runat="server" class="form-control" id="tbMobilePhone" type="text" placeholder="输入手机号码...">
+                </div>
+                <div class="col-sm-5">
+                  <asp:Label runat="server" ID="MobilePhoneError" />
                 </div>
               </div>
 
@@ -255,98 +264,6 @@
 
   <script src="/static/js/jquery-1.12.4.min.js"></script>
   <script src="/static/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
-    $(function () {
-      var flagSalesContract = 0;
-      var flagSalesGoods = 0;
-      var flagCheckoutContract = 0;
-      var flagCheckoutRecord = 0;
-      var flagInventoryContract = 0;
-      var flagInventoryRecord = 0;
-      var flagSysAdmin = 0;
-      var flagSalesCompany = 0;
-      //全选
-      $("#cbSalesContract").on("click", function () {
-        if (flagSalesContract == 0) {
-          //把所有复选框选中
-          $("input[id^='cbSalesContract_']").prop("checked", true);
-          flagSalesContract = 1;
-        } else {
-          $("input[id^='cbSalesContract_']").prop("checked", false);
-          flagSalesContract = 0;
-        }
-      });
-      $("#cbSalesGoods").on("click", function () {
-        if (flagSalesGoods == 0) {
-          //把所有复选框选中
-          $("input[id^='cbSalesGoods_']").prop("checked", true);
-          flagSalesGoods = 1;
-        } else {
-          $("input[id^='cbSalesGoods_']").prop("checked", false);
-          flagSalesGoods = 0;
-        }
-      });
-      $("#cbCheckoutContract").on("click", function () {
-        if (flagCheckoutContract == 0) {
-          //把所有复选框选中
-          $("input[id^='cbCheckoutContract_']").prop("checked", true);
-          flagCheckoutContract = 1;
-        } else {
-          $("input[id^='cbCheckoutContract_']").prop("checked", false);
-          flagCheckoutContract = 0;
-        }
-      });
-      $("#cbCheckoutRecord").on("click", function () {
-        if (flagCheckoutRecord == 0) {
-          //把所有复选框选中
-          $("input[id^='cbCheckoutRecord_']").prop("checked", true);
-          flagCheckoutRecord = 1;
-        } else {
-          $("input[id^='cbCheckoutRecord_']").prop("checked", false);
-          flagCheckoutRecord = 0;
-        }
-      });
-      $("#cbInventoryContract").on("click", function () {
-        if (flagInventoryContract == 0) {
-          //把所有复选框选中
-          $("input[id^='cbInventoryContract_']").prop("checked", true);
-          flagSalesContract = 1;
-        } else {
-          $("input[id^='cbInventoryContract_']").prop("checked", false);
-          flagInventoryContract = 0;
-        }
-      });
-      $("#cbInventoryRecord").on("click", function () {
-        if (flagInventoryRecord == 0) {
-          //把所有复选框选中
-          $("input[id^='cbInventoryRecord_']").prop("checked", true);
-          flagInventoryRecord = 1;
-        } else {
-          $("input[id^='cbInventoryRecord_']").prop("checked", false);
-          flagInventoryRecord = 0;
-        }
-      });
-      $("#cbSysAdmin").on("click", function () {
-        if (flagSysAdmin == 0) {
-          //把所有复选框选中
-          $("input[id^='cbSysAdmin_']").prop("checked", true);
-          flagSysAdmin = 1;
-        } else {
-          $("input[id^='cbSysAdmin_']").prop("checked", false);
-          flagSysAdmin = 0;
-        }
-      });
-      $("#cbSalesCompany").on("click", function () {
-        if (flagSalesCompany == 0) {
-          //把所有复选框选中
-          $("input[id^='cbSalesCompany_']").prop("checked", true);
-          flagSalesCompany = 1;
-        } else {
-          $("input[id^='cbSalesCompany_']").prop("checked", false);
-          flagSalesCompany = 0;
-        }
-      });
-    })
-  </script>
+  <script type="text/javascript" src="/static/js/form.js"></script>
 </body>
 </html>

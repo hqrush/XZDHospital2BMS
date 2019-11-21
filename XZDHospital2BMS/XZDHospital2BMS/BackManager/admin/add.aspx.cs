@@ -23,6 +23,7 @@ namespace XZDHospital2BMS.BackManager.admin
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
+      return;
       string strUsername = tbUsername.Value.ToString().Trim();
       if (BllAdmin.hasUsername(strUsername))
       {
@@ -34,14 +35,12 @@ namespace XZDHospital2BMS.BackManager.admin
       string strPassword = tbPassword.Value.ToString().Trim();
       strPassword = HelperCrypto.encode(strPassword, "DES");
       string strRealName = tbRealName.Value.ToString().Trim();
-      string strIdCard = tbIdCard.Value.ToString().Trim();
       string strMobilePhone = tbMobilePhone.Value.ToString().Trim();
 
       ModelAdmin model = new ModelAdmin();
       model.username = strUsername;
       model.password = strPassword;
       model.real_name = strRealName;
-      model.id_card = strIdCard;
       model.mobile_phone = strMobilePhone;
       model.purviews = getSelectedCheckBox();
       int intId = BllAdmin.add(model);
