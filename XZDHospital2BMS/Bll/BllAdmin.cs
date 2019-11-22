@@ -17,9 +17,9 @@ namespace Bll
       DalAdmin.deleteById(intId);
     }
 
-    public static int update(ModelAdmin model)
+    public static void update(ModelAdmin model)
     {
-      return DalAdmin.update(model);
+      DalAdmin.update(model);
     }
 
     public static ModelAdmin getById(int intId)
@@ -43,14 +43,25 @@ namespace Bll
     }
 
     public static void login(string strUsername, string strPassword,
-      out int intId, out string strPurviews, out int intEnabled)
+      out int intId, out string strPurviews, out int intEnabled, out int intIsDeleted)
     {
-      DalAdmin.login(strUsername, strPassword, out intId, out strPurviews, out intEnabled);
+      DalAdmin.login(strUsername, strPassword,
+        out intId, out strPurviews, out intEnabled, out intIsDeleted);
     }
 
     public static bool hasUsername(string strUsername)
     {
       return DalAdmin.hasUsername(strUsername);
+    }
+
+    public static void changeEnabled(int intAdminID)
+    {
+      DalAdmin.changeEnabled(intAdminID);
+    }
+
+    public static void changeIsDeleted(int intAdminID)
+    {
+      DalAdmin.changeIsDeleted(intAdminID);
     }
 
   }

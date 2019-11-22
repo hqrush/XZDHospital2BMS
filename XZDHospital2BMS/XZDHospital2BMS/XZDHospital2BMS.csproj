@@ -66,6 +66,8 @@
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="BackManager\handler\CheckAdminHandler.ashx" />
+    <Content Include="BackManager\handler\LogoutHandler.ashx" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -85,10 +87,12 @@
     <Content Include="static\css\common.css" />
     <Content Include="static\css\index.css" />
     <Content Include="static\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="static\image\allow.png" />
     <Content Include="static\image\bgHeader.png" />
+    <Content Include="static\image\deny.png" />
     <Content Include="static\image\logo.png" />
     <Content Include="static\js\bootstrap.min.js" />
-    <Content Include="static\js\form.js" />
+    <Content Include="static\js\check-form-admin.js" />
     <Content Include="static\js\jquery-1.12.4.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -116,6 +120,9 @@
     </Compile>
     <Compile Include="BackManager\handler\CheckAdminHandler.ashx.cs">
       <DependentUpon>CheckAdminHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\handler\LogoutHandler.ashx.cs">
+      <DependentUpon>LogoutHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>

@@ -21,10 +21,12 @@ namespace XZDHospital2BMS.BackManager
           int intAdminID;
           string strPurviews;
           int intEnabled;
-          BllAdmin.login(strUsername, strPassword, out intAdminID, out strPurviews, out intEnabled);
+          int intIsDeleted;
+          BllAdmin.login(strUsername, strPassword,
+            out intAdminID, out strPurviews, out intEnabled, out intIsDeleted);
           if (intAdminID > 0)
           {
-            if (intEnabled == 1)
+            if (intEnabled == 1 && intIsDeleted == 0)
             {
               Session["AdminID"] = intAdminID;
               Session["Purviews"] = strPurviews;
@@ -32,10 +34,8 @@ namespace XZDHospital2BMS.BackManager
             }
             else
             {
-              string strOPMsg = "<script>";
-              strOPMsg += "alert('登录失败！此用户已暂停使用！请联系网络管理员！');location='login.aspx';";
-              strOPMsg += "</script>";
-              Response.Write(strOPMsg);
+              // 清除 Cookie
+              HelperCookie.removeCookie("AdminLogin");
             }
           }
         }
@@ -48,17 +48,23 @@ namespace XZDHospital2BMS.BackManager
 
     protected void btnLogin_Click(object sender, EventArgs e)
     {
+      string strMsgError = "";
       string strUsername = tbUsername.Value.ToString().Trim();
-      string strPassword = tbPassword.Value.ToString().Trim();
+      if ("".Equals(strUsername)) strMsgError += "用户名不能为空！\n";
+      string strPassword = tbPassword.Value.ToString();
+      if ("".Equals(strPassword)) strMsgError += "密码不能为空！\n";
+      if (!"".Equals(strMsgError)) HelperUtility.showAlert(strMsgError, "login.aspx");
+      // 验证完毕，提交数据
       strPassword = HelperCrypto.encode(strPassword, "DES");
-
       int intAdminID;
       string strPurviews;
       int intEnabled;
-      BllAdmin.login(strUsername, strPassword, out intAdminID, out strPurviews, out intEnabled);
+      int intIsDeleted;
+      BllAdmin.login(strUsername, strPassword,
+        out intAdminID, out strPurviews, out intEnabled, out intIsDeleted);
       if (intAdminID > 0)
       {
-        if (intEnabled == 1)
+        if (intEnabled == 1 && intIsDeleted == 0)
         {
           // 用户名密码验证正确，保存到cookie里
           string strCKName = "AdminLogin";
@@ -85,16 +91,16 @@ namespace XZDHospital2BMS.BackManager
         else
         {
           string strOPMsg = "<script>";
-          strOPMsg += "alert('登录失败！此用户已暂停使用！请联系网络管理员！');location='login.aspx';";
-          strOPMsg += "</script>";
+          strOPMsg += "alert('登录失败！此用户已暂停使用！请联系网络管理员！');";
+          strOPMsg += "location='login.aspx';</script>";
           Response.Write(strOPMsg);
         }
       }
       else
       {
         string strOPMsg = "<script>";
-        strOPMsg += "alert('登录失败！用户名密码不正确，请重新输入！');location='login.aspx';";
-        strOPMsg += "</script>";
+        strOPMsg += "alert('登录失败！用户名密码不正确，请重新输入！');";
+        strOPMsg += "location='login.aspx';</script>";
         Response.Write(strOPMsg);
       }
     }

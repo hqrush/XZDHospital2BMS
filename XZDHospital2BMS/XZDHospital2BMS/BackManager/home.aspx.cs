@@ -1,5 +1,6 @@
 ﻿using Helper;
 using System;
+using System.Diagnostics;
 using System.Web.Services;
 
 namespace XZDHospital2BMS.BackManager
@@ -11,7 +12,8 @@ namespace XZDHospital2BMS.BackManager
     {
       if (!IsPostBack)
       {
-        int intAdminId = HelperUtility.checkPurview("");
+        Debug.WriteLine("用Debug.WriteLine输出到控制台测试");
+        int intAdminId = HelperUtility.hasPurviewPage("");
         lblAdminId.Text = intAdminId.ToString();
       }
     }

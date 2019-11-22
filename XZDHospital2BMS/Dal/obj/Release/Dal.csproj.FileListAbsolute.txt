@@ -1,0 +1,12 @@
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Release\Dal.csprojAssemblyReference.cache
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Dal.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Dal.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Helper.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Model.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\MySql.Data.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Aspose.Cells.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Helper.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Release\Model.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Release\Dal.csproj.CopyComplete
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Release\Dal.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Release\Dal.pdb

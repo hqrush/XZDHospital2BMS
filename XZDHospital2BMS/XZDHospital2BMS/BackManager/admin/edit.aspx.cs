@@ -12,65 +12,63 @@ namespace XZDHospital2BMS.BackManager.admin
   public partial class edit : Page
   {
 
-    private int intAdminId;
-
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
       {
-        // 判断权限及得到登录的AdminId
-        intAdminId = HelperUtility.checkPurview("SysAdmin_edit");
-        ViewState["AdminId"] = intAdminId;
-
-        // 得到要修改的id值
-        if (Request.QueryString["id"] == null ||
-          Request.QueryString["id"].ToString() == "" ||
-          Convert.ToInt32(Request.QueryString["id"]) <= 0
-          ) Response.Redirect("/BackManager/login.aspx");
-        int intId = Convert.ToInt32(Request.QueryString["id"]);
+        HelperUtility.hasPurviewPage("SysAdmin_update");
+        // 本页只能从list.aspx的编辑页转过来
+        // 因此要得到要修改的id值和页面的page值用于修改成功后返回
+        int intId = HelperUtility.getQueryInt("id");
         ViewState["id"] = intId;
-
+        int intPage = HelperUtility.getQueryInt("page");
+        ViewState["page"] = intPage;
         // 更新表单数据
         ModelAdmin model = BllAdmin.getById(intId);
         tbUsername.Value = model.username;
         tbRealName.Value = model.real_name;
-        tbIdCard.Value = model.id_card;
         tbMobilePhone.Value = model.mobile_phone;
         setPurviewCheckBox(model.purviews);
       }
     }
 
-    protected void btnSubmit_Click(object sender, EventArgs e)
+    protected void btnEdit_Click(object sender, EventArgs e)
     {
-      if (ViewState["AdminId"] == null || (int)ViewState["AdminId"] <= 0)
-        Response.Redirect("/BackManager/login.aspx");
-      intAdminId = (int)ViewState["AdminId"];
-
-      if (ViewState["id"] == null || (int)ViewState["id"] <= 0)
-        Response.Redirect("/BackManager/login.aspx");
-      int intId = (int)ViewState["id"];
-
-      string strPassword = tbPassword.Value.ToString().Trim();
-      strPassword = HelperCrypto.encode(strPassword, "DES");
-      string strRealName = tbRealName.Value.ToString().Trim();
-      string strIdCard = tbIdCard.Value.ToString().Trim();
-      string strMobilePhone = tbMobilePhone.Value.ToString().Trim();
-
-      ModelAdmin model = BllAdmin.getById(intId);
-      model.real_name = strRealName;
-      model.password = strPassword;
-      model.id_card = strIdCard;
-      model.mobile_phone = strMobilePhone;
-      model.purviews = getSelectedCheckBox();
-      if (BllAdmin.update(model) > 0)
-        Response.Redirect("/BackManager/admin/list.aspx");
-      else
+      if (!HelperUtility.hasPurviewOP("SysAdmin_update"))
       {
-        string strOPMsg = "<script>";
-        strOPMsg += "alert('修改失败！');location='edit.aspx?id=" + intId + "';";
-        strOPMsg += "</script>";
-        Response.Write(strOPMsg);
+        string strUrl = "edit.aspx?id=" + ViewState["id"] + "&page=" + ViewState["page"];
+        HelperUtility.showAlert("没有操作权限", strUrl);
       }
+      int intId = Convert.ToInt32(ViewState["id"]);
+      int intPage = Convert.ToInt32(ViewState["page"]);
+
+      string strMsgError = "";
+      string strPassword = tbPassword.Value.ToString();
+      if (!"".Equals(strPassword))
+      {
+        if (strPassword.Length < 4 || strPassword.Length > 12)
+          strMsgError += "密码长度必须在4 ~ 12之间！\n";
+        string strPassword2 = tbPassword2.Value.ToString();
+        if ("".Equals(strPassword2)) strMsgError += "确认密码不能为空！\n";
+        if (!strPassword.Equals(strPassword2)) strMsgError += "两次输入的密码必须相同！\n";
+        strPassword = HelperCrypto.encode(strPassword, "DES");
+      }
+      string strRealName = tbRealName.Value.ToString().Trim();
+      if (strRealName.Length > 6) strMsgError += "真实姓名长度不能大于6个字符！\n";
+      string strMobilePhone = tbMobilePhone.Value.ToString().Trim();
+      if (!HelperUtility.isMobilePhone(strMobilePhone)) strMsgError += "手机号码格式不正确！\n";
+
+      if (!"".Equals(strMsgError))
+        HelperUtility.showAlert(strMsgError, "edit.aspx?id=" + intId + "&page=" + intPage);
+      // 开始更新
+      ModelAdmin model = BllAdmin.getById(intId);
+      if (!"".Equals(strPassword)) model.password = strPassword;
+      model.real_name = strRealName;
+      model.mobile_phone = strMobilePhone;
+      if (!(model.username == "rush2112" || model.username == "wumin"))
+        model.purviews = getSelectedCheckBox();
+      BllAdmin.update(model);
+      Response.Redirect("/BackManager/admin/list.aspx?page=" + intPage);
     }
 
     private string getSelectedCheckBox()

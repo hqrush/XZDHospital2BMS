@@ -1,0 +1,5 @@
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Model\bin\Release\Model.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Model\bin\Release\Model.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Model\obj\Release\Model.csprojAssemblyReference.cache
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Model\obj\Release\Model.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Model\obj\Release\Model.pdb

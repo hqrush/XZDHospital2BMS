@@ -68,7 +68,7 @@ INSERT INTO sys_admin (
       HelperMySql.ExcuteNoQuery(strSQL, aryParams);
     }
 
-    public static int update(ModelAdmin model)
+    public static void update(ModelAdmin model)
     {
       string strSQL = @"
 UPDATE sys_admin
@@ -102,7 +102,7 @@ WHERE
       aryParams[10] = new MySqlParameter("@purviews", model.purviews);
       aryParams[11] = new MySqlParameter("@is_deleted", model.is_deleted);
       aryParams[12] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteScalar(strSQL, aryParams);
+      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
     }
 
     public static ModelAdmin getById(int intId)
@@ -170,13 +170,14 @@ LIMIT @PageSize
     }
 
     public static void login(string strUsername, string strPassword,
-      out int intId, out string strPurviews, out int intEnabled)
+      out int intId, out string strPurviews, out int intEnabled, out int intIsDeleted)
     {
       string strSQL = @"
 SELECT
   id,
   purviews,
-  enabled
+  enabled,
+  is_deleted
 FROM sys_admin
 WHERE
   username = @username AND
@@ -191,12 +192,14 @@ WHERE
         intId = Convert.ToInt32(objDT.Rows[0]["id"]);
         strPurviews = Convert.ToString(objDT.Rows[0]["purviews"]);
         intEnabled = Convert.ToInt32(objDT.Rows[0]["enabled"]);
+        intIsDeleted = Convert.ToInt32(objDT.Rows[0]["is_deleted"]);
       }
       else
       {
         intId = 0;
         strPurviews = "";
         intEnabled = 0;
+        intIsDeleted = 1;
       }
     }
 
@@ -210,6 +213,40 @@ WHERE
         return true;
       else
         return false;
+    }
+
+    public static void changeEnabled(int intAdminID)
+    {
+      if (intAdminID <= 0) return;
+      int intEnabled = 0;
+      string strSQL = "SELECT enabled FROM sys_admin WHERE id = @id";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id", intAdminID);
+      intEnabled = Convert.ToInt16(HelperMySql.ExecuteScalar(strSQL, aryParams));
+      if (intEnabled == 1)
+        strSQL = @"UPDATE sys_admin SET enabled = 0 WHERE id = @id";
+      else
+        strSQL = @"UPDATE sys_admin SET enabled = 1 WHERE id = @id";
+      aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id", intAdminID);
+      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+    }
+
+    public static void changeIsDeleted(int intAdminID)
+    {
+      if (intAdminID <= 0) return;
+      int intIsDeleted = 0;
+      string strSQL = "SELECT is_deleted FROM sys_admin WHERE id = @id";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id", intAdminID);
+      intIsDeleted = Convert.ToInt16(HelperMySql.ExecuteScalar(strSQL, aryParams));
+      if (intIsDeleted == 1)
+        strSQL = @"UPDATE sys_admin SET is_deleted = 0 WHERE id = @id";
+      else
+        strSQL = @"UPDATE sys_admin SET is_deleted = 1 WHERE id = @id";
+      aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id", intAdminID);
+      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
     }
 
   }

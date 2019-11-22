@@ -1,10 +1,7 @@
 ﻿using Bll;
 using Helper;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.admin
@@ -16,8 +13,11 @@ namespace XZDHospital2BMS.BackManager.admin
     {
       if (!IsPostBack)
       {
-        int intAdminId = HelperUtility.checkPurview("SysAdmin_del,SysAdmin_show");
-        LoadDataAll();
+        int intAdminId = HelperUtility.hasPurviewPage("SysAdmin_show");
+        int intCurrentPage = HelperUtility.getQueryInt("page");
+        if (intCurrentPage <= 0) intCurrentPage = 1;
+        lblCurentPage.Text = intCurrentPage.ToString();
+        LoadDataPage();
       }
     }
 
@@ -25,9 +25,19 @@ namespace XZDHospital2BMS.BackManager.admin
     {
       if (e.Row.RowType == DataControlRowType.DataRow)
       {
-        // e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#F0F0F0'");
-        // e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-        // int intArticleID = Convert.ToInt32(((Label)e.Row.FindControl("lblArticleID")).Text);
+        e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
+        e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
+
+        ImageButton imgbtnEnabled = (ImageButton)e.Row.FindControl("imgbtnEnabled");
+        ImageButton imgbtnIsDeleted = (ImageButton)e.Row.FindControl("imgbtnIsDeleted");
+        if (imgbtnEnabled.AlternateText == "True")
+          imgbtnEnabled.ImageUrl = "/static/image/allow.png";
+        else
+          imgbtnEnabled.ImageUrl = "/static/image/deny.png";
+        if (imgbtnIsDeleted.AlternateText == "True")
+          imgbtnIsDeleted.ImageUrl = "/static/image/allow.png";
+        else
+          imgbtnIsDeleted.ImageUrl = "/static/image/deny.png";
       }
     }
 
@@ -35,12 +45,46 @@ namespace XZDHospital2BMS.BackManager.admin
     {
       int intId = Convert.ToInt32(e.CommandArgument);
       if (e.CommandName == "Edit")
-        Response.Redirect("edit.aspx?id=" + intId.ToString());
-      else if (e.CommandName == "Del")
       {
-        BllAdmin.deleteById(intId);
-        LoadDataPage();
+        if (HelperUtility.hasPurviewOP("SysAdmin_edit"))
+          Response.Redirect("edit.aspx?id=" + intId.ToString() + "&page=" + ViewState["page"]);
+        else
+        {
+          string strUrl = "list.aspx?page=" + ViewState["page"];
+          HelperUtility.showAlert("没有操作权限", strUrl);
+        }
       }
+      else if (e.CommandName == "Delete")
+      {
+        if (HelperUtility.hasPurviewOP("SysAdmin_del"))
+          BllAdmin.deleteById(intId);
+        else
+        {
+          string strUrl = "list.aspx?page=" + ViewState["page"];
+          HelperUtility.showAlert("没有操作权限", strUrl);
+        }
+      }
+      else if (e.CommandName == "ChangeEnabled")
+      {
+        if (HelperUtility.hasPurviewOP("SysAdmin_edit"))
+          BllAdmin.changeEnabled(intId);
+        else
+        {
+          string strUrl = "list.aspx?page=" + ViewState["page"];
+          HelperUtility.showAlert("没有操作权限", strUrl);
+        }
+      }
+      else if (e.CommandName == "ChangeIsDeleted")
+      {
+        if (HelperUtility.hasPurviewOP("SysAdmin_edit"))
+          BllAdmin.changeIsDeleted(intId);
+        else
+        {
+          string strUrl = "list.aspx?page=" + ViewState["page"];
+          HelperUtility.showAlert("没有操作权限", strUrl);
+        }
+      }
+      LoadDataPage();
     }
 
     public void LoadDataAll()
@@ -60,17 +104,18 @@ namespace XZDHospital2BMS.BackManager.admin
       // “/”相当于整数除法中的除号，“%”相当于余号
       // 5 / 2 = 2，2/2=1,1/2=0
       // 5 % 2 = 1
+      if ("".Equals(lblCurentPage.Text.Trim())) lblCurentPage.Text = "1";
       intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
+      if (intCurrentPage <= 0) intCurrentPage = 1;
       // 得到总记录数
       intRecordCount = BllAdmin.getRecordsAmount();
       // 计算总页数
       intPageCount = (intRecordCount + intPageSize - 1) / intPageSize;
+      if (intCurrentPage > intPageCount) intCurrentPage = intPageCount;
       lblPageCount.Text = intPageCount.ToString();
       // 根据当前页获取当前页的分页记录DataTable
       if (intRecordCount > 0)
-      {
         objDT = BllAdmin.getPage(intCurrentPage, intPageSize);
-      }
       else
       {
         lblCurentPage.Text = "1";
@@ -82,7 +127,6 @@ namespace XZDHospital2BMS.BackManager.admin
         lbtnPrev.Enabled = true;
         lbtnNext.Enabled = true;
         lbtnLast.Enabled = true;
-
         if (intCurrentPage == 1)
         {
           lbtnFirst.Enabled = false;
@@ -104,6 +148,9 @@ namespace XZDHospital2BMS.BackManager.admin
       gvShow.DataSource = objDT;
       gvShow.DataBind();
       lblRecordCount.Text = intRecordCount.ToString();
+      lblCurentPage.Text = intCurrentPage.ToString();
+      tbPageNum.Text = intCurrentPage.ToString();
+      ViewState["page"] = intCurrentPage;
     }
 
     protected void lbtnFirst_Click(object sender, EventArgs e)
@@ -126,7 +173,11 @@ namespace XZDHospital2BMS.BackManager.admin
       lblCurentPage.Text = lblPageCount.Text;
       LoadDataPage();
     }
-
+    protected void btnJumpTo_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = tbPageNum.Text;
+      LoadDataPage();
+    }
   }
 
 }

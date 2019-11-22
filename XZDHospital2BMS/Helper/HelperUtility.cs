@@ -10,37 +10,102 @@ namespace Helper
 
   public class HelperUtility
   {
+
+    private const string PAGE_LOGIN = "~/BackManager/login.aspx";
+
     public HelperUtility()
     {
     }
 
-    public static int checkPurview(string strPurviewsNeed)
+    /// <summary>
+    /// 检查登录用户是否有访问某个页面的权限，如果无权限则跳到登录页面
+    /// </summary>
+    /// <param name="strPurviewsNeed">访问该页面需要的权限</param>
+    /// <returns>返回登录用户的AdminId</returns>
+    public static int hasPurviewPage(string strPurviewsNeed)
     {
-      // 根据 session 中是否有 AdminId 来判断是否登录
-      if (HttpContext.Current.Session["AdminId"] == null)
-        HttpContext.Current.Response.Redirect("/BackManager/login.aspx");
-      int intAdminId = Convert.ToInt32(HttpContext.Current.Session["AdminId"]);
-      if (intAdminId <= 0) HttpContext.Current.Response.Redirect("/BackManager/login.aspx");
+      int intAdminId = checkIsLogin();
       // 下面开始验证权限
       if (HttpContext.Current.Session["Purviews"] == null)
-        HttpContext.Current.Response.Redirect("~/BackManager/login.aspx");
+        HttpContext.Current.Response.Redirect(PAGE_LOGIN);
       string strPurviewsSession = HttpContext.Current.Session["Purviews"].ToString();
       if ("".Equals(strPurviewsSession))
-        HttpContext.Current.Response.Redirect("~/BackManager/login.aspx");
+        HttpContext.Current.Response.Redirect(PAGE_LOGIN);
       List<string> listPurviewsSession = new List<string>(strPurviewsSession.Split(','));
       // 如果是 SUPERADMIN 或者该页面不需要权限即可访问，就直接结束验证
       if (listPurviewsSession.Contains("SUPERADMIN") || "".Equals(strPurviewsNeed))
         return intAdminId;
       // 验证 session 里的用户所拥有的权限是否包含该页面所需要的权限
       List<string> listPurviewsNeed = new List<string>(strPurviewsNeed.Split(','));
-      bool boolHasPurview = false;
       for (int i = 0; i < listPurviewsNeed.Count; i++)
       {
         if (listPurviewsSession.Contains(listPurviewsNeed[i]))
-          boolHasPurview = true;
+          return intAdminId;
       }
-      if (!boolHasPurview) HttpContext.Current.Response.Redirect("~/BackManager/login.aspx");
+      // 如果上面的验证循环没有返回，执行到这里了，说明没有权限匹配，所以返回0
+      return 0;
+    }
+
+    /// <summary>
+    /// 检查登录用户是否有执行某个方法的权限，如果无权限则返回false
+    /// </summary>
+    /// <param name="strPurviewsNeed">访问该方法需要的权限</param>
+    /// <returns>返回登录用户的AdminId</returns>
+    public static bool hasPurviewOP(string strPurviewsNeed)
+    {
+      // 先检查是否有Session["Purviews"]，没有就说明丢失了session，要重新登录
+      if (HttpContext.Current.Session["Purviews"] == null)
+        HttpContext.Current.Response.Redirect(PAGE_LOGIN);
+      string strPurviewsSession = HttpContext.Current.Session["Purviews"].ToString();
+      if ("".Equals(strPurviewsSession))
+        HttpContext.Current.Response.Redirect(PAGE_LOGIN);
+      List<string> listPurviewsSession = new List<string>(strPurviewsSession.Split(','));
+      // 如果是 SUPERADMIN 或者该页面不需要权限即可访问，就直接结束验证
+      if (listPurviewsSession.Contains("SUPERADMIN") || "".Equals(strPurviewsNeed))
+        return true;
+      // 验证 session 里的用户所拥有的权限是否包含有允许执行该操作的权限
+      List<string> listPurviewsNeed = new List<string>(strPurviewsNeed.Split(','));
+      for (int i = 0; i < listPurviewsNeed.Count; i++)
+      {
+        if (listPurviewsSession.Contains(listPurviewsNeed[i]))
+          return true;
+      }
+      return false;
+    }
+
+    private static int checkIsLogin()
+    {
+      // 根据 session 中是否有 AdminId 来判断是否登录，如果没有则重新登录
+      if (HttpContext.Current.Session["AdminId"] == null)
+        HttpContext.Current.Response.Redirect(PAGE_LOGIN);
+      int intAdminId = Convert.ToInt32(HttpContext.Current.Session["AdminId"]);
+      if (intAdminId <= 0) HttpContext.Current.Response.Redirect(PAGE_LOGIN);
       return intAdminId;
+    }
+
+    public static void showAlert(string strMsg, string strUrl)
+    {
+      string strScript = "<script>";
+      strScript += "alert('" + strMsg + "');";
+      strScript += "location='" + strUrl + "';</script>";
+      HttpContext.Current.Response.Write(strScript);
+    }
+
+    public static string getQueryString(string strKey)
+    {
+      if (HttpContext.Current.Request.QueryString[strKey] == null ||
+          "".Equals(HttpContext.Current.Request.QueryString[strKey].ToString()))
+        return "";
+      else
+        return HttpContext.Current.Request.QueryString[strKey];
+    }
+
+    public static int getQueryInt(string strKey)
+    {
+      if (HttpContext.Current.Request.QueryString[strKey] == null ||
+          "".Equals(HttpContext.Current.Request.QueryString[strKey].ToString()))
+        return 0;
+      return Convert.ToInt32(HttpContext.Current.Request.QueryString[strKey]);
     }
 
     // 根据时间下拉列表设置起始时间
@@ -220,6 +285,18 @@ namespace Helper
       //aryResult = new string[objAL.Count];
       //aryResult = (string[])objAL.ToArray(typeof(string));
       return (string[])objAL.ToArray(typeof(string));
+    }
+
+    // 验证手机号码
+    public static bool isMobilePhone(string strMobilePhone)
+    {
+      return System.Text.RegularExpressions.Regex.IsMatch(strMobilePhone, @"^[1]+[3,5]+\d{9}");
+    }
+
+    // 验证身份证号
+    public static bool isIdCard(string strIdCard)
+    {
+      return System.Text.RegularExpressions.Regex.IsMatch(strIdCard, @"(^\d{18}$)|(^\d{15}$)");
     }
 
   }
