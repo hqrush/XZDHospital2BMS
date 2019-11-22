@@ -62,7 +62,13 @@ INSERT INTO sys_admin (
 
     public static void deleteById(int intId)
     {
-      string strSQL = @"DELETE FROM sys_admin WHERE id=@id";
+      string strSQL = @"
+DELETE FROM sys_admin
+WHERE
+  id = @id AND
+  username <> 'rush' OR
+  username <> 'wumin'
+";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       HelperMySql.ExcuteNoQuery(strSQL, aryParams);

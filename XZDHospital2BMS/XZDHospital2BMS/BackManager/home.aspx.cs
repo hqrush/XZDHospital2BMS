@@ -15,6 +15,7 @@ namespace XZDHospital2BMS.BackManager
         Debug.WriteLine("用Debug.WriteLine输出到控制台测试");
         int intAdminId = HelperUtility.hasPurviewPage("");
         lblAdminId.Text = intAdminId.ToString();
+        Response.Write(Session["Purviews"]);
       }
     }
 

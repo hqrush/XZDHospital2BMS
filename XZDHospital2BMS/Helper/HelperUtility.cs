@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
 
@@ -285,6 +286,12 @@ namespace Helper
       //aryResult = new string[objAL.Count];
       //aryResult = (string[])objAL.ToArray(typeof(string));
       return (string[])objAL.ToArray(typeof(string));
+    }
+
+    public static string removeStringSpace(string strSource)
+    {
+      // string myString = "  this\n is\r a \ttest    ";
+      return Regex.Replace(strSource, @"\s", "");
     }
 
     // 验证手机号码

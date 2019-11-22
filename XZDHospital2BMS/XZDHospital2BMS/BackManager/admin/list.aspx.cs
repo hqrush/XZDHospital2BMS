@@ -44,9 +44,9 @@ namespace XZDHospital2BMS.BackManager.admin
     public void OP_Command(object sender, CommandEventArgs e)
     {
       int intId = Convert.ToInt32(e.CommandArgument);
-      if (e.CommandName == "Edit")
+      if (e.CommandName == "edit")
       {
-        if (HelperUtility.hasPurviewOP("SysAdmin_edit"))
+        if (HelperUtility.hasPurviewOP("SysAdmin_update"))
           Response.Redirect("edit.aspx?id=" + intId.ToString() + "&page=" + ViewState["page"]);
         else
         {
@@ -54,19 +54,21 @@ namespace XZDHospital2BMS.BackManager.admin
           HelperUtility.showAlert("没有操作权限", strUrl);
         }
       }
-      else if (e.CommandName == "Delete")
+      else if (e.CommandName == "del")
       {
         if (HelperUtility.hasPurviewOP("SysAdmin_del"))
+        {
           BllAdmin.deleteById(intId);
+        }
         else
         {
           string strUrl = "list.aspx?page=" + ViewState["page"];
           HelperUtility.showAlert("没有操作权限", strUrl);
         }
       }
-      else if (e.CommandName == "ChangeEnabled")
+      else if (e.CommandName == "changeEnabled")
       {
-        if (HelperUtility.hasPurviewOP("SysAdmin_edit"))
+        if (HelperUtility.hasPurviewOP("SysAdmin_update"))
           BllAdmin.changeEnabled(intId);
         else
         {
@@ -74,9 +76,9 @@ namespace XZDHospital2BMS.BackManager.admin
           HelperUtility.showAlert("没有操作权限", strUrl);
         }
       }
-      else if (e.CommandName == "ChangeIsDeleted")
+      else if (e.CommandName == "changeIsDeleted")
       {
-        if (HelperUtility.hasPurviewOP("SysAdmin_edit"))
+        if (HelperUtility.hasPurviewOP("SysAdmin_update"))
           BllAdmin.changeIsDeleted(intId);
         else
         {
@@ -85,12 +87,6 @@ namespace XZDHospital2BMS.BackManager.admin
         }
       }
       LoadDataPage();
-    }
-
-    public void LoadDataAll()
-    {
-      gvShow.DataSource = Bll.BllAdmin.getAll();
-      gvShow.DataBind();
     }
 
     private int intCurrentPage = 1; //当前页
@@ -178,6 +174,7 @@ namespace XZDHospital2BMS.BackManager.admin
       lblCurentPage.Text = tbPageNum.Text;
       LoadDataPage();
     }
+
   }
 
 }

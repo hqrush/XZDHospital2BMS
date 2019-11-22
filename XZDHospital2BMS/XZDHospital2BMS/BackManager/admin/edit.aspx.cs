@@ -65,7 +65,7 @@ namespace XZDHospital2BMS.BackManager.admin
       if (!"".Equals(strPassword)) model.password = strPassword;
       model.real_name = strRealName;
       model.mobile_phone = strMobilePhone;
-      if (!(model.username == "rush2112" || model.username == "wumin"))
+      if (!(model.username == "rush" || model.username == "wumin"))
         model.purviews = getSelectedCheckBox();
       BllAdmin.update(model);
       Response.Redirect("/BackManager/admin/list.aspx?page=" + intPage);

@@ -79,7 +79,7 @@
                   <ItemTemplate>
                     <asp:ImageButton runat="server" ID="imgbtnEnabled" Width="16"
                       AlternateText='<%# Eval("enabled").ToString() %>'
-                      OnCommand="OP_Command" CommandName="ChangeEnabled"
+                      OnCommand="OP_Command" CommandName="changeEnabled"
                       CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
@@ -89,7 +89,7 @@
                   <ItemTemplate>
                     <asp:ImageButton runat="server" ID="imgbtnIsDeleted" Width="16"
                       AlternateText='<%# Eval("is_deleted").ToString() %>'
-                      OnCommand="OP_Command" CommandName="ChangeIsDeleted"
+                      OnCommand="OP_Command" CommandName="changeIsDeleted"
                       CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
@@ -98,10 +98,10 @@
                   <ItemStyle Width="150px" />
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs" Text="编辑"
-                      OnCommand="OP_Command" CommandName="Edit" CommandArgument='<%# Eval("id") %>' />
+                      OnCommand="OP_Command" CommandName="edit" CommandArgument='<%# Eval("id") %>' />
                     <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs" Text="删除"
                       OnClientClick="return confirm('确定要删除？');"
-                      OnCommand="OP_Command" CommandName="Delete" CommandArgument='<%# Eval("id") %>' />
+                      OnCommand="OP_Command" CommandName="del" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 

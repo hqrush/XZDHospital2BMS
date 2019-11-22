@@ -25,7 +25,7 @@
               <ul class="dropdown-menu">
                 <li><a href="#">添加入库单</a></li>
                 <li><a href="#">管理入库单</a></li>
-                <li><a href="#">管理医药销售公司</a></li>
+                <li><a href="/BackManager/sales_company/list.aspx">管理医药销售公司</a></li>
               </ul>
             </li>
             <li class="dropdown">
