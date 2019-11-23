@@ -59,8 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BackManager\admin\edit.aspx" />
-    <Content Include="BackManager\sales_company\form.aspx" />
     <Content Include="BackManager\sales_company\list.aspx" />
+    <Content Include="BackManager\sales_contract\add.aspx" />
+    <Content Include="static\css\datepicker.min.css" />
     <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
@@ -89,11 +90,37 @@
     <Content Include="static\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="static\image\allow.png" />
     <Content Include="static\image\bgHeader.png" />
+    <Content Include="static\image\CalendarImage\calendar.gif" />
+    <Content Include="static\image\CalendarImage\close.gif" />
+    <Content Include="static\image\CalendarImage\drop1.gif" />
+    <Content Include="static\image\CalendarImage\drop2.gif" />
+    <Content Include="static\image\CalendarImage\left1.gif" />
+    <Content Include="static\image\CalendarImage\left2.gif" />
+    <Content Include="static\image\CalendarImage\right1.gif" />
+    <Content Include="static\image\CalendarImage\right2.gif" />
     <Content Include="static\image\deny.png" />
     <Content Include="static\image\logo.png" />
     <Content Include="static\js\bootstrap.min.js" />
     <Content Include="static\js\check-form-admin.js" />
+    <Content Include="static\js\date-picker.js" />
+    <Content Include="static\js\datepicker.min.js" />
+    <Content Include="static\js\i18n\datepicker.cs.js" />
+    <Content Include="static\js\i18n\datepicker.da.js" />
+    <Content Include="static\js\i18n\datepicker.de.js" />
+    <Content Include="static\js\i18n\datepicker.en.js" />
+    <Content Include="static\js\i18n\datepicker.es.js" />
+    <Content Include="static\js\i18n\datepicker.fi.js" />
+    <Content Include="static\js\i18n\datepicker.fr.js" />
+    <Content Include="static\js\i18n\datepicker.hu.js" />
+    <Content Include="static\js\i18n\datepicker.nl.js" />
+    <Content Include="static\js\i18n\datepicker.pl.js" />
+    <Content Include="static\js\i18n\datepicker.pt-BR.js" />
+    <Content Include="static\js\i18n\datepicker.pt.js" />
+    <Content Include="static\js\i18n\datepicker.ro.js" />
+    <Content Include="static\js\i18n\datepicker.sk.js" />
+    <Content Include="static\js\i18n\datepicker.zh.js" />
     <Content Include="static\js\jquery-1.12.4.min.js" />
+    <Content Include="static\js\popcalendar.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -145,19 +172,19 @@
     <Compile Include="BackManager\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="BackManager\sales_company\form.aspx.cs">
-      <DependentUpon>form.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BackManager\sales_company\form.aspx.designer.cs">
-      <DependentUpon>form.aspx</DependentUpon>
-    </Compile>
     <Compile Include="BackManager\sales_company\list.aspx.cs">
       <DependentUpon>list.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BackManager\sales_company\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\sales_contract\add.aspx.cs">
+      <DependentUpon>add.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\sales_contract\add.aspx.designer.cs">
+      <DependentUpon>add.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\wucHeader.ascx.cs">
       <DependentUpon>WUCHeader.ascx</DependentUpon>
@@ -186,6 +213,7 @@
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
