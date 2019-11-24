@@ -31,7 +31,8 @@
 
             <div class="form-group">
               <label for="tbCompanyName">公司名称：（可批量添加，一行为一条记录）</label>
-              <textarea runat="server" id="tbCompanyName" class="form-control" width="150" rows="30"></textarea><br />
+              <textarea runat="server" id="tbCompanyName"
+                class="form-control" width="150" rows="30"></textarea><br />
               <asp:Button runat="server" ID="btnAdd" Text="确定添加"
                 CssClass="btn btn-primary" OnClick="btnAdd_Click" />
               <input type="button" value="清空" class="btn btn-warning" />

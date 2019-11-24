@@ -269,6 +269,6 @@
 
   <script src="/static/js/jquery-1.12.4.min.js"></script>
   <script src="/static/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/check-form-admin.js"></script>
+  <script type="text/javascript" src="/static/js/check-form/admin.js"></script>
 </body>
 </html>

@@ -122,6 +122,17 @@ LIMIT @PageSize
       return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
     }
 
+    public static int getIdByName(string strCompanyName)
+    {
+      string strSQL = @"SELECT id FROM sales_company WHERE name = @name";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@name", strCompanyName);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      if (objDT != null && objDT.Rows.Count > 0)
+        return Convert.ToInt32(objDT.Rows[0]["id"]);
+      else return 0;
+    }
+
   }
 
 }

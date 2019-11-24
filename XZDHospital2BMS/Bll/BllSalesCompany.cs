@@ -9,7 +9,10 @@ namespace Bll
 
     public static int add(ModelSalesCompany model)
     {
-      return DalSalesCompany.add(model);
+      // 先判断有没有重名
+      int intId = getIdByName(model.name);
+      if (intId > 0) return intId;
+      else return DalSalesCompany.add(model);
     }
 
     public static void deleteById(int intId)
@@ -40,6 +43,11 @@ namespace Bll
     public static int getRecordsAmount()
     {
       return DalSalesCompany.getRecordsAmount();
+    }
+
+    public static int getIdByName(string strCompanyName)
+    {
+      return DalSalesCompany.getIdByName(strCompanyName);
     }
 
   }

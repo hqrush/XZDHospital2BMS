@@ -1,4 +1,8 @@
-﻿.wrapper-login {
+﻿.red {
+  color: red;
+}
+
+.wrapper-login {
   width: 600px;
   margin: 160px auto 0 auto;
 }

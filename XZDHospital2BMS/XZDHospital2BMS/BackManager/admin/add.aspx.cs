@@ -24,7 +24,7 @@ namespace XZDHospital2BMS.BackManager.admin
     {
       if (!HelperUtility.hasPurviewOP("SysAdmin_add"))
       {
-        string strUrl = "add.aspx";
+        string strUrl = "/BackManager/home.aspx";
         HelperUtility.showAlert("没有操作权限", strUrl);
       }
       string strMsgError = "";
