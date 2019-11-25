@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
@@ -11,6 +13,14 @@ namespace Helper
 
   public class HelperUtility
   {
+
+    private static char[] chrConstant = {
+        '0','1','2','3','4','5','6','7','8','9',
+        'a','b','c','d','e','f','g','h','i','j','k','l','m','n',
+      'o','p','q','r','s','t','u','v','w','x','y','z',
+        'A','B','C','D','E','F','G','H','I','J','K','L','M','N',
+      'O','P','Q','R','S','T','U','V','W','X','Y','Z'
+    };
 
     private const string PAGE_LOGIN = "~/BackManager/login.aspx";
 
@@ -250,6 +260,33 @@ namespace Helper
       long lngL = BitConverter.ToInt64(aryRndSeries, 0);
       intRnd = (int)(Math.Abs(lngL) / dcmBase * intM);
       return intValueMin + intRnd;
+    }
+
+    /// <summary>
+    /// 产生随机的颜色
+    /// </summary>
+    public static Color SetRandomColor()
+    {
+      Random objRandom = new Random(Convert.ToInt32(Guid.NewGuid().GetHashCode()));
+      Color objColor = Color.FromArgb(255,
+        objRandom.Next(0, 100),
+        objRandom.Next(0, 100),
+        objRandom.Next(0, 100));
+      return objColor;
+    }
+
+    /// <summary>
+    /// 根据指定长度产生随机的字符串，可用来随机名
+    /// </summary>
+    public static string getRandomNumber(int Length)
+    {
+      StringBuilder sbRandom = new StringBuilder(62);
+      Random objRandom = new Random();
+      for (int i = 0; i < Length; i++)
+      {
+        sbRandom.Append(chrConstant[objRandom.Next(62)]);
+      }
+      return sbRandom.ToString();
     }
 
     /// <summary>

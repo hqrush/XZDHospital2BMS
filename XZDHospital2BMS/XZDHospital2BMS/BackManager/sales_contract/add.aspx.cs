@@ -3,6 +3,7 @@ using Helper;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,6 +13,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
 {
   public partial class add : System.Web.UI.Page
   {
+
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
@@ -54,6 +56,63 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         string strUrl = "add.aspx";
         HelperUtility.showAlert("添加失败，请联系管理员！", strUrl);
       }
+    }
+
+    protected void btnUploadPhoto_Click(object sender, EventArgs e)
+    {
+
+      HttpFileCollection files = HttpContext.Current.Request.Files;
+      //获得图片描述的文本框字符串数组，为对应的图片的描述
+      string[] rd = Request.Form[1].Split(',');
+      Debug.WriteLine("rd:" + rd);
+      int ifile;
+      for (ifile = 0; ifile < files.Count; ifile++)
+      {
+        if (files[ifile].FileName.Length > 0)
+        {
+          //上传单个文件并保存相关信息
+        }
+      }
+
+      ModelUploadFileConfig objConfig = new ModelUploadFileConfig();
+      objConfig.AllowUploadFileExt = "jpg,jpeg,png";
+      objConfig.AllowUploadImageFileExt = "jpg,jpeg,png";
+      objConfig.AllowUploadImageFileSize = 40;
+      HelperUploadFile.SaveULFileFromControl(fuPhoto, objConfig);
+      if (objConfig.OPFlag)
+      {
+        string strRootPath = MapPath("/").Replace("//", "/");
+        string strImgPath = objConfig.ServerFileFullPath;
+        strImgPath = strImgPath.Substring(strRootPath.Length);
+        ViewState["PhotoPath"] = strImgPath;
+
+        fuPhoto.Visible = false;
+        btnUploadPhoto.Visible = false;
+        imgPhoto.Visible = true;
+        imgPhoto.ImageUrl = strImgPath;
+        btnDelPhoto.Visible = true;
+      }
+      else
+      {
+        ViewState["PhotoPath"] = "";
+        string strOPMsg = objConfig.OPMessage;
+        string strJS = "<script>alert('【" + strOPMsg + "】，上传头像失败！请重新上传！');";
+        strJS += "</script>";
+        Response.Write(strJS);
+        return;
+      }
+    }
+
+    protected void btnDelPhoto_Click(object sender, EventArgs e)
+    {
+      ViewState["PhotoPath"] = "";
+      string strRootPath = MapPath("/").Replace("//", "/");
+      string strImgPath = strRootPath + imgPhoto.ImageUrl;
+      HelperFile.DeleteFile(strImgPath);
+      fuPhoto.Visible = true;
+      btnUploadPhoto.Visible = true;
+      imgPhoto.Visible = false;
+      btnDelPhoto.Visible = false;
     }
 
   }

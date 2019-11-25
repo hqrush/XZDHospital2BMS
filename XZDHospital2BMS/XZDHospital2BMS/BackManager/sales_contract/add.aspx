@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/datepicker.min.css" />
-  <link rel="stylesheet" href="/static/css/uploadfile.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -64,41 +63,28 @@
                 <label for="tbPhotoUrls" class="col-sm-2 control-label">入库单照片：</label>
                 <div class="col-sm-8">
 
-                  <div class="wrapper-uploader">
+                  <div class="wrapper-photos">
 
-                    <div id="uploader" class="wu-example">
-                      <div class="queueList">
-                        <div id="dndArea" class="placeholder">
-                          <div id="filePicker" class="webuploader-container">
-                            <div class="webuploader-pick">点击选择图片</div>
-                            <div id="rt_rt_1dqdlvdoc1a2f25818j111bg1qag1" style="position: absolute; top: 0px; left: 448px; width: 168px; height: 44px; overflow: hidden; bottom: auto; right: auto;">
-                              <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
-                            </div>
-                          </div>
-                          <p>或将照片拖到这里，单次最多可选300张</p>
-                        </div>
-                        <ul class="filelist"></ul>
-                      </div>
-                      <div class="statusBar" style="display: none;">
-                        <div class="progress" style="display: none;">
-                          <span class="text">0%</span>
-                          <span class="percentage" style="width: 0%;"></span>
-                        </div>
-                        <div class="info">共0张（0B），已上传0张</div>
-                        <div class="btns">
-                          <div id="filePicker2" class="webuploader-container">
-                            <div class="webuploader-pick">继续添加</div>
-                            <div id="rt_rt_1dqdlvdofocnjp1qesjtfocq6" style="position: absolute; top: 0px; left: 0px; width: 1px; height: 1px; overflow: hidden;">
-                              <input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
-                            </div>
-                          </div>
-                          <div class="uploadBtn state-pedding">开始上传</div>
-                        </div>
-                      </div>
+                    <div id="MyFile">
+                      <input onclick="addFile()" type="button" value="增加图片"><br />
+                      <input type="file" name="File" runat="server" style="width: 300px" />
                     </div>
 
+                    <div class="form-inline">
+                      <asp:FileUpload runat="server" ID="fuPhoto" Width="300"
+                        CssClass="form-control" />
+                      <asp:Button runat="server" ID="btnUploadPhoto" Text="上传图片"
+                        CssClass="btn btn-primary btn-sm"
+                        OnClientClick='return CheckUploadFile("fuPhoto", "jpg,jpeg,png");'
+                        OnClick="btnUploadPhoto_Click" />
+                    </div>
+                    <div class="form-inline">
+                      <asp:Image runat="server" ID="imgPhoto" Width="90"
+                        CssClass="img-thumbnail" Visible="false" />
+                      <asp:Button runat="server" ID="btnDelPhoto" Text="删除图片" Visible="false"
+                        CssClass="btn btn-danger btn-sm" OnClick="btnDelPhoto_Click" />
+                    </div>
                   </div>
-
                 </div>
               </div>
 
@@ -122,7 +108,50 @@
   <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/datepicker.min.js"></script>
   <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
-  <script type="text/javascript" src="/static/js/webuploader.nolog.min.js"></script>
-  <script type="text/javascript" src="/static/js/uploadfile.js"></script>
+  <script type="text/javascript">
+    var i = 1
+    function addFile() {
+      if (i < 8) {
+        var str = '<br /><input type="file" name="File" runat="server" style="width: 300px"/>';
+        str += '<br />描述：<input name="text" type="text" style="width: 150px" maxlength="20" />';
+        document.getElementById('MyFile').insertAdjacentHTML("beforeEnd", str);
+      }
+      else {
+        alert("您一次最多只能上传8张图片！");
+      }
+      i++;
+    }
+
+    function CheckUploadFile(strControlID, strExt) {
+      var objFileUpload = document.getElementById(strControlID);
+      if (objFileUpload.value == "") {
+        alert("还没有选择要上传的文件，请选择要上传的文件！");
+        return false;
+      }
+      var strFileUplodPath = objFileUpload.value;
+      //lastIndexOf如果没有搜索到则返回为-1  
+      if (strFileUplodPath.lastIndexOf(".") != -1) {
+        var strFileExt = (strFileUplodPath.substring(strFileUplodPath.lastIndexOf(".") + 1, strFileUplodPath.length)).toLowerCase();
+        //var aryAllowExt = new Array();
+        var aryAllowExt = strExt.split(",");
+        //aryAllowExt[0] = "xls";
+        //aryAllowExt[1] = "xlsx";
+        for (var i = 0; i < aryAllowExt.length; i++) {
+          if (aryAllowExt[i] == strFileExt) {
+            return true;
+          } else {
+            continue;
+          }
+        }
+        alert("只允许上传" + strExt + "类型的文件！");
+        return false;
+      } else {
+        alert("只允许上传" + strExt + "类型文件！");
+        return false;
+      }
+      return true;
+    }
+  </script>
+
 </body>
 </html>

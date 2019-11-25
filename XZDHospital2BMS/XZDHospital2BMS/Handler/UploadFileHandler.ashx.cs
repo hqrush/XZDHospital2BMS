@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web;
 using System.IO;
-using System.Text;
-using System.Security.Cryptography;
 using System.Linq;
+using System.Collections.Generic;
+using System.Web.Services.Description;
+using System.Text;
 
 namespace XZDHospital2BMS.BackManager.handler
 {
@@ -17,7 +17,7 @@ namespace XZDHospital2BMS.BackManager.handler
 
     // 上传目录
     const string path = "/UploadFile/";
-    //上传临时目录
+    //上传临时目录，用于chunks合成
     const string tempPath = "/UploadFile/temp/";
 
     public void ProcessRequest(HttpContext context)
@@ -26,24 +26,30 @@ namespace XZDHospital2BMS.BackManager.handler
       //如果进行了分片
       if (context.Request.Form.AllKeys.Any(m => m == "chunk"))
       {
-        //取得chunk和chunks
         //当前分片在上传分片中的顺序（从0开始）
         int chunk = Convert.ToInt32(context.Request.Form["chunk"]);
         //总分片数
         int chunks = Convert.ToInt32(context.Request.Form["chunks"]);
+
         if (string.IsNullOrEmpty(context.Request["guid"]))
           throw new Exception("[guid]不能为空");
+
         //根据GUID创建用该GUID命名的临时文件夹
         string folder = context.Server.MapPath(tempPath + context.Request["guid"] + "/");
         string tempFile = folder + chunk;
+
         //建立临时传输文件夹
         if (!Directory.Exists(Path.GetDirectoryName(folder)))
+        {
           Directory.CreateDirectory(folder);
+        }
+
         FileStream addFile = new FileStream(tempFile, FileMode.Append, FileAccess.Write);
         BinaryWriter AddWriter = new BinaryWriter(addFile);
         //获得上传的分片数据流
         HttpPostedFile file = context.Request.Files[0];
         Stream stream = file.InputStream;
+
         BinaryReader TempReader = new BinaryReader(stream);
         //将上传的分片追加到临时文件末尾
         AddWriter.Write(TempReader.ReadBytes((int)stream.Length));
@@ -52,6 +58,7 @@ namespace XZDHospital2BMS.BackManager.handler
         stream.Close();
         AddWriter.Close();
         addFile.Close();
+
         TempReader.Dispose();
         stream.Dispose();
         AddWriter.Dispose();
@@ -59,19 +66,14 @@ namespace XZDHospital2BMS.BackManager.handler
         string filePath = "";
         if (chunk == chunks - 1)
         {
-          //合并后的文件
-          filePath = path + DateTime.Now.ToString("yyyy/MM/") +
-            Guid.NewGuid() + Path.GetExtension(file.FileName);
+          filePath = path + DateTime.Now.ToString("yyyy/MM/") + Guid.NewGuid() + Path.GetExtension(file.FileName);//合并后的文件
           ProcessRequest(folder, context.Server.MapPath(filePath));
         }
         context.Response.Write("{\"chunked\" : true, \"hasError\" : false, \"filePath\" : \"" + filePath + "\"}");
       }
-      else
+      else//没有分片直接保存
       {
-        //没有分片，直接保存
-        //合并后的文件
-        string filePath = path + DateTime.Now.ToString("yyyy/MM/") +
-          Guid.NewGuid() + Path.GetExtension(context.Request.Files[0].FileName);
+        string filePath = path + DateTime.Now.ToString("yyyy/MM/") + Guid.NewGuid() + Path.GetExtension(context.Request.Files[0].FileName);//合并后的文件
         context.Request.Files[0].SaveAs(context.Server.MapPath(filePath));
         context.Response.Write("{\"chunked\" : true, \"hasError\" : false, \"filePath\" : \"" + filePath + "\"}");
       }
@@ -85,7 +87,9 @@ namespace XZDHospital2BMS.BackManager.handler
     private void ProcessRequest(string sourcePath, string filePath)
     {
       if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+      {
         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+      }
       DirectoryInfo dicInfo = new DirectoryInfo(sourcePath);
       if (Directory.Exists(Path.GetDirectoryName(sourcePath)))
       {
@@ -94,6 +98,7 @@ namespace XZDHospital2BMS.BackManager.handler
         {
           FileStream addFile = new FileStream(filePath, FileMode.Append, FileAccess.Write);
           BinaryWriter AddWriter = new BinaryWriter(addFile);
+
           //获得上传的分片数据流
           Stream stream = file.Open(FileMode.Open);
           BinaryReader TempReader = new BinaryReader(stream);
@@ -104,6 +109,7 @@ namespace XZDHospital2BMS.BackManager.handler
           stream.Close();
           AddWriter.Close();
           addFile.Close();
+
           TempReader.Dispose();
           stream.Dispose();
           AddWriter.Dispose();
@@ -120,10 +126,20 @@ namespace XZDHospital2BMS.BackManager.handler
     private static void DeleteFolder(string strPath)
     {
       if (Directory.GetDirectories(strPath).Length > 0)
-        foreach (string fl in Directory.GetDirectories(strPath)) Directory.Delete(fl, true);
+      {
+        foreach (string fl in Directory.GetDirectories(strPath))
+        {
+          Directory.Delete(fl, true);
+        }
+      }
       //删除这个目录下的所有文件
       if (Directory.GetFiles(strPath).Length > 0)
-        foreach (string f in Directory.GetFiles(strPath)) System.IO.File.Delete(f);
+      {
+        foreach (string f in Directory.GetFiles(strPath))
+        {
+          System.IO.File.Delete(f);
+        }
+      }
     }
 
     public bool IsReusable

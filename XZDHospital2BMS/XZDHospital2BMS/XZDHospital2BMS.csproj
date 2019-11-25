@@ -59,7 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BackManager\admin\edit.aspx" />
-    <Content Include="BackManager\handler\UploadFileHandler.ashx" />
+    <Content Include="BackManager\WUCFileUploader.ascx" />
+    <Content Include="Handler\UploadFileHandler.ashx" />
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
     <Content Include="static\css\datepicker.min.css" />
@@ -68,8 +69,8 @@
     <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="BackManager\handler\CheckAdminHandler.ashx" />
-    <Content Include="BackManager\handler\LogoutHandler.ashx" />
+    <Content Include="Handler\CheckAdminHandler.ashx" />
+    <Content Include="Handler\LogoutHandler.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\uploadfile\icons.psd" />
     <Content Include="static\image\uploadfile\progress.psd" />
@@ -113,6 +114,7 @@
     <Content Include="static\js\check-form\demo.js" />
     <Content Include="static\js\check-form\global.js" />
     <Content Include="static\js\datepicker.min.js" />
+    <Content Include="static\js\expressInstall.swf" />
     <Content Include="static\js\i18n\datepicker.cs.js" />
     <Content Include="static\js\i18n\datepicker.da.js" />
     <Content Include="static\js\i18n\datepicker.de.js" />
@@ -132,6 +134,7 @@
     <Content Include="static\js\uploadfile.js" />
     <Content Include="static\js\uploadfile1.js" />
     <Content Include="static\js\uploadfile.swf" />
+    <Content Include="static\js\webuploader.min.js" />
     <Content Include="static\js\webuploader.nolog.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -157,13 +160,20 @@
     <Compile Include="BackManager\admin\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
     </Compile>
-    <Compile Include="BackManager\handler\CheckAdminHandler.ashx.cs">
+    <Compile Include="BackManager\WUCFileUploader.ascx.cs">
+      <DependentUpon>WUCFileUploader.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\WUCFileUploader.ascx.designer.cs">
+      <DependentUpon>WUCFileUploader.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\CheckAdminHandler.ashx.cs">
       <DependentUpon>CheckAdminHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="BackManager\handler\LogoutHandler.ashx.cs">
+    <Compile Include="Handler\LogoutHandler.ashx.cs">
       <DependentUpon>LogoutHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="BackManager\handler\UploadFileHandler.ashx.cs">
+    <Compile Include="Handler\UploadFileHandler.ashx.cs">
       <DependentUpon>UploadFileHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\home.aspx.cs">

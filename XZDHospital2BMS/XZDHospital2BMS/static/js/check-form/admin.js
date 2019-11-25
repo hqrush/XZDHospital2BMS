@@ -39,7 +39,7 @@ function validateUsernameRename() {
   $(ErrorElement).text("");
   showError($(ErrorElement));
   $.ajax({
-    url: "/BackManager/handler/CheckAdminHandler.ashx",
+    url: "/Handler/CheckAdminHandler.ashx",
     data: { username: value },
     type: "POST",
     dataType: "text",

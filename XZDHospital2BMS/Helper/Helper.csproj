@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -51,9 +52,17 @@
     <Compile Include="HelperCookie.cs" />
     <Compile Include="HelperCrypt.cs" />
     <Compile Include="HelperExcel.cs" />
+    <Compile Include="HelperFile.cs" />
     <Compile Include="HelperMySql.cs" />
+    <Compile Include="HelperUploadFile.cs" />
     <Compile Include="HelperUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{EC93A8E3-D0C6-4C18-ADBF-F3E215CA99DB}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -47,7 +47,7 @@
               <ul class="dropdown-menu">
                 <li><a href="/BackManager/admin/add.aspx">添加管理员</a></li>
                 <li><a href="/BackManager/admin/list.aspx">管理管理员</a></li>
-                <li><a href="/BackManager/handler/LogoutHandler.ashx">退出重登录</a></li>
+                <li><a href="/Handler/LogoutHandler.ashx">退出重登录</a></li>
               </ul>
             </li>
           </ul>

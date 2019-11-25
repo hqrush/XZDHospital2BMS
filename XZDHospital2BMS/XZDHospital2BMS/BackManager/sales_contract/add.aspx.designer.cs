@@ -60,6 +60,42 @@ namespace XZDHospital2BMS.BackManager.sales_contract
     protected global::System.Web.UI.WebControls.TextBox tbComment;
 
     /// <summary>
+    /// fuPhoto 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.FileUpload fuPhoto;
+
+    /// <summary>
+    /// btnUploadPhoto 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnUploadPhoto;
+
+    /// <summary>
+    /// imgPhoto 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Image imgPhoto;
+
+    /// <summary>
+    /// btnDelPhoto 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnDelPhoto;
+
+    /// <summary>
     /// btnCompanyContractAdd 控件。
     /// </summary>
     /// <remarks>
