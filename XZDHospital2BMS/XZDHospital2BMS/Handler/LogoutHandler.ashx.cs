@@ -1,14 +1,10 @@
 ﻿using Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.SessionState;
 
-namespace XZDHospital2BMS.BackManager.handler
+namespace XZDHospital2BMS.Handler
 {
 
-  public class LogoutHandler : IHttpHandler, IRequiresSessionState
+  public class LogoutHandler : IHttpHandler, System.Web.SessionState.IRequiresSessionState
   {
 
     public void ProcessRequest(HttpContext context)

@@ -5,140 +5,65 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Web.Services.Description;
 using System.Text;
+using System.Diagnostics;
+using Model;
+using Helper;
 
-namespace XZDHospital2BMS.BackManager.handler
+namespace XZDHospital2BMS.Handler
 {
 
-  /// <summary>
-  /// UploadFileHandler 的摘要说明
-  /// </summary>
-  public class UploadFileHandler : IHttpHandler
+  public class UploadFileHandler : IHttpHandler, System.Web.SessionState.IRequiresSessionState
   {
-
-    // 上传目录
-    const string path = "/UploadFile/";
-    //上传临时目录，用于chunks合成
-    const string tempPath = "/UploadFile/temp/";
 
     public void ProcessRequest(HttpContext context)
     {
       context.Response.ContentType = "text/plain";
-      //如果进行了分片
-      if (context.Request.Form.AllKeys.Any(m => m == "chunk"))
+      string responseText = "OK";
+      HttpFileCollection files = context.Request.Files;
+      if (files != null || files.Count > 0)
       {
-        //当前分片在上传分片中的顺序（从0开始）
-        int chunk = Convert.ToInt32(context.Request.Form["chunk"]);
-        //总分片数
-        int chunks = Convert.ToInt32(context.Request.Form["chunks"]);
-
-        if (string.IsNullOrEmpty(context.Request["guid"]))
-          throw new Exception("[guid]不能为空");
-
-        //根据GUID创建用该GUID命名的临时文件夹
-        string folder = context.Server.MapPath(tempPath + context.Request["guid"] + "/");
-        string tempFile = folder + chunk;
-
-        //建立临时传输文件夹
-        if (!Directory.Exists(Path.GetDirectoryName(folder)))
-        {
-          Directory.CreateDirectory(folder);
-        }
-
-        FileStream addFile = new FileStream(tempFile, FileMode.Append, FileAccess.Write);
-        BinaryWriter AddWriter = new BinaryWriter(addFile);
-        //获得上传的分片数据流
-        HttpPostedFile file = context.Request.Files[0];
-        Stream stream = file.InputStream;
-
-        BinaryReader TempReader = new BinaryReader(stream);
-        //将上传的分片追加到临时文件末尾
-        AddWriter.Write(TempReader.ReadBytes((int)stream.Length));
-        //关闭BinaryReader文件阅读器
-        TempReader.Close();
-        stream.Close();
-        AddWriter.Close();
-        addFile.Close();
-
-        TempReader.Dispose();
-        stream.Dispose();
-        AddWriter.Dispose();
-        addFile.Dispose();
-        string filePath = "";
-        if (chunk == chunks - 1)
-        {
-          filePath = path + DateTime.Now.ToString("yyyy/MM/") + Guid.NewGuid() + Path.GetExtension(file.FileName);//合并后的文件
-          ProcessRequest(folder, context.Server.MapPath(filePath));
-        }
-        context.Response.Write("{\"chunked\" : true, \"hasError\" : false, \"filePath\" : \"" + filePath + "\"}");
+        context.Response.Write(responseText);
       }
-      else//没有分片直接保存
+      if (context.Request.Files["photo_file"] != null)
       {
-        string filePath = path + DateTime.Now.ToString("yyyy/MM/") + Guid.NewGuid() + Path.GetExtension(context.Request.Files[0].FileName);//合并后的文件
-        context.Request.Files[0].SaveAs(context.Server.MapPath(filePath));
-        context.Response.Write("{\"chunked\" : true, \"hasError\" : false, \"filePath\" : \"" + filePath + "\"}");
-      }
-    }
-
-    /// <summary>
-    /// 合并文件
-    /// </summary>
-    /// <param name="sourcePath">源数据文件夹</param>
-    /// <param name="filePath">合并后的文件</param>
-    private void ProcessRequest(string sourcePath, string filePath)
-    {
-      if (!Directory.Exists(Path.GetDirectoryName(filePath)))
-      {
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-      }
-      DirectoryInfo dicInfo = new DirectoryInfo(sourcePath);
-      if (Directory.Exists(Path.GetDirectoryName(sourcePath)))
-      {
-        FileInfo[] files = dicInfo.GetFiles();
-        foreach (FileInfo file in files.OrderBy(f => int.Parse(f.Name)))
+        HttpPostedFile objHPF = context.Request.Files["photo_file"];
+        //context.Server.UrlDecode(context.Request.Form.ToString());
+        //HttpFileCollection files = HttpContext.Current.Request.Files;
+        ModelUploadFileConfig objConfig = new ModelUploadFileConfig();
+        objConfig.AllowUploadFileExt = "jpg,jpeg,png";
+        objConfig.AllowUploadImageFileExt = "jpg,jpeg,png";
+        objConfig.AllowUploadImageFileSize = 40;
+        HelperUploadFile.SaveULFileFromHPF(objHPF, objConfig);
+        if (objConfig.OPFlag)
         {
-          FileStream addFile = new FileStream(filePath, FileMode.Append, FileAccess.Write);
-          BinaryWriter AddWriter = new BinaryWriter(addFile);
-
-          //获得上传的分片数据流
-          Stream stream = file.Open(FileMode.Open);
-          BinaryReader TempReader = new BinaryReader(stream);
-          //将上传的分片追加到临时文件末尾
-          AddWriter.Write(TempReader.ReadBytes((int)stream.Length));
-          //关闭BinaryReader文件阅读器
-          TempReader.Close();
-          stream.Close();
-          AddWriter.Close();
-          addFile.Close();
-
-          TempReader.Dispose();
-          stream.Dispose();
-          AddWriter.Dispose();
-          addFile.Dispose();
+          context.Response.Write(responseText);
+          //string strRootPath = MapPath("/").Replace("//", "/");
+          //string strImgPath = objConfig.ServerFileFullPath;
+          //strImgPath = strImgPath.Substring(strRootPath.Length);
+          //ViewState["PhotoPath"] = strImgPath;
+          //PhotoUrls += objConfig.ServerFileFullPath + ",";
+          //fuPhoto.Visible = false;
+          //btnUploadPhoto.Visible = false;
+          //imgPhoto.Visible = true;
+          //imgPhoto.ImageUrl = strImgPath;
+          //btnDelPhoto.Visible = true;
         }
-        Directory.Delete(sourcePath, true);
-      }
-    }
-
-    /// <summary>
-    /// 删除文件夹
-    /// </summary>
-    /// <param name="strPath"></param>
-    private static void DeleteFolder(string strPath)
-    {
-      if (Directory.GetDirectories(strPath).Length > 0)
-      {
-        foreach (string fl in Directory.GetDirectories(strPath))
+        else
         {
-          Directory.Delete(fl, true);
+          responseText = "error";
+          context.Response.Write(responseText);
+          //ViewState["PhotoPath"] = "";
+          //string strOPMsg = objConfig.OPMessage;
+          //string strJS = "<script>alert('【" + strOPMsg + "】，上传头像失败！请重新上传！');";
+          //strJS += "</script>";
+          //Response.Write(strJS);
+          //return;
         }
+        context.Response.Write(responseText);
       }
-      //删除这个目录下的所有文件
-      if (Directory.GetFiles(strPath).Length > 0)
+      else
       {
-        foreach (string f in Directory.GetFiles(strPath))
-        {
-          System.IO.File.Delete(f);
-        }
+        context.Response.Write(responseText);
       }
     }
 

@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add.aspx.cs" Inherits="XZDHospital2BMS.BackManager.sales_contract.add" %>
 
-<%@ Register Src="~/BackManager/wucHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
+<%@ Register Src="~/BackManager/WUCHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
+<%@ Register Src="~/BackManager/wucFileUploader.ascx" TagPrefix="wuc" TagName="wucFileUploader" %>
 
 <!DOCTYPE html>
 
@@ -65,25 +66,8 @@
 
                   <div class="wrapper-photos">
 
-                    <div id="MyFile">
-                      <input onclick="addFile()" type="button" value="增加图片"><br />
-                      <input type="file" name="File" runat="server" style="width: 300px" />
-                    </div>
+                    <wuc:wucFileUploader runat="server" ID="wucFileUploader_Photo" />
 
-                    <div class="form-inline">
-                      <asp:FileUpload runat="server" ID="fuPhoto" Width="300"
-                        CssClass="form-control" />
-                      <asp:Button runat="server" ID="btnUploadPhoto" Text="上传图片"
-                        CssClass="btn btn-primary btn-sm"
-                        OnClientClick='return CheckUploadFile("fuPhoto", "jpg,jpeg,png");'
-                        OnClick="btnUploadPhoto_Click" />
-                    </div>
-                    <div class="form-inline">
-                      <asp:Image runat="server" ID="imgPhoto" Width="90"
-                        CssClass="img-thumbnail" Visible="false" />
-                      <asp:Button runat="server" ID="btnDelPhoto" Text="删除图片" Visible="false"
-                        CssClass="btn btn-danger btn-sm" OnClick="btnDelPhoto_Click" />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -108,50 +92,5 @@
   <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/datepicker.min.js"></script>
   <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
-  <script type="text/javascript">
-    var i = 1
-    function addFile() {
-      if (i < 8) {
-        var str = '<br /><input type="file" name="File" runat="server" style="width: 300px"/>';
-        str += '<br />描述：<input name="text" type="text" style="width: 150px" maxlength="20" />';
-        document.getElementById('MyFile').insertAdjacentHTML("beforeEnd", str);
-      }
-      else {
-        alert("您一次最多只能上传8张图片！");
-      }
-      i++;
-    }
-
-    function CheckUploadFile(strControlID, strExt) {
-      var objFileUpload = document.getElementById(strControlID);
-      if (objFileUpload.value == "") {
-        alert("还没有选择要上传的文件，请选择要上传的文件！");
-        return false;
-      }
-      var strFileUplodPath = objFileUpload.value;
-      //lastIndexOf如果没有搜索到则返回为-1  
-      if (strFileUplodPath.lastIndexOf(".") != -1) {
-        var strFileExt = (strFileUplodPath.substring(strFileUplodPath.lastIndexOf(".") + 1, strFileUplodPath.length)).toLowerCase();
-        //var aryAllowExt = new Array();
-        var aryAllowExt = strExt.split(",");
-        //aryAllowExt[0] = "xls";
-        //aryAllowExt[1] = "xlsx";
-        for (var i = 0; i < aryAllowExt.length; i++) {
-          if (aryAllowExt[i] == strFileExt) {
-            return true;
-          } else {
-            continue;
-          }
-        }
-        alert("只允许上传" + strExt + "类型的文件！");
-        return false;
-      } else {
-        alert("只允许上传" + strExt + "类型文件！");
-        return false;
-      }
-      return true;
-    }
-  </script>
-
 </body>
 </html>

@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="LogoutHandler.ashx.cs" Class="XZDHospital2BMS.BackManager.handler.LogoutHandler" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="LogoutHandler.ashx.cs" Class="XZDHospital2BMS.Handler.LogoutHandler" %>
