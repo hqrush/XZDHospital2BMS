@@ -132,8 +132,8 @@
     <Content Include="static\js\i18n\datepicker.sk.js" />
     <Content Include="static\js\i18n\datepicker.zh.js" />
     <Content Include="static\js\jquery-1.12.4.min.js" />
+    <Content Include="static\js\upload-photo.js" />
     <Content Include="static\js\uploadfile.js" />
-    <Content Include="static\js\uploadfile1.js" />
     <Content Include="static\js\uploadfile.swf" />
     <Content Include="static\js\webuploader.min.js" />
     <Content Include="static\js\webuploader.nolog.min.js" />

@@ -1,7 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add.aspx.cs" Inherits="XZDHospital2BMS.BackManager.sales_contract.add" %>
 
 <%@ Register Src="~/BackManager/WUCHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
-<%@ Register Src="~/BackManager/wucFileUploader.ascx" TagPrefix="wuc" TagName="wucFileUploader" %>
 
 <!DOCTYPE html>
 
@@ -66,7 +65,13 @@
 
                   <div class="wrapper-photos">
 
-                    <wuc:wucFileUploader runat="server" ID="wucUploadPhoto" />
+                    <div class="wrapper-file-uploader">
+                      <div id="wrapper-file-select" class="form-inline">
+                        <input id="inputFile" type="file" class="form-control" />
+                        <button class="btn btn-sm btn-success" onclick="uploadFile()">开始上传</button>
+                      </div>
+                      <div id="wrapper-file-show"></div>
+                    </div>
 
                   </div>
 
@@ -96,5 +101,6 @@
   <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/datepicker.min.js"></script>
   <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
+  <script type="text/javascript" src="/static/js/upload-photo.js"></script>
 </body>
 </html>

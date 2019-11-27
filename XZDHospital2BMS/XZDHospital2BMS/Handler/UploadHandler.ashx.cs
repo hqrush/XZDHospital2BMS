@@ -1,7 +1,6 @@
 ﻿using System.Web;
 using Model;
 using Helper;
-using System.Diagnostics;
 
 namespace XZDHospital2BMS.Handler
 {
@@ -14,14 +13,12 @@ namespace XZDHospital2BMS.Handler
       // context.Response.ContentType = "text/plain";
       context.Response.ContentType = "application/json";
       string strReturn = "";
-      HttpPostedFile objHPF = context.Request.Files[0];
-      Debug.WriteLine("在 UploadHandler 里得到的 objHPF 是" + objHPF);
+      // HttpPostedFile objHPF = context.Request.Files[0];
+      HttpPostedFile objHPF = context.Request.Files["photo_file"];
       if (objHPF == null)
       {
-        strReturn = "{\"chunked\" : true, ";
-        strReturn += "\"hasError\" : true, ";
-        strReturn += "\"message\" : \"要上传的文件为空！\", ";
-        strReturn += "\"filePath\" : \"" + "" + "\"}";
+        strReturn = "{\"Message\" : \"要上传的文件为空！\", ";
+        strReturn += "\"ServerFilePath\" : \"" + "" + "\"}";
         context.Response.Write(strReturn);
         return;
       }
@@ -31,17 +28,13 @@ namespace XZDHospital2BMS.Handler
       HelperUploadFile.SaveULFileFromHPF(objHPF, objConfig);
       if (objConfig.OPFlag)
       {
-        strReturn = "{\"chunked\" : true, ";
-        strReturn += "\"hasError\" : false, ";
-        strReturn += "\"message\" : \"" + "" + "\", ";
-        strReturn += "\"filePath\" : \"" + objConfig.ServerFilePath + "\"}";
+        strReturn = "{\"Message\" : \"" + "" + "\", ";
+        strReturn += "\"ServerFilePath\" : \"" + objConfig.ServerFilePath + "\"}";
       }
       else
       {
-        strReturn = "{\"chunked\" : true, ";
-        strReturn += "\"hasError\" : true, ";
-        strReturn += "\"message\" : \"" + objConfig.OPMessage + "\", ";
-        strReturn += "\"filePath\" : \"" + "" + "\"}";
+        strReturn = "{\"Message\" : \"" + objConfig.OPMessage + "\", ";
+        strReturn += "\"ServerFilePath\" : \"" + "" + "\"}";
       }
       context.Response.Write(strReturn);
     }

@@ -2,28 +2,22 @@
   Inherits="XZDHospital2BMS.BackManager.WUCFileUploader" %>
 
 <div class="wrapper-file-uploader">
-  <div id="AreaBtn">
-    <input type="button" class="btn btn-sm btn btn-info" value="增加图片" onclick="addFileInput()" />
-    <input type="button" class="btn btn-sm btn btn-info" value="减少图片" onclick="delFileInput()" />
-    <input type="button" class="btn btn-sm btn-success" value="开始上传" onclick="uploadfiles()" />
+  <div id="wrapper-file-select" class="form-inline">
+    <input id="inputFile" type="file" class="form-control" />
+    <button class="btn btn-sm btn-success" onclick="uploadFile()">开始上传</button>
   </div>
-  <div id="AreaFileUpload">
-    <div id="inputFile1" class="form-inline">
-      <input type="file" class="form-control" style="width: 300px" />
-    </div>
-  </div>
-  <div id="AreaFileShow">
-    <input type="text" id="tbMsg" class="form-control" value="Info" />
-  </div>
+  <div id="wrapper-file-show"></div>
 </div>
 
 <script type="text/javascript">
-  var i = 2
+  // 这个变量存储现在有多少张已上传的照片
+  var i = 0
+
   function addFileInput() {
     if (i < 6) {
-      var str = '<div id="inputFile' + i + '" class="form-inline" > ';
-      str += '<input type="file" class="form-control" style="width: 300px" /></div>';
-      document.getElementById('AreaFileUpload').insertAdjacentHTML("beforeEnd", str);
+      var str = '<div id="inputFile' + i + '" class="form-inline">';
+      str += '<input type="file" class="form-control" /></div>';
+      document.getElementById('wrapper-file-select').insertAdjacentHTML("beforeEnd", str);
       i++;
     }
     else {
@@ -32,7 +26,7 @@
   }
 
   function delFileInput() {
-    ElementRoot = document.getElementById("AreaFileUpload")
+    ElementRoot = document.getElementById("wrapper-file-select")
     if (i > 2) {
       i--;
       ElementLast = document.getElementById('inputFile' + i);
@@ -40,23 +34,10 @@
     }
   }
 
-  function uploadfiles() {
-    tbMsg = document.getElementById('tbMsg');
+  function uploadFile() {
     if (validFileInput()) {
-      tbMsg.value = ajaxUpload();
-    } else {
-      tbMsg.value = "Error!";
-    }
-  }
-
-  function ajaxUpload() {
-    console.log('ajaxUpload里的i=' + i);
-    for (var j = 1; j < i; j++) {
-      strControlID = 'inputFile' + j;
-      var elDiv = document.getElementById(strControlID);
-      inputFile = elDiv.getElementsByTagName("INPUT")[0];
+      inputFile = document.getElementById('inputFile');
       var fileUpload = inputFile.files[0];
-      console.log('ajaxUpload里捕捉到的fileUpload===============' + fileUpload);
       var formData = new FormData();
       formData.append("photo_file", fileUpload);
       $.ajax({
@@ -65,34 +46,49 @@
         dataType: 'json',
         data: formData,
         async: true,
+        // 不指定编码方式（默认指定编码 urlencode）
         processData: false,
-        timeout: 30000,
+        // 不处理数据
+        contentType: false,
         success: function (result) {
-          console.log('Result======' + result);
-          return result;
+          var url = result.ServerFilePath;
+          if (url !== "") {
+            i++;
+            showImage(i, url);
+          } else if (result.Message !== "") {
+            console.log(result.Message);
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          return error;
         }
       });
+    } else {
+      console.log('uploadFile() 方法里验证文件输入框没通过！');
     }
   }
 
+  function showImage(index, url) {
+    var str = '<div id="wrapper-img-' + index + '">';
+    str += '<img width="100" height="100" src="' + url + '" />';
+    str += '<button class="btn btn-sm btn-warning" onclick="delPhoto(' + index + ')">删除</button></div>';
+    document.getElementById('wrapper-file-show').insertAdjacentHTML("beforeEnd", str);
+  }
+
+  function delPhoto(index) {
+
+  }
+
   function validFileInput() {
-    console.log('i=' + i);
-    for (var j = 1; j < i; j++) {
-      strControlID = 'inputFile' + j;
-      console.log('validFileInput 里的 strControlID=' + strControlID);
-      if (!hasFile(strControlID)) return false;
-      if (!isAllowFileExt(strControlID, "jpg,jpeg,png")) return false;
-    }
+    if (!hasFile('inputFile')) return false;
+    if (!isAllowFileExt('inputFile', "jpg,jpeg,png")) return false;
     return true;
   }
 
   // 检查是否选择了文件
   function hasFile(strControlID) {
-    // 上传文件的file类型的input是放在有id的div里的
-    // 先找到这个div
-    var elDiv = document.getElementById(strControlID);
-    // 再找到这个div下面的input，只有一个input
-    inputFile = elDiv.getElementsByTagName("INPUT")[0]
+    inputFile = document.getElementById(strControlID);
     if (inputFile.value == "") {
       alert("请选择要上传的文件！");
       return false;
@@ -102,14 +98,11 @@
 
   // 检查文件扩展名
   function isAllowFileExt(strControlID, strExt) {
-    var elDiv = document.getElementById(strControlID);
-    // 再找到这个div下面的input，只有一个input
-    inputFile = elDiv.getElementsByTagName("INPUT")[0]
-    console.log('isAllowFileExt 里的 inputFile' + inputFile);
-    var strFileUplodPath = inputFile.value;
+    inputFile = document.getElementById(strControlID);
+    var strFilePath = inputFile.value;
     //lastIndexOf 如果没有搜索到说明没有扩展名，则返回为-1
-    if (strFileUplodPath.lastIndexOf(".") != -1) {
-      var strFileExt = (strFileUplodPath.substring(strFileUplodPath.lastIndexOf(".") + 1, strFileUplodPath.length)).toLowerCase();
+    if (strFilePath.lastIndexOf(".") !== -1) {
+      var strFileExt = (strFilePath.substring(strFilePath.lastIndexOf(".") + 1, strFilePath.length)).toLowerCase();
       var aryAllowExt = strExt.split(",");
       for (var j = 0; j < aryAllowExt.length; j++) {
         if (aryAllowExt[j] === strFileExt) {
