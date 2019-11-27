@@ -60,17 +60,18 @@
   <ItemGroup>
     <Content Include="BackManager\admin\edit.aspx" />
     <Content Include="BackManager\WUCFileUploader.ascx" />
-    <Content Include="Handler\UploadFileHandler.ashx" />
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
     <Content Include="static\css\datepicker.min.css" />
     <Content Include="static\css\uploadfile.css" />
+    <Content Include="static\css\webuploader.css" />
     <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Handler\CheckAdminHandler.ashx" />
     <Content Include="Handler\LogoutHandler.ashx" />
+    <Content Include="Handler\UploadHandler.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\uploadfile\icons.psd" />
     <Content Include="static\image\uploadfile\progress.psd" />
@@ -173,9 +174,6 @@
     <Compile Include="Handler\LogoutHandler.ashx.cs">
       <DependentUpon>LogoutHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Handler\UploadFileHandler.ashx.cs">
-      <DependentUpon>UploadFileHandler.ashx</DependentUpon>
-    </Compile>
     <Compile Include="BackManager\home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -217,6 +215,9 @@
     </Compile>
     <Compile Include="BackManager\wucHeader.ascx.designer.cs">
       <DependentUpon>WUCHeader.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\UploadHandler.ashx.cs">
+      <DependentUpon>UploadHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

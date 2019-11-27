@@ -74,17 +74,22 @@ namespace Model
     private string _OPMessage = "";
 
     /// <summary>
-    /// 服务器端文件保存路径
+    /// 服务器端文件保存路径（完整路径，包括硬盘路径）
     /// </summary>
     private string _ServerFileFullPath = "";
 
     /// <summary>
-    /// 客户端文件路径
+    /// 服务器端文件保存路径（相对网站根目录路径，不包括硬盘路径）
+    /// </summary>
+    private string _ServerFilePath = "";
+
+    /// <summary>
+    /// 客户端文件路径（完整路径，包括硬盘路径）
     /// </summary>
     private string _ClientFileFullPath = "";
 
     /// <summary>
-    /// 生成水印后的图像文件路径
+    /// 生成水印后的图像文件路径（完整路径，包括硬盘路径）
     /// </summary>
     private string _ServerFileHasWMFullPath = "";
 
@@ -148,7 +153,6 @@ namespace Model
     /// </summary>
     private Color _WaterMarkTxtColor = Color.Red;
 
-
     /// <summary>
     /// 是否使用图片水印标志
     /// </summary>
@@ -157,7 +161,7 @@ namespace Model
     /// <summary>
     /// 水印文件服务器端路径
     /// </summary>        
-    private string _WaterMarkImagePath = "/image/WaterMask.png";
+    private string _WaterMarkImagePath = "/static/image/WaterMask.png";
 
     /// <summary>
     /// 水印的上边距
@@ -178,7 +182,6 @@ namespace Model
     /// 水印的左边距
     /// </summary>
     private int _WaterMarkMarginLeft = 0;
-
 
     /// <summary>
     /// 水印透明度
@@ -208,12 +211,12 @@ namespace Model
     /// <summary>
     /// 缩略图的宽度
     /// </summary>
-    private int _ThumbImageWidth = 80;
+    private int _ThumbImageWidth = 100;
 
     /// <summary>
     /// 缩略图的高度
     /// </summary>
-    private int _ThumbImageHeight = 80;
+    private int _ThumbImageHeight = 100;
 
     /// <summary>
     /// 压缩率
@@ -307,6 +310,18 @@ namespace Model
       set
       {
         _ServerFileFullPath = value;
+      }
+    }
+
+    public string ServerFilePath
+    {
+      get
+      {
+        return _ServerFilePath;
+      }
+      set
+      {
+        _ServerFilePath = value;
       }
     }
 

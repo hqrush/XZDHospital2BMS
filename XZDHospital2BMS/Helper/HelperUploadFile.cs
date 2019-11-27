@@ -79,10 +79,10 @@ namespace Helper
       }
       //开始保存文件
       string strRootPath = HttpContext.Current.Request.PhysicalApplicationPath;
-      string strServerFileFullPath = strRootPath +
-                                     CreateDateDir(SetDefaultDir(strULFileType, objConfig)) +
+      string strServerFilePath = CreateDateDir(SetDefaultDir(strULFileType, objConfig)) +
                                      SetRnd14FileName() +
                                      "." + strULFileType;
+      string strServerFileFullPath = strRootPath + strServerFilePath;
       try
       {
         objFU.PostedFile.SaveAs(strServerFileFullPath);
@@ -95,6 +95,7 @@ namespace Helper
       }
       //文件成功保存到服务器端
       objConfig.OPFlag = true;
+      objConfig.ServerFilePath = strServerFilePath;
       objConfig.ServerFileFullPath = strServerFileFullPath;
       //如果是图片文件，可能有生成缩略图操作，或者加文字或图片水印操作
       if (CheckImageFileExt(strULFileType, objConfig))
@@ -116,10 +117,10 @@ namespace Helper
     public static ModelUploadFileConfig SaveULFileFromHPF(HttpPostedFile objHPF,
       ModelUploadFileConfig objConfig)
     {
-      if (!(objHPF == null))
+      if (objHPF == null)
       {
         objConfig.OPFlag = false;
-        objConfig.OPMessage = "指定文件不存在";
+        objConfig.OPMessage = "文件不存在";
         return objConfig;
       }
       string strULFileName = objHPF.FileName;
@@ -157,10 +158,10 @@ namespace Helper
       }
       //开始保存文件
       string strRootPath = HttpContext.Current.Request.PhysicalApplicationPath;
-      string strServerFileFullPath = strRootPath +
-                                     CreateDateDir(SetDefaultDir(strULFileType, objConfig)) +
+      string strServerFilePath = CreateDateDir(SetDefaultDir(strULFileType, objConfig)) +
                                      SetRnd14FileName() +
                                      "." + strULFileType;
+      string strServerFileFullPath = strRootPath + strServerFilePath;
       try
       {
         objHPF.SaveAs(strServerFileFullPath);
@@ -173,16 +174,18 @@ namespace Helper
       }
       //文件成功保存到服务器端
       objConfig.OPFlag = true;
+      objConfig.ServerFilePath = strServerFilePath;
       objConfig.ServerFileFullPath = strServerFileFullPath;
-      //如果是图片文件，可能有生成缩略图操作，或者加文字或图片水印操作
+      // 判断是不是图片文件，如果是图片文件，可能有生成缩略图操作，或者加文字或图片水印操作
       if (CheckImageFileExt(strULFileType, objConfig))
       {
         // 生成缩略图
         if (objConfig.ThumbFlag)
           SetThumbImage(objConfig);
-        // 加水印
+        // 加文字水印
         if (objConfig.WaterMarkTxtFlag)
           DrawTxtWaterMark(objConfig);
+        // 加图片水印
         else if (objConfig.WaterMarkImageFlag)
           DrawPicWaterMark(objConfig);
       }
@@ -190,7 +193,6 @@ namespace Helper
         objConfig.OPMessage = "上传成功";
       return objConfig;
     }
-
 
     //检查上传的文件扩展名
     private static bool CheckFileExt(string strFileExt, ModelUploadFileConfig objConfig)

@@ -66,9 +66,13 @@
 
                   <div class="wrapper-photos">
 
-                    <wuc:wucFileUploader runat="server" ID="wucFileUploader_Photo" />
+                    <wuc:wucFileUploader runat="server" ID="wucUploadPhoto" />
 
                   </div>
+
+                  <asp:TextBox runat="server" ID="tbPhotoUrls" Visible="false"
+                    CssClass="form-control" placeholder="" disabled />
+
                 </div>
               </div>
 

@@ -2,12 +2,6 @@
 using Helper;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.sales_contract
 {
@@ -32,13 +26,19 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       }
       string strMsgError = "";
       string strCompanyName = tbCompanyName.Text.Trim();
-      if ("".Equals(strCompanyName)) strMsgError += "公司名不能为空！\n";
+      if ("".Equals(strCompanyName)) strMsgError += "公司名不能为空！";
       string strTimeSign = tbTimeSign.Value.ToString();
-      if ("".Equals(strTimeSign)) strMsgError += "入库单签发时间不能为空！\n";
+      if ("".Equals(strTimeSign)) strMsgError += "入库单签发时间不能为空！";
       string strComment = tbComment.Text.Trim();
-      if (strComment.Length > 1000) strMsgError += "备注信息不能超过500个字数！\n";
-      if (!"".Equals(strMsgError)) HelperUtility.showAlert(strMsgError, "add.aspx");
-      string strPhotoUrls = "";
+      if (strComment.Length > 1000) strMsgError += "备注信息不能超过500个字数！";
+      if (!"".Equals(strMsgError))
+      {
+        HelperUtility.showAlert(strMsgError, "add.aspx");
+        return;
+      }
+      string strPhotoUrls = tbPhotoUrls.Text;
+      if (strPhotoUrls.EndsWith(","))
+        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
       // 验证完毕，提交数据
       ModelSalesContract model = new ModelSalesContract();
       model.id_company = BllSalesCompany.getIdByName(strCompanyName);

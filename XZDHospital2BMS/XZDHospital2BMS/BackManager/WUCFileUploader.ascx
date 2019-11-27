@@ -20,14 +20,14 @@
 <script type="text/javascript">
   var i = 2
   function addFileInput() {
-    if (i < 9) {
+    if (i < 6) {
       var str = '<div id="inputFile' + i + '" class="form-inline" > ';
       str += '<input type="file" class="form-control" style="width: 300px" /></div>';
       document.getElementById('AreaFileUpload').insertAdjacentHTML("beforeEnd", str);
       i++;
     }
     else {
-      alert("您一次最多只能上传8张图片！");
+      alert("您一次最多只能上传5张图片！");
     }
   }
 
@@ -60,9 +60,9 @@
       var formData = new FormData();
       formData.append("photo_file", fileUpload);
       $.ajax({
-        url: "/Handler/UploadFileHandler.ashx",
+        url: "/Handler/UploadHandler.ashx",
         type: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: formData,
         async: true,
         processData: false,
