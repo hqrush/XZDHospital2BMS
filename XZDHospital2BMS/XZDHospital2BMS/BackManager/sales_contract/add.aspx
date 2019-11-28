@@ -68,7 +68,7 @@
                     <div class="wrapper-file-uploader">
                       <div id="wrapper-file-select" class="form-inline">
                         <input id="inputFile" type="file" class="form-control" />
-                        <button class="btn btn-sm btn-success" onclick="uploadFile()">开始上传</button>
+                        <button id="btnUpload" class="btn btn-sm btn-success">开始上传</button>
                       </div>
                       <div id="wrapper-file-show"></div>
                     </div>
