@@ -43,14 +43,30 @@
                     CssClass="form-control" placeholder="输入销售公司名称..." />
                 </div>
                 <div class="col-sm-6">
+
+                  <div class="dropdown">
+                    <button id="ddlName" class="btn btn-default dropdown-toggle" type="button"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      未知公司<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="ddlName">
+                      <asp:Repeater ID="rptName" runat="server">
+                        <ItemTemplate>
+                          <li><a href="#" onclick="test(<%# Eval("id") %>)"><%# Eval("name") %></a></li>
+                        </ItemTemplate>
+                      </asp:Repeater>
+                    </ul>
+                  </div>
+
                   <asp:DropDownList runat="server" ID="ddlCompanyName" />
                 </div>
               </div>
               <div class="form-group">
-                <label for="tbTimeSign" class="col-sm-2 control-label">入库时间：</label>
+                <label for="tbTimeSign" class="col-sm-2 control-label">
+                  <strong class="red">*</strong>入库时间：</label>
                 <div class="col-sm-5">
-                  <input runat="server" id="tbTimeSign" type='text'
-                    class="datepicker-here" data-language='zh' data-position="right top" />
+                  <input runat="server" id="tbTimeSign" type='text' style="width: 200px;"
+                    class="form-control datepicker-here" data-language='zh' data-position="right top" />
                 </div>
               </div>
               <div class="form-group">
@@ -86,7 +102,7 @@
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
                   <asp:Button runat="server" ID="btnCompanyContractAdd" Text="确认提交"
-                    CssClass="btn btn-primary" OnClientClick="return checkName();"
+                    CssClass="btn btn-primary" OnClientClick="return checkNameTime();"
                     OnClick="btnCompanyContractAdd_Click" />
                 </div>
               </div>
@@ -106,11 +122,17 @@
   <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
   <script type="text/javascript" src="/static/js/upload-photo.js"></script>
   <script type="text/javascript">
-    function checkName() {
+    function checkNameTime() {
       var tbCompanyName = document.getElementById("tbCompanyName");
       var strName = tbCompanyName.value;
       if (strName === "") {
         alert("公司名不能为空！");
+        return false;
+      }
+      var tbTimeSign = document.getElementById("tbTimeSign");
+      var strTime = tbTimeSign.value;
+      if (strTime === "") {
+        alert("入库时间不能为空！");
         return false;
       }
     }

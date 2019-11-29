@@ -86,7 +86,7 @@ WHERE
 
     public static DataTable getAll()
     {
-      string strSQL = @"SELECT * FROM sales_company";
+      string strSQL = @"SELECT * FROM sales_company ORDER BY name";
       return HelperMySql.GetDataTable(strSQL);
     }
 
