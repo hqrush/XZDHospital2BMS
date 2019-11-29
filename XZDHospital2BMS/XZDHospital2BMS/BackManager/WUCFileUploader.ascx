@@ -4,14 +4,60 @@
 <div class="wrapper-file-uploader">
   <div id="wrapper-file-select" class="form-inline">
     <input id="inputFile" type="file" class="form-control" />
-    <button class="btn btn-sm btn-success" onclick="uploadFile()">开始上传</button>
+    <input type="button" id="btnUpload" value="开始上传"
+      class="btn btn-sm btn-success" onclick="uploadPhoto()" />
   </div>
   <div id="wrapper-file-show"></div>
 </div>
 
 <script type="text/javascript">
+
   // 这个变量存储现在有多少张已上传的照片
-  var i = 0
+  var i = 0;
+
+  function uploadPhoto() {
+    if (validFileInput()) {
+      debugger;
+      inputFile = document.getElementById('inputFile');
+      var fileUpload = inputFile.files[0];
+      var formData = new FormData();
+      formData.append("photo_file", fileUpload);
+      debugger;
+      $.ajax({
+        url: "/Handler/UploadHandler.ashx",
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        async: true,
+        // 不指定编码方式（默认指定编码 urlencode）
+        processData: false,
+        // 不处理数据
+        contentType: false,
+        success: function (result) {
+          debugger;
+          var url = result.ServerFilePath;
+          debugger;
+          if (url !== "") {
+            i++;
+            debugger;
+            showImage(i, url);
+            debugger;
+            return true;
+          } else if (result.Message !== "") {
+            debugger;
+            console.log(result.Message);
+            return false;
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          return error;
+        }
+      });
+    } else {
+      console.log('uploadFile() 方法里验证文件输入框没通过！');
+    }
+  }
 
   function addFileInput() {
     if (i < 6) {
@@ -31,41 +77,6 @@
       i--;
       ElementLast = document.getElementById('inputFile' + i);
       if (ElementLast) ElementRoot.removeChild(ElementLast);
-    }
-  }
-
-  function uploadFile() {
-    if (validFileInput()) {
-      inputFile = document.getElementById('inputFile');
-      var fileUpload = inputFile.files[0];
-      var formData = new FormData();
-      formData.append("photo_file", fileUpload);
-      $.ajax({
-        url: "/Handler/UploadHandler.ashx",
-        type: 'POST',
-        dataType: 'json',
-        data: formData,
-        async: true,
-        // 不指定编码方式（默认指定编码 urlencode）
-        processData: false,
-        // 不处理数据
-        contentType: false,
-        success: function (result) {
-          var url = result.ServerFilePath;
-          if (url !== "") {
-            i++;
-            showImage(i, url);
-          } else if (result.Message !== "") {
-            console.log(result.Message);
-          }
-        },
-        error: function (error) {
-          console.log(error);
-          return error;
-        }
-      });
-    } else {
-      console.log('uploadFile() 方法里验证文件输入框没通过！');
     }
   }
 
@@ -89,7 +100,7 @@
   // 检查是否选择了文件
   function hasFile(strControlID) {
     inputFile = document.getElementById(strControlID);
-    if (inputFile.value == "") {
+    if (inputFile.value === "") {
       alert("请选择要上传的文件！");
       return false;
     }
@@ -100,7 +111,7 @@
   function isAllowFileExt(strControlID, strExt) {
     inputFile = document.getElementById(strControlID);
     var strFilePath = inputFile.value;
-    //lastIndexOf 如果没有搜索到说明没有扩展名，则返回为-1
+    // lastIndexOf 如果没有搜索到说明没有扩展名，则返回为-1
     if (strFilePath.lastIndexOf(".") !== -1) {
       var strFileExt = (strFilePath.substring(strFilePath.lastIndexOf(".") + 1, strFilePath.length)).toLowerCase();
       var aryAllowExt = strExt.split(",");

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/datepicker.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
+  <link rel="stylesheet" href="/static/css/uploadfile.css" />
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -37,12 +38,12 @@
               <div class="form-group">
                 <label for="tbCompanyName" class="col-sm-2 control-label">
                   <strong class="red">*</strong>销售公司：</label>
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                   <asp:TextBox runat="server" ID="tbCompanyName"
                     CssClass="form-control" placeholder="输入销售公司名称..." />
                 </div>
-                <div class="col-sm-5">
-                  <asp:Label runat="server" ID="CompanyNameError" />
+                <div class="col-sm-6">
+                  <asp:DropDownList runat="server" ID="ddlCompanyName" />
                 </div>
               </div>
               <div class="form-group">
@@ -68,15 +69,16 @@
                     <div class="wrapper-file-uploader">
                       <div id="wrapper-file-select" class="form-inline">
                         <input id="inputFile" type="file" class="form-control" />
-                        <button id="btnUpload" class="btn btn-sm btn-success">开始上传</button>
+                        <input type="button" id="btnUpload" value="开始上传"
+                          class="btn btn-sm btn-success" />
                       </div>
                       <div id="wrapper-file-show"></div>
+                      <div id="wrapper-file-uploaded">
+                        <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
+                      </div>
                     </div>
 
                   </div>
-
-                  <asp:TextBox runat="server" ID="tbPhotoUrls" Visible="false"
-                    CssClass="form-control" placeholder="" disabled />
 
                 </div>
               </div>
@@ -84,7 +86,8 @@
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
                   <asp:Button runat="server" ID="btnCompanyContractAdd" Text="确认提交"
-                    CssClass="btn btn-primary" OnClick="btnCompanyContractAdd_Click" />
+                    CssClass="btn btn-primary" OnClientClick="return checkName();"
+                    OnClick="btnCompanyContractAdd_Click" />
                 </div>
               </div>
 
@@ -102,5 +105,15 @@
   <script type="text/javascript" src="/static/js/datepicker.min.js"></script>
   <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
   <script type="text/javascript" src="/static/js/upload-photo.js"></script>
+  <script type="text/javascript">
+    function checkName() {
+      var tbCompanyName = document.getElementById("tbCompanyName");
+      var strName = tbCompanyName.value;
+      if (strName === "") {
+        alert("公司名不能为空！");
+        return false;
+      }
+    }
+  </script>
 </body>
 </html>

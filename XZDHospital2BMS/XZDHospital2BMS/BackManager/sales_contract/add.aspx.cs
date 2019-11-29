@@ -2,6 +2,7 @@
 using Helper;
 using Model;
 using System;
+using System.Data;
 
 namespace XZDHospital2BMS.BackManager.sales_contract
 {
@@ -14,6 +15,11 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       {
         int intAdminId = HelperUtility.hasPurviewPage("SalesContract_add");
         ViewState["AdminId"] = intAdminId;
+        DataTable objDT = BllSalesCompany.getAll();
+        ddlCompanyName.DataSource = objDT;
+        ddlCompanyName.DataTextField = "name";
+        ddlCompanyName.DataValueField = "id";
+        ddlCompanyName.DataBind();
       }
     }
 
@@ -36,7 +42,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         HelperUtility.showAlert(strMsgError, "add.aspx");
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Text;
+      string strPhotoUrls = tbPhotoUrls.Value;
       if (strPhotoUrls.EndsWith(","))
         strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
       // 验证完毕，提交数据
