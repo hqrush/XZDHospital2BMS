@@ -18,6 +18,10 @@
     margin: 0;
   }
 
+.wrapper-gvshow .table tbody tr td {
+  vertical-align: middle !important;
+}
+
 .wrapper-gvshow th,
 .wrapper-gvshow td {
   text-align: center;

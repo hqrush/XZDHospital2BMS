@@ -343,6 +343,19 @@ namespace Helper
       return System.Text.RegularExpressions.Regex.IsMatch(strIdCard, @"(^\d{18}$)|(^\d{15}$)");
     }
 
+    public static bool isDateType(string strDate)
+    {
+      try
+      {
+        DateTime dt = Convert.ToDateTime(strDate);
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
   }
 
 }

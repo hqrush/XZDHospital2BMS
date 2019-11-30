@@ -6,12 +6,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>编辑入库单</title>
+  <title>填写入库单</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
-  <link rel="stylesheet" href="/static/css/datepicker.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/datepicker.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <link rel="stylesheet" href="/static/css/uploadfile.css" />
   <!--[if lt IE 9]>
@@ -29,7 +29,7 @@
 
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">编辑入库单信息</h3>
+            <h3 class="panel-title">填写入库单信息</h3>
           </div>
           <div class="panel-body">
 
@@ -43,30 +43,30 @@
                     CssClass="form-control" placeholder="输入销售公司名称..." />
                 </div>
                 <div class="col-sm-6">
-                  <asp:DropDownList runat="server" ID="ddlCompanyName" />
+                  <select id="selectCompanyName" class="form-control"
+                    style="width: 150px;" onchange="selectOnChang(this)">
+                    <asp:Repeater ID="rptName" runat="server">
+                      <ItemTemplate>
+                        <option value="<%# Eval("id") %>"><%# Eval("name") %></option>
+                      </ItemTemplate>
+                    </asp:Repeater>
+                  </select>
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="tbTimeSign" class="col-sm-2 control-label">
                   <strong class="red">*</strong>入库时间：</label>
                 <div class="col-sm-5">
-                  <input runat="server" id="tbTimeSign" type='text'
-                    class="datepicker-here" data-language='zh' data-position="right top" />
+                  <input runat="server" id="tbTimeSign" type='text' style="width: 200px;"
+                    class="form-control datepicker-here" data-language='zh' data-position="right top" />
                 </div>
               </div>
-              <div class="form-group">
-                <label for="tbComment" class="col-sm-2 control-label">备注：</label>
-                <div class="col-sm-8">
-                  <asp:TextBox runat="server" ID="tbComment" TextMode="MultiLine" Rows="6"
-                    class="form-control" placeholder="本次销售是否有需要注意的事项..." />
-                </div>
-              </div>
+
               <div class="form-group">
                 <label for="tbPhotoUrls" class="col-sm-2 control-label">入库单照片：</label>
                 <div class="col-sm-8">
-
                   <div class="wrapper-photos">
-
                     <div class="wrapper-file-uploader">
                       <div id="wrapper-file-select" class="form-inline">
                         <input id="inputFile" type="file" class="form-control" />
@@ -78,17 +78,23 @@
                         <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
                       </div>
                     </div>
-
                   </div>
+                </div>
+              </div>
 
+              <div class="form-group">
+                <label for="tbComment" class="col-sm-2 control-label">备注：</label>
+                <div class="col-sm-8">
+                  <asp:TextBox runat="server" ID="tbComment" TextMode="MultiLine" Rows="6"
+                    class="form-control" placeholder="本次销售是否有需要注意的事项..." />
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
-                  <asp:Button runat="server" ID="btnCompanyContractAdd" Text="确认提交"
+                  <asp:Button runat="server" ID="btnEdit" Text="确认提交"
                     CssClass="btn btn-primary" OnClientClick="return checkNameTime();"
-                    OnClick="btnCompanyContractAdd_Click" />
+                    OnClick="btnEdit_Click" />
                 </div>
               </div>
 
@@ -101,10 +107,10 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
-  <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/datepicker.min.js"></script>
-  <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
+  <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/datepicker.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/i18n/datepicker.zh.js"></script>
   <script type="text/javascript" src="/static/js/upload-photo.js"></script>
   <script type="text/javascript">
     function checkNameTime() {
@@ -120,6 +126,12 @@
         alert("入库时间不能为空！");
         return false;
       }
+    }
+
+    function selectOnChang(obj) {
+      // var value = obj.options[obj.selectedIndex].value;
+      var text = obj.options[obj.selectedIndex].text;
+      $('#tbCompanyName').val(text);
     }
   </script>
 </body>

@@ -14,7 +14,9 @@ namespace Bll
 
     public static void deleteById(int intId)
     {
-      DalSalesContract.deleteById(intId);
+      // 没有从数据库中删除记录，只是改变了删除标记的值
+      changeIsDeleted(intId);
+      // DalSalesContract.deleteById(intId);
     }
 
     public static int update(ModelSalesContract model)
@@ -40,6 +42,11 @@ namespace Bll
     public static int getRecordsAmount()
     {
       return DalSalesContract.getRecordsAmount();
+    }
+
+    public static void changeIsDeleted(int intID)
+    {
+      DalSalesContract.changeIsDeleted(intID);
     }
 
   }

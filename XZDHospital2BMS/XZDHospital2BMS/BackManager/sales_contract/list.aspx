@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="list.aspx.cs"
-  Inherits="XZDHospital2BMS.BackManager.sales_company.list" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="list.aspx.cs" Inherits="XZDHospital2BMS.BackManager.sales_contract.list" %>
 
 <%@ Register Src="~/BackManager/wucHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
 
@@ -7,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>医药器械销售公司列表</title>
+  <title>欢迎使用信州区第二人民医院后台管理系统 入库单列表</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
@@ -26,43 +25,23 @@
     <div class="row">
       <div class="col-lg-12">
         <form id="formShow" runat="server">
-
-          <div class="wrapper-add col-sm-5">
-
-            <div class="form-group">
-              <label for="tbCompanyName">公司名称：（可批量添加，一行为一条记录）</label>
-              <textarea runat="server" id="tbCompanyName"
-                class="form-control" width="150" rows="30"></textarea><br />
-              <asp:Button runat="server" ID="btnAdd" Text="确定添加"
-                CssClass="btn btn-primary" OnClick="btnAdd_Click" />
-              <input type="button" value="清空" class="btn btn-warning" />
-            </div>
-
-          </div>
-
-          <div class="wrapper-gvshow col-sm-7">
+          <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
-              OnRowDataBound="gvShow_RowDataBound" OnRowEditing="gvShow_RowEditing"
-              OnRowUpdating="gvShow_RowUpdating" OnRowCancelingEdit="gvShow_RowCancelingEdit"
-              CssClass="table table-condensed">
+              OnRowDataBound="gvShow_RowDataBound" CssClass="table table-condensed">
               <RowStyle BackColor="#e6eaee" />
               <AlternatingRowStyle BackColor="#f5f5f5" />
               <Columns>
 
-                <asp:TemplateField HeaderText="公司名称">
-                  <ItemStyle Width="90px" />
+                <asp:TemplateField HeaderText="销售公司">
+                  <ItemStyle Width="200px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblName"
-                      Text='<%# Eval("name").ToString() %>' />
+                    <asp:Label runat="server" ID="lblCompanyId"
+                      Text='<%# Eval("id_company").ToString() %>' />
                   </ItemTemplate>
-                  <EditItemTemplate>
-                    <asp:TextBox runat="server" ID="tbName" Width="120px" MaxLength="20"
-                      CssClass="form-control" Text='<%# Eval("name").ToString() %>' />
-                  </EditItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="添加人">
+                <asp:TemplateField HeaderText="填写人">
                   <ItemStyle Width="80px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAdminId"
@@ -70,27 +49,48 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="添加时间">
-                  <ItemStyle Width="120px" />
+                <asp:TemplateField HeaderText="入库时间">
+                  <ItemStyle Width="90px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblTimeCreate"
-                      Text='<%# Eval("time_create").ToString() %>' />
+                    <asp:Label runat="server" ID="lblTimeSign"
+                      Text='<%# Eval("time_sign").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField>
-                  <ItemStyle Width="80px" />
+                <asp:TemplateField HeaderText="照片凭证">
+                  <ItemStyle Width="300px" />
                   <ItemTemplate>
-                    <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs"
-                      CommandName="edit" Text="编辑" />
+                    <asp:Label runat="server" ID="lblPhotoUrls"
+                      Text='<%# Eval("photo_urls").ToString() %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="备注">
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblComment"
+                      Text='<%# Eval("comment").ToString() %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="货品操作">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Button runat="server" ID="btnGoodsList" CssClass="btn btn-info btn-xs" Text="查看"
+                      OnCommand="OP_Command" CommandName="ShowGoodsList" CommandArgument='<%# Eval("id") %>' />
+                    <asp:Button runat="server" ID="btnGoodsAdd" CssClass="btn btn-info btn-xs" Text="添加"
+                      OnCommand="OP_Command" CommandName="AddGoods" CommandArgument='<%# Eval("id") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="入库单操作">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs" Text="编辑"
+                      OnCommand="OP_Command" CommandName="edit" CommandArgument='<%# Eval("id") %>' />
                     <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs" Text="删除"
                       OnClientClick="return confirm('确定要删除？');"
-                      OnCommand="OP_Command" CommandName="Delete" CommandArgument='<%# Eval("id") %>' />
+                      OnCommand="OP_Command" CommandName="del" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
-                  <EditItemTemplate>
-                    <asp:Button runat="server" ID="btnUpdate" Text="更新" CommandName="Update" />
-                    <asp:Button runat="server" ID="btnCancel" Text="取消" CommandName="Cancel" />
-                  </EditItemTemplate>
                 </asp:TemplateField>
 
               </Columns>
@@ -112,7 +112,6 @@
             </div>
 
           </div>
-
         </form>
       </div>
     </div>

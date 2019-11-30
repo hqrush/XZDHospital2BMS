@@ -9,9 +9,9 @@
   <title>填写入库单</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
-  <link rel="stylesheet" href="/static/css/datepicker.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/datepicker.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <link rel="stylesheet" href="/static/css/uploadfile.css" />
   <!--[if lt IE 9]>
@@ -43,24 +43,17 @@
                     CssClass="form-control" placeholder="输入销售公司名称..." />
                 </div>
                 <div class="col-sm-6">
-
-                  <div class="dropdown">
-                    <button id="ddlName" class="btn btn-default dropdown-toggle" type="button"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      未知公司<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="ddlName">
-                      <asp:Repeater ID="rptName" runat="server">
-                        <ItemTemplate>
-                          <li><a href="#" onclick="test(<%# Eval("id") %>)"><%# Eval("name") %></a></li>
-                        </ItemTemplate>
-                      </asp:Repeater>
-                    </ul>
-                  </div>
-
-                  <asp:DropDownList runat="server" ID="ddlCompanyName" />
+                  <select id="selectCompanyName" class="form-control"
+                    style="width: 150px;" onchange="selectOnChang(this)">
+                    <asp:Repeater ID="rptName" runat="server">
+                      <ItemTemplate>
+                        <option value="<%# Eval("id") %>"><%# Eval("name") %></option>
+                      </ItemTemplate>
+                    </asp:Repeater>
+                  </select>
                 </div>
               </div>
+
               <div class="form-group">
                 <label for="tbTimeSign" class="col-sm-2 control-label">
                   <strong class="red">*</strong>入库时间：</label>
@@ -69,19 +62,11 @@
                     class="form-control datepicker-here" data-language='zh' data-position="right top" />
                 </div>
               </div>
-              <div class="form-group">
-                <label for="tbComment" class="col-sm-2 control-label">备注：</label>
-                <div class="col-sm-8">
-                  <asp:TextBox runat="server" ID="tbComment" TextMode="MultiLine" Rows="6"
-                    class="form-control" placeholder="本次销售是否有需要注意的事项..." />
-                </div>
-              </div>
+
               <div class="form-group">
                 <label for="tbPhotoUrls" class="col-sm-2 control-label">入库单照片：</label>
                 <div class="col-sm-8">
-
                   <div class="wrapper-photos">
-
                     <div class="wrapper-file-uploader">
                       <div id="wrapper-file-select" class="form-inline">
                         <input id="inputFile" type="file" class="form-control" />
@@ -93,9 +78,15 @@
                         <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
                       </div>
                     </div>
-
                   </div>
+                </div>
+              </div>
 
+              <div class="form-group">
+                <label for="tbComment" class="col-sm-2 control-label">备注：</label>
+                <div class="col-sm-8">
+                  <asp:TextBox runat="server" ID="tbComment" TextMode="MultiLine" Rows="6"
+                    class="form-control" placeholder="本次销售是否有需要注意的事项..." />
                 </div>
               </div>
 
@@ -116,10 +107,10 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
-  <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/datepicker.min.js"></script>
-  <script type="text/javascript" src="/static/js/i18n/datepicker.zh.js"></script>
+  <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/datepicker.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/i18n/datepicker.zh.js"></script>
   <script type="text/javascript" src="/static/js/upload-photo.js"></script>
   <script type="text/javascript">
     function checkNameTime() {
@@ -135,7 +126,43 @@
         alert("入库时间不能为空！");
         return false;
       }
+      // 验证时间格式是否正确：（验证通过返回时间戳格式,例如:（2017-01-01,2017,-,01,-,01),否则返回null）
+      var strTime = strTime.match(/^(\d{4})(-)(\d{2})(-)(\d{2})$/);
+      if (strTime == null) {
+        alert("请输入正确的时间格式，如：2019-01-01");
+        return false;
+      }
+      // 验证时间是否合法：(注意：此段必须放置在验证时间格式完成之后)
+      var b_d = new Date(strTime[1], strTime[3] - 1, strTime[5]);
+      var b_num = b_d.getFullYear() == strTime[1] &&
+        (b_d.getMonth() + 1) == strTime[3] &&
+        b_d.getDate() == strTime[5];
+      if (b_num == 0) {
+        alert("请输入正确的时间，如：2019-01-01");
+        return false;
+      }
     }
+
+    function selectOnChang(obj) {
+      // var value = obj.options[obj.selectedIndex].value;
+      var text = obj.options[obj.selectedIndex].text;
+      $('#tbCompanyName').val(text);
+    }
+
+    $(function () {
+      //$("#searchSelect").selectpicker({
+      //  width: 120,
+      //  liveSearch: true,
+      //  liveSearchPlaceholder: "数据检索"
+      //});
+      //$('#searchSelect').on('changed.bs.select', function (e) {
+      //  if (e.target.value && e.target.value > 0) {
+      //    text = e.target.selectedOptions[0].innerText;
+      //    value = e.target.value;
+      //    $('#tbCompanyName').val(text);
+      //  }
+      //});
+    })
   </script>
 </body>
 </html>

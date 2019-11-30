@@ -14,6 +14,7 @@ namespace Model
     private DateTime _time_create = DateTime.Now;
     private string _photo_urls = "";
     private string _comment = "";
+    private int _is_deleted = 0;
 
     public ModelSalesContract() { }
 
@@ -105,6 +106,19 @@ namespace Model
       set
       {
         _comment = value;
+      }
+    }
+
+    public int is_deleted
+    {
+      get
+      {
+        return _is_deleted;
+      }
+
+      set
+      {
+        _is_deleted = value;
       }
     }
 

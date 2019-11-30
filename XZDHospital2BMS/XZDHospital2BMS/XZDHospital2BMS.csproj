@@ -60,12 +60,16 @@
   <ItemGroup>
     <Content Include="BackManager\admin\edit.aspx" />
     <Content Include="BackManager\sales_contract\edit.aspx" />
+    <Content Include="BackManager\sales_contract\list.aspx" />
     <Content Include="BackManager\WUCFileUploader.ascx" />
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
-    <Content Include="static\css\datepicker.min.css" />
+    <Content Include="static\css\lib\bootstrap-select.min.css" />
+    <Content Include="static\js\lib\bootstrap-select.min.js" />
+    <Content Include="static\css\lib\datepicker.min.css" />
+    <Content Include="static\js\lib\i18n\bootstrap-select.zh.min.js" />
     <Content Include="static\css\uploadfile.css" />
-    <Content Include="static\css\webuploader.css" />
+    <Content Include="static\css\lib\webuploader.css" />
     <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
@@ -74,8 +78,8 @@
     <Content Include="Handler\LogoutHandler.ashx" />
     <Content Include="Handler\UploadHandler.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <Content Include="static\image\uploadfile\icons.psd" />
-    <Content Include="static\image\uploadfile\progress.psd" />
+    <Content Include="static\image\webuploader\icons.psd" />
+    <Content Include="static\image\webuploader\progress.psd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -90,8 +94,8 @@
     <Content Include="BackManager\logout.aspx" />
     <Content Include="BackManager\login.aspx" />
     <Content Include="BackManager\WUCHeader.ascx" />
-    <Content Include="static\css\bootstrap-theme.min.css" />
-    <Content Include="static\css\bootstrap.min.css" />
+    <Content Include="static\css\lib\bootstrap-theme.min.css" />
+    <Content Include="static\css\lib\bootstrap.min.css" />
     <Content Include="static\css\common.css" />
     <Content Include="static\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="static\image\allow.png" />
@@ -106,38 +110,22 @@
     <Content Include="static\image\CalendarImage\right2.gif" />
     <Content Include="static\image\deny.png" />
     <Content Include="static\image\logo.png" />
-    <Content Include="static\image\uploadfile\bg.png" />
-    <Content Include="static\image\uploadfile\icons.png" />
-    <Content Include="static\image\uploadfile\image.png" />
-    <Content Include="static\image\uploadfile\progress.png" />
-    <Content Include="static\image\uploadfile\success.png" />
-    <Content Include="static\js\bootstrap.min.js" />
+    <Content Include="static\image\webuploader\bg.png" />
+    <Content Include="static\image\webuploader\icons.png" />
+    <Content Include="static\image\webuploader\image.png" />
+    <Content Include="static\image\webuploader\progress.png" />
+    <Content Include="static\image\webuploader\success.png" />
+    <Content Include="static\js\lib\bootstrap.min.js" />
     <Content Include="static\js\check-form\admin.js" />
-    <Content Include="static\js\check-form\demo.js" />
     <Content Include="static\js\check-form\global.js" />
-    <Content Include="static\js\datepicker.min.js" />
-    <Content Include="static\js\expressInstall.swf" />
-    <Content Include="static\js\i18n\datepicker.cs.js" />
-    <Content Include="static\js\i18n\datepicker.da.js" />
-    <Content Include="static\js\i18n\datepicker.de.js" />
-    <Content Include="static\js\i18n\datepicker.en.js" />
-    <Content Include="static\js\i18n\datepicker.es.js" />
-    <Content Include="static\js\i18n\datepicker.fi.js" />
-    <Content Include="static\js\i18n\datepicker.fr.js" />
-    <Content Include="static\js\i18n\datepicker.hu.js" />
-    <Content Include="static\js\i18n\datepicker.nl.js" />
-    <Content Include="static\js\i18n\datepicker.pl.js" />
-    <Content Include="static\js\i18n\datepicker.pt-BR.js" />
-    <Content Include="static\js\i18n\datepicker.pt.js" />
-    <Content Include="static\js\i18n\datepicker.ro.js" />
-    <Content Include="static\js\i18n\datepicker.sk.js" />
-    <Content Include="static\js\i18n\datepicker.zh.js" />
-    <Content Include="static\js\jquery-1.12.4.min.js" />
+    <Content Include="static\js\lib\datepicker.min.js" />
+    <Content Include="static\image\expressInstall.swf" />
+    <Content Include="static\js\lib\i18n\datepicker.zh.js" />
+    <Content Include="static\js\lib\jquery-1.12.4.min.js" />
     <Content Include="static\js\upload-photo.js" />
-    <Content Include="static\js\uploadfile.js" />
-    <Content Include="static\js\uploadfile.swf" />
-    <Content Include="static\js\webuploader.min.js" />
-    <Content Include="static\js\webuploader.nolog.min.js" />
+    <Content Include="static\js\webuploader-custom.js" />
+    <Content Include="static\image\uploadfile.swf" />
+    <Content Include="static\js\lib\webuploader.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +156,13 @@
     </Compile>
     <Compile Include="BackManager\sales_contract\edit.aspx.designer.cs">
       <DependentUpon>edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\sales_contract\list.aspx.cs">
+      <DependentUpon>list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\sales_contract\list.aspx.designer.cs">
+      <DependentUpon>list.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\WUCFileUploader.ascx.cs">
       <DependentUpon>WUCFileUploader.ascx</DependentUpon>
