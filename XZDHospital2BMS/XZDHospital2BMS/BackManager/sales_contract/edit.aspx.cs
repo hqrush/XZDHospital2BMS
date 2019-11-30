@@ -33,6 +33,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         tbTimeSign.Value = model.time_sign.ToShortDateString();
         tbComment.Text = model.comment;
         string strPhotoUrls = model.photo_urls;
+        tbPhotoUrls.Value = strPhotoUrls;
       }
     }
 
