@@ -73,9 +73,11 @@
                         <input type="button" id="btnUpload" value="开始上传"
                           class="btn btn-sm btn-success" />
                       </div>
-                      <div id="wrapper-file-show"></div>
+                      <asp:Panel runat="server" ID="pnlFileShow">
+                        <asp:Literal runat="server" ID="ltrShowPhoto" />
+                      </asp:Panel>
                       <div id="wrapper-file-uploaded">
-                        <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
+                        <input runat="server" id="tbPhotoUrls" type="hidden" />
                       </div>
                     </div>
                   </div>
@@ -113,6 +115,8 @@
   <script type="text/javascript" src="/static/js/lib/i18n/datepicker.zh.js"></script>
   <script type="text/javascript" src="/static/js/upload-photo.js"></script>
   <script type="text/javascript">
+    var i = "<% =setPhotoAmount() %>";
+    // 验证销售公司名称和入库单时间不能为空和格式
     function checkNameTime() {
       var tbCompanyName = document.getElementById("tbCompanyName");
       var strName = tbCompanyName.value;
@@ -142,7 +146,7 @@
         return false;
       }
     }
-
+    // 销售公司名称下拉列表选择事件
     function selectOnChang(obj) {
       // var value = obj.options[obj.selectedIndex].value;
       var text = obj.options[obj.selectedIndex].text;

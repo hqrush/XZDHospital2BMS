@@ -25,7 +25,9 @@ INSERT INTO sales_goods (
   validity_period,
   approval_number,
   comment,
-  photo_urls
+  photo_urls,
+  id_admin,
+  time_add
 ) VALUES (
   @id_contract,
   @name_product,
@@ -39,9 +41,11 @@ INSERT INTO sales_goods (
   @validity_period,
   @approval_number,
   @comment,
-  @photo_urls
+  @photo_urls,
+  @id_admin,
+  @time_add
 )";
-      MySqlParameter[] aryParams = new MySqlParameter[13];
+      MySqlParameter[] aryParams = new MySqlParameter[15];
       aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
       aryParams[1] = new MySqlParameter("@name_product", model.name_product);
       aryParams[2] = new MySqlParameter("@type", model.type);
@@ -55,6 +59,8 @@ INSERT INTO sales_goods (
       aryParams[10] = new MySqlParameter("@approval_number", model.approval_number);
       aryParams[11] = new MySqlParameter("@comment", model.comment);
       aryParams[12] = new MySqlParameter("@photo_urls", model.photo_urls);
+      aryParams[13] = new MySqlParameter("@id_admin", model.id_admin);
+      aryParams[14] = new MySqlParameter("@time_add", model.time_add);
       if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM sales_goods";
@@ -88,11 +94,13 @@ SET
   validity_period = @validity_period,
   approval_number = @approval_number,
   comment = @comment,
-  photo_urls = @photo_urls
+  photo_urls = @photo_urls,
+  id_admin = @id_admin,
+  time_add = @time_add
 WHERE
   id = @id
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[13];
+      MySqlParameter[] aryParams = new MySqlParameter[16];
       aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
       aryParams[1] = new MySqlParameter("@name_product", model.name_product);
       aryParams[2] = new MySqlParameter("@type", model.type);
@@ -106,6 +114,9 @@ WHERE
       aryParams[10] = new MySqlParameter("@approval_number", model.approval_number);
       aryParams[11] = new MySqlParameter("@comment", model.comment);
       aryParams[12] = new MySqlParameter("@photo_urls", model.photo_urls);
+      aryParams[13] = new MySqlParameter("@id_admin", model.id_admin);
+      aryParams[14] = new MySqlParameter("@time_add", model.time_add);
+      aryParams[15] = new MySqlParameter("@id", model.id);
       return HelperMySql.ExecuteScalar(strSQL, aryParams);
     }
 
@@ -115,26 +126,25 @@ WHERE
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT != null && objDT.Rows.Count > 0)
-      {
-        ModelSalesGoods model = new ModelSalesGoods();
-        model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_contract"]);
-        model.name_product = Convert.ToString(objDT.Rows[0]["name_product"]);
-        model.type = Convert.ToString(objDT.Rows[0]["type"]);
-        model.name_factory = Convert.ToString(objDT.Rows[0]["name_factory"]);
-        model.unit = Convert.ToString(objDT.Rows[0]["unit"]);
-        model.amount = Convert.ToInt32(objDT.Rows[0]["amount"]);
-        model.price_unit = Convert.ToDecimal(objDT.Rows[0]["price_unit"]);
-        model.price_total = Convert.ToDecimal(objDT.Rows[0]["price_total"]);
-        model.batch_number = Convert.ToString(objDT.Rows[0]["batch_number"]);
-        model.validity_period = Convert.ToDateTime(objDT.Rows[0]["validity_period"]);
-        model.approval_number = Convert.ToString(objDT.Rows[0]["approval_number"]);
-        model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
-        model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
-        return model;
-      }
-      else return null;
+      if (objDT == null || objDT.Rows.Count <= 0) return null;
+      ModelSalesGoods model = new ModelSalesGoods();
+      model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
+      model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_contract"]);
+      model.name_product = Convert.ToString(objDT.Rows[0]["name_product"]);
+      model.type = Convert.ToString(objDT.Rows[0]["type"]);
+      model.name_factory = Convert.ToString(objDT.Rows[0]["name_factory"]);
+      model.unit = Convert.ToString(objDT.Rows[0]["unit"]);
+      model.amount = Convert.ToDecimal(objDT.Rows[0]["amount"]);
+      model.price_unit = Convert.ToDecimal(objDT.Rows[0]["price_unit"]);
+      model.price_total = Convert.ToDecimal(objDT.Rows[0]["price_total"]);
+      model.batch_number = Convert.ToString(objDT.Rows[0]["batch_number"]);
+      model.validity_period = Convert.ToDateTime(objDT.Rows[0]["validity_period"]);
+      model.approval_number = Convert.ToString(objDT.Rows[0]["approval_number"]);
+      model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
+      model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
+      model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
+      model.validity_period = Convert.ToDateTime(objDT.Rows[0]["time_add"]);
+      return model;
     }
 
     public static DataTable getAll()

@@ -5,16 +5,16 @@
   margin: 0 0 20px 0;
 }
 
-#wrapper-file-show {
+#pnlFileShow {
 }
 
-  #wrapper-file-show .wrapper-photo-show {
+  #pnlFileShow .wrapper-photo-show {
     float: left;
     text-align: center;
     margin: 0 20px 0 0;
   }
 
-    #wrapper-file-show .wrapper-photo-show img {
+    #pnlFileShow .wrapper-photo-show img {
       margin: 0 0 10px 0;
     }
 

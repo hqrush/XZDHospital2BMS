@@ -45,6 +45,7 @@
     <Compile Include="ModelCheckoutRecord.cs" />
     <Compile Include="ModelInventoryContract.cs" />
     <Compile Include="ModelInventoryRecord.cs" />
+    <Compile Include="ModelReturnJson.cs" />
     <Compile Include="ModelSalesCompany.cs" />
     <Compile Include="ModelSalesContract.cs" />
     <Compile Include="ModelSalesGoods.cs" />

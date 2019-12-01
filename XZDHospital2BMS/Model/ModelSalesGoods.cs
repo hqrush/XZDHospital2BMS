@@ -11,7 +11,7 @@ namespace Model
     private string _type = "";
     private string _name_factory = "";
     private string _unit = "";
-    private int _amount = 0;
+    private decimal _amount = 0;
     private decimal _price_unit = 0;
     private decimal _price_total = 0;
     private string _batch_number = "";
@@ -19,6 +19,8 @@ namespace Model
     private string _approval_number = "";
     private string _comment = "";
     private string _photo_urls = "";
+    private int _id_admin = 0;
+    private DateTime _time_add = DateTime.Now;
 
     public ModelSalesGoods() { }
 
@@ -100,7 +102,7 @@ namespace Model
       }
     }
 
-    public int amount
+    public decimal amount
     {
       get
       {
@@ -201,6 +203,32 @@ namespace Model
       set
       {
         _photo_urls = value;
+      }
+    }
+
+    public int id_admin
+    {
+      get
+      {
+        return _id_admin;
+      }
+
+      set
+      {
+        _id_admin = value;
+      }
+    }
+
+    public DateTime time_add
+    {
+      get
+      {
+        return _time_add;
+      }
+
+      set
+      {
+        _time_add = value;
       }
     }
 

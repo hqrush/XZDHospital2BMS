@@ -1,4 +1,7 @@
-﻿$(function () {
+﻿// 这个变量存储现在有多少张已上传的照片
+var i = 0;
+
+$(function () {
   // 用jquery的$语法给btnUpload按钮加上click事件
   // btnUpload按钮应该是 input type="button"的按钮
   // 不要用button，button会触发服务器事件，做不到无刷新
@@ -8,12 +11,14 @@
       inputFile = document.getElementById('inputFile');
       var fileUpload = inputFile.files[0];
       var formData = new FormData();
+      formData.append("op_flag", "UploadFile");
       formData.append("photo_file", fileUpload);
       $.ajax({
         url: "/Handler/UploadHandler.ashx",
         type: 'POST',
         dataType: 'json',
         data: formData,
+        // 是否是异步操作，默认是true的，所以不设置也可以
         async: true,
         // 不指定编码方式（默认指定编码 urlencode）
         processData: false,
@@ -22,14 +27,16 @@
         success: function (result) {
           // 上传成功后清空文件上传框
           inputFile.value = "";
-          var url = result.ServerFilePath;
-          if (url !== "") {
+          var code = result.StatusCode;
+          var msg = result.Message;
+          var url = result.Data;
+          if (code === "200") {
             i++;
             showImage(i, url);
             addPhotoUrls(url);
             return true;
-          } else if (result.Message !== "") {
-            return false;
+          } else if (code === "500") {
+            return msg;
           }
         },
         error: function (error) {
@@ -42,9 +49,6 @@
     }
   });
 });
-
-// 这个变量存储现在有多少张已上传的照片
-var i = 0;
 
 // 原来的想法是动态增加多个上传文件框
 function addFileInput() {
@@ -74,7 +78,7 @@ function showImage(index, url) {
   str += '<img width="100" height="100" src="' + url + '" /><br />';
   str += '<input type="button" id="btnDelPhoto" class="btn btn-sm btn-warning"' +
     ' onclick="delPhoto(' + index + ')" value="删除" /></div>';
-  document.getElementById("wrapper-file-show").insertAdjacentHTML("beforeEnd", str);
+  document.getElementById("pnlFileShow").insertAdjacentHTML("beforeEnd", str);
 }
 
 // 删除图片按钮的事件
@@ -85,15 +89,43 @@ function delPhoto(index) {
   // https://localhost:44340/UploadFile/image/2019/11/29/wzocKC4jVxho13.jpg
   var src = img.src;
   //获取https://localhost:44340后面的内容
-  var k = find(src, "/", 2);
-  src = src.substring(k);
-
-  var divShowParent = document.getElementById("wrapper-file-show");
-  console.log(divShowParent);
+  src = src.substring(find(src, "/", 2));
+  var divShowParent = document.getElementById("pnlFileShow");
   for (var j = 0; j < i; j++) {
-    if (divShow === divShowParent.childNodes[j]) {
-      delPhotoUrls(src);
-      divShowParent.removeChild(divShowParent.childNodes[j]);
+    // 这里用了.net的panel组件，生成的div里面第一个child是回车符的text
+    // 所以这里j要加1
+    if (divShow === divShowParent.childNodes[j + 1]) {
+      // 删除服务器端文件
+      var formData = new FormData();
+      formData.append("op_flag", "DelFile");
+      formData.append("photo_url", src);
+      $.ajax({
+        url: "/Handler/UploadHandler.ashx",
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        // 不指定编码方式（默认指定编码 urlencode）
+        processData: false,
+        // 不处理数据
+        contentType: false,
+        success: function (result) {
+          // 上传成功后清空文件上传框
+          var code = result.StatusCode;
+          if (code === "200") {
+            // 删除文本框里的文件链接
+            delPhotoUrlsFromInput(src);
+            // 删除图像显示的DOM Node
+            divShowParent.removeChild(divShow);
+            return true;
+          } else if (code === "500") {
+            return false;
+          }
+        },
+        error: function (error) {
+          console.log(error);
+          return error;
+        }
+      });
     }
   }
 }
@@ -118,32 +150,24 @@ function addPhotoUrls(url) {
   tbPhotoUrls.value += url + ",";
 }
 
-// 删除图像的时候也要从这个文本框中删除相应的url值
-function delPhotoUrls(url) {
+// 删除服务器端的图像成功之后，从这个文本框中删除相应的url值
+function delPhotoUrlsFromInput(url) {
   var tbPhotoUrls = document.getElementById("tbPhotoUrls");
   var val = tbPhotoUrls.value;
-  console.log(val);
   if (checkEndWith(val, ",")) val = val.substring(0, val.length - 1);
-  console.log(val);
   aryUrl = val.split(",");
-  console.log(aryUrl);
   removeArrayByValue(aryUrl, url);
-  console.log(aryUrl);
   tbPhotoUrls.value = aryUrl.join("");
 }
 
 // 从数组中删除某个指定的值
 function removeArrayByValue(ary, val) {
-  if (ary) {
-    console.log(ary);
-    for (var j = 0; j < ary.length; j++) {
-      console.log(ary[j]);
-      console.log(val);
-      if (ary[j] === val) {
-        ary.splice(j, 1);
-        console.log(ary);
-        break;
-      }
+  if (!ary) return;
+  if (ary.length === 0) return;
+  for (var j = 0; j < ary.length; j++) {
+    if (ary[j] === val) {
+      ary.splice(j, 1);
+      break;
     }
   }
 }

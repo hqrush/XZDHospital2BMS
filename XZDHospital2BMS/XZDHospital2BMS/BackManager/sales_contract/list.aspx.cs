@@ -50,10 +50,10 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         for (int i = 0; i < listPhotoUrls.Count; i++)
         {
           hl = new HyperLink();
-          hl.ImageUrl = listPhotoUrls[0];
+          hl.ImageUrl = listPhotoUrls[i];
           hl.ImageWidth = 60;
           hl.ImageHeight = 60;
-          hl.NavigateUrl = listPhotoUrls[0];
+          hl.NavigateUrl = listPhotoUrls[i];
           hl.Target = "_blank";
           lblPhotoUrls.Parent.Controls.Add(hl);
         }

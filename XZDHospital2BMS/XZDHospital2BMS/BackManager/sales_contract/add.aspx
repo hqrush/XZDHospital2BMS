@@ -73,7 +73,7 @@
                         <input type="button" id="btnUpload" value="开始上传"
                           class="btn btn-sm btn-success" />
                       </div>
-                      <div id="wrapper-file-show"></div>
+                      <asp:Panel runat="server" ID="pnlFileShow" />
                       <div id="wrapper-file-uploaded">
                         <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
                       </div>
