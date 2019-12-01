@@ -15,12 +15,11 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       {
         int intAdminId = HelperUtility.hasPurviewPage("SalesGoods_add");
         ViewState["AdminId"] = intAdminId;
-        // 本页只能从入库单的list.aspx的添加入库货品转过来
-        // 因此要得到入库单的cid值和页面的cpage值用于修改成功后返回
+        // 本页从入库单的list.aspx的添加入库货品转过来，此种情况添加成功后跳到货品列表页的第一页
+        // 或者从货品单的list.aspx的添加入库货品按钮转过来，此种情况添加成功后也是跳到第一页
+        // 因此只要得到入库单的cid值，添加成功后都是跳到列表页的第一页的
         int intCId = HelperUtility.getQueryInt("cid");
         ViewState["ContractId"] = intCId;
-        int intCPage = HelperUtility.getQueryInt("cpage");
-        ViewState["Page"] = intCPage;
       }
     }
 
@@ -30,7 +29,6 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       // 验证权限
       if (!HelperUtility.hasPurviewOP("SalesGoods_add"))
         HelperUtility.showAlert("没有操作权限", "/BackManager/home.aspx");
-      int intCPage = (int)ViewState["Page"];
       // 验证表单
       string strMsgError = "";
 
@@ -45,7 +43,7 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       decimal dcmPriceTotal = dcmAmount * dcmPriceUnit;
       string strBatchNumber = tbBatchNumber.Value.Trim();
       if ("".Equals(tbValidityPeriod.Value.Trim())) strMsgError += "有效期时间不能为空！";
-      if (HelperUtility.isDateType(tbValidityPeriod.Value.Trim())) strMsgError += "有效期时间格式不正确！";
+      if (!HelperUtility.isDateType(tbValidityPeriod.Value.Trim())) strMsgError += "有效期时间格式不正确！";
       DateTime dateValidityPeriod = Convert.ToDateTime(tbValidityPeriod.Value.Trim());
       string strApprovalNumber = "";
       string strComment = tbComment.Text.Trim();
@@ -58,8 +56,7 @@ namespace XZDHospital2BMS.BackManager.sales_goods
 
       if (!"".Equals(strMsgError))
       {
-        strUrl = "add.aspx?cid=" + intContractId + "&cpage=" + intCPage;
-        HelperUtility.showAlert(strMsgError, strUrl);
+        HelperUtility.showAlert(strMsgError, "add.aspx?cid=" + intContractId);
         return;
       }
       // 验证完毕，提交数据
@@ -84,12 +81,12 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       int intId = BllSalesGoods.add(model);
       if (intId > 0)
       {
-        strUrl = "list.aspx";
+        strUrl = "list.aspx?cid=" + intContractId;
         HelperUtility.showAlert("添加成功！", strUrl);
       }
       else
       {
-        strUrl = "add.aspx?cid=" + intContractId + "&cpage=" + intCPage;
+        strUrl = "add.aspx?cid=" + intContractId;
         HelperUtility.showAlert("添加失败，请联系管理员！", strUrl);
       }
     }

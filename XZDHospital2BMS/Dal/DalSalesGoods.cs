@@ -147,16 +147,20 @@ WHERE
       return model;
     }
 
-    public static DataTable getAll()
+    public static DataTable getAll(int intContractId)
     {
-      string strSQL = @"SELECT * FROM sales_goods";
+      string strSQL = @"SELECT * FROM sales_goods WHERE id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      if (objDT == null || objDT.Rows.Count <= 0) return null;
       return HelperMySql.GetDataTable(strSQL);
     }
 
     /// <summary>
     /// 分页查询
     /// </summary>
-    public static DataTable getPage(int intPage, int intPageSize)
+    public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
       string strSQL = @"
 SELECT *
@@ -165,24 +169,28 @@ WHERE id <=
 (
   SELECT id
   FROM sales_goods
+  WHERE id_contract = @id_contract
   ORDER BY id DESC
   LIMIT " + (intPage - 1) * intPageSize + @" , 1
-)
+) AND id_contract = @id_contract
 ORDER BY id DESC
 LIMIT @PageSize
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[1];
-      aryParams[0] = new MySqlParameter("@PageSize", intPageSize);
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      aryParams[1] = new MySqlParameter("@PageSize", intPageSize);
       return HelperMySql.GetDataTable(strSQL, aryParams);
     }
 
     /// <summary>
     /// 得到记录总数
     /// </summary>
-    public static int getRecordsAmount()
+    public static int getRecordsAmount(int intContractId)
     {
-      string strSQL = @"SELECT COUNT(*) FROM sales_goods";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      string strSQL = @"SELECT COUNT(*) FROM sales_goods WHERE id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL, aryParams));
     }
 
   }

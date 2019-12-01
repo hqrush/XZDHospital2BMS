@@ -27,19 +27,19 @@ namespace Bll
       return DalSalesGoods.getById(intId);
     }
 
-    public static DataTable getAll()
+    public static DataTable getAll(int intContractId)
     {
-      return DalSalesGoods.getAll();
+      return DalSalesGoods.getAll(intContractId);
     }
 
-    public static DataTable getPage(int intPage, int intPageSize)
+    public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
-      return DalSalesGoods.getPage(intPage, intPageSize);
+      return DalSalesGoods.getPage(intContractId, intPage, intPageSize);
     }
 
-    public static int getRecordsAmount()
+    public static int getRecordsAmount(int intContractId)
     {
-      return DalSalesGoods.getRecordsAmount();
+      return DalSalesGoods.getRecordsAmount(intContractId);
     }
 
   }

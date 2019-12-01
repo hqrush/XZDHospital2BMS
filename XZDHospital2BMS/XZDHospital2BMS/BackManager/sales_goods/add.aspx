@@ -48,8 +48,7 @@
               </div>
 
               <div class="form-group">
-                <label for="tbType" class="col-sm-2 control-label">
-                  <strong class="red">*</strong>规格型号：</label>
+                <label for="tbType" class="col-sm-2 control-label">规格型号：</label>
                 <div class="col-sm-5">
                   <asp:TextBox runat="server" ID="tbType"
                     CssClass="form-control" placeholder="输入货品规格型号..." />
@@ -60,8 +59,7 @@
               </div>
 
               <div class="form-group">
-                <label for="tbFactoryName" class="col-sm-2 control-label">
-                  <strong class="red">*</strong>厂家产地：</label>
+                <label for="tbFactoryName" class="col-sm-2 control-label">厂家产地：</label>
                 <div class="col-sm-5">
                   <input runat="server" id="tbFactoryName" type="text"
                     class="form-control" placeholder="输入生产厂家/产地...">
@@ -135,6 +133,9 @@
                 <div class="col-sm-5">
                   <input runat="server" id="tbValidityPeriod" type='text' style="width: 200px;"
                     class="form-control datepicker-here" data-language='zh' data-position="right top" />
+                </div>
+                <div class="col-sm-5">
+                  <asp:Label runat="server" ID="ValidityPeriodError" />
                 </div>
               </div>
 

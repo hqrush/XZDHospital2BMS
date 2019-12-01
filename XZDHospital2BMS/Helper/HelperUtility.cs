@@ -97,8 +97,13 @@ namespace Helper
     public static void showAlert(string strMsg, string strUrl)
     {
       string strScript = "<script>";
-      strScript += "alert('" + strMsg + "');";
-      strScript += "location='" + strUrl + "';</script>";
+      if (!"".Equals(strMsg))
+      {
+        strScript += "alert('" + strMsg + "');";
+        strScript += "location='" + strUrl + "';</script>";
+      }
+      else
+        strScript += "location='" + strUrl + "';</script>";
       HttpContext.Current.Response.Write(strScript);
     }
 
@@ -116,7 +121,16 @@ namespace Helper
       if (HttpContext.Current.Request.QueryString[strKey] == null ||
           "".Equals(HttpContext.Current.Request.QueryString[strKey].ToString()))
         return 0;
-      return Convert.ToInt32(HttpContext.Current.Request.QueryString[strKey]);
+      try
+      {
+        int intReturn = Convert.ToInt32(HttpContext.Current.Request.QueryString[strKey]);
+        if (intReturn > 0) return intReturn;
+        else return 0;
+      }
+      catch
+      {
+        return 0;
+      }
     }
 
     // 根据时间下拉列表设置起始时间

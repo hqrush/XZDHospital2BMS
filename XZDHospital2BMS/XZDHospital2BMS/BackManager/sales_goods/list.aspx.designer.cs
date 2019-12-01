@@ -11,7 +11,7 @@ namespace XZDHospital2BMS.BackManager.sales_goods
 {
 
 
-  public partial class add
+  public partial class list
   {
 
     /// <summary>
@@ -24,183 +24,129 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
 
     /// <summary>
-    /// tbProductName 控件。
+    /// formShow 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputText tbProductName;
+    protected global::System.Web.UI.HtmlControls.HtmlForm formShow;
 
     /// <summary>
-    /// ProductNameError 控件。
+    /// hlBackContract 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label ProductNameError;
+    protected global::System.Web.UI.WebControls.HyperLink hlBackContract;
 
     /// <summary>
-    /// tbType 控件。
+    /// hlAddNew 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbType;
+    protected global::System.Web.UI.WebControls.HyperLink hlAddNew;
 
     /// <summary>
-    /// TypeError 控件。
+    /// lblInfo 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label TypeError;
+    protected global::System.Web.UI.WebControls.Label lblInfo;
 
     /// <summary>
-    /// tbFactoryName 控件。
+    /// gvShow 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputText tbFactoryName;
+    protected global::System.Web.UI.WebControls.GridView gvShow;
 
     /// <summary>
-    /// FactoryNameError 控件。
+    /// lblRecordCount 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label FactoryNameError;
+    protected global::System.Web.UI.WebControls.Label lblRecordCount;
 
     /// <summary>
-    /// tbUnit 控件。
+    /// lblCurentPage 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbUnit;
+    protected global::System.Web.UI.WebControls.Label lblCurentPage;
 
     /// <summary>
-    /// UnitError 控件。
+    /// lblPageCount 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label UnitError;
+    protected global::System.Web.UI.WebControls.Label lblPageCount;
 
     /// <summary>
-    /// tbAmount 控件。
+    /// lbtnFirst 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbAmount;
+    protected global::System.Web.UI.WebControls.LinkButton lbtnFirst;
 
     /// <summary>
-    /// AmountError 控件。
+    /// lbtnPrev 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label AmountError;
+    protected global::System.Web.UI.WebControls.LinkButton lbtnPrev;
 
     /// <summary>
-    /// tbPriceUnit 控件。
+    /// lbtnNext 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbPriceUnit;
+    protected global::System.Web.UI.WebControls.LinkButton lbtnNext;
 
     /// <summary>
-    /// PriceUnitError 控件。
+    /// lbtnLast 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label PriceUnitError;
+    protected global::System.Web.UI.WebControls.LinkButton lbtnLast;
 
     /// <summary>
-    /// tbBatchNumber 控件。
+    /// tbPageNum 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputText tbBatchNumber;
+    protected global::System.Web.UI.WebControls.TextBox tbPageNum;
 
     /// <summary>
-    /// BatchNumberError 控件。
+    /// btnJumpTo 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label BatchNumberError;
-
-    /// <summary>
-    /// tbValidityPeriod 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputText tbValidityPeriod;
-
-    /// <summary>
-    /// ValidityPeriodError 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Label ValidityPeriodError;
-
-    /// <summary>
-    /// pnlFileShow 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Panel pnlFileShow;
-
-    /// <summary>
-    /// tbPhotoUrls 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputHidden tbPhotoUrls;
-
-    /// <summary>
-    /// tbComment 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbComment;
-
-    /// <summary>
-    /// btnAdd 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Button btnAdd;
+    protected global::System.Web.UI.WebControls.Button btnJumpTo;
   }
 }

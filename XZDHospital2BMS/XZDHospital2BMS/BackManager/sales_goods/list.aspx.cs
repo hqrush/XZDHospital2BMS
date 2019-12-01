@@ -1,6 +1,5 @@
 ﻿using Bll;
 using Helper;
-using Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace XZDHospital2BMS.BackManager.sales_contract
+namespace XZDHospital2BMS.BackManager.sales_goods
 {
 
   public partial class list : System.Web.UI.Page
@@ -19,11 +18,22 @@ namespace XZDHospital2BMS.BackManager.sales_contract
     {
       if (!IsPostBack)
       {
-        int intAdminId = HelperUtility.hasPurviewPage("SalesContract_show");
+        int intAdminId = HelperUtility.hasPurviewPage("SalesGoods_show");
+        ViewState["AdminId"] = intAdminId;
+        // 本页只能从list.aspx的编辑页转过来
+        // 因此要得到要显示哪个入库单的cid值和页面的cpage值用于返回
+        int intContractId = HelperUtility.getQueryInt("cid");
+        if (intContractId == 0) HelperUtility.showAlert("", "/BackManager/login.aspx");
+        ViewState["ContractId"] = intContractId;
+        ViewState["ContractPage"] = HelperUtility.getQueryInt("cpage");
+        // 得到现在的页面值
         int intCurrentPage = HelperUtility.getQueryInt("page");
         if (intCurrentPage <= 0) intCurrentPage = 1;
         lblCurentPage.Text = intCurrentPage.ToString();
         LoadDataPage();
+        // 设置其他控件值
+        hlBackContract.NavigateUrl = "../sales_contract/list.aspx?page=" + ViewState["ContractPage"];
+        hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
       }
     }
 
@@ -34,72 +44,32 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
 
-        Label lblCompanyId = (Label)e.Row.FindControl("lblCompanyId");
         Label lblAdminId = (Label)e.Row.FindControl("lblAdminId");
-        Label lblPhotoUrls = (Label)e.Row.FindControl("lblPhotoUrls");
-        int intCompanyId = Convert.ToInt32(lblCompanyId.Text);
-        if (intCompanyId != 0)
-          lblCompanyId.Text = (BllSalesCompany.getById(intCompanyId)).name;
-        else
-          lblCompanyId.Text = "未知公司";
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = (BllAdmin.getById(intAdminId)).real_name;
-        string strPhotoUrls = lblPhotoUrls.Text;
-        List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-        HyperLink hl;
-        for (int i = 0; i < listPhotoUrls.Count; i++)
-        {
-          hl = new HyperLink();
-          hl.ImageUrl = listPhotoUrls[i];
-          hl.ImageWidth = 60;
-          hl.ImageHeight = 60;
-          hl.NavigateUrl = listPhotoUrls[i];
-          hl.Target = "_blank";
-          lblPhotoUrls.Parent.Controls.Add(hl);
-        }
-        lblPhotoUrls.Visible = false;
+        Label lblId = (Label)e.Row.FindControl("lblId");
+        HyperLink hlShow = (HyperLink)e.Row.FindControl("hlShow");
+        hlShow.NavigateUrl = "show.aspx?id=" + lblId.Text;
       }
     }
 
     public void OP_Command(object sender, CommandEventArgs e)
     {
       int intId = Convert.ToInt32(e.CommandArgument);
-      string strUrl = "";
+      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
       if (e.CommandName == "edit")
       {
-        if (HelperUtility.hasPurviewOP("SalesContract_update"))
+        if (HelperUtility.hasPurviewOP("SalesGoods_update"))
           Response.Redirect("edit.aspx?id=" + intId.ToString() + "&page=" + ViewState["page"]);
         else
-          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
+          HelperUtility.showAlert("没有操作权限", "list.aspx" + strUrlBack + "&page=" + ViewState["page"]);
       }
       else if (e.CommandName == "del")
       {
-        if (HelperUtility.hasPurviewOP("SalesContract_del"))
-          BllSalesContract.deleteById(intId);
+        if (HelperUtility.hasPurviewOP("SalesGoods_del"))
+          BllSalesGoods.deleteById(intId);
         else
-          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
-      }
-      else if (e.CommandName == "ShowGoodsList")
-      {
-        if (HelperUtility.hasPurviewOP("SalesGoods_show"))
-        {
-          // 跳到添加货品清单页面，传过去合同cid和合同分页的页面值以便添加完成后返回此页
-          strUrl = "../sales_goods/list.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
-          Response.Redirect(strUrl);
-        }
-        else
-          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
-      }
-      else if (e.CommandName == "AddGoods")
-      {
-        if (HelperUtility.hasPurviewOP("SalesGoods_add"))
-        {
-          // 跳到添加货品清单页面，传过去合同cid和合同分页的页面值以便添加完成后返回此页
-          strUrl = "../sales_goods/add.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
-          Response.Redirect(strUrl);
-        }
-        else
-          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
+          HelperUtility.showAlert("没有操作权限", "list.aspx" + strUrlBack + "&page=" + ViewState["page"]);
       }
       LoadDataPage();
     }
@@ -111,22 +81,20 @@ namespace XZDHospital2BMS.BackManager.sales_contract
 
     public void LoadDataPage()
     {
+      int intContractId = (int)ViewState["ContractId"];
       DataTable objDT;
-      // “/”相当于整数除法中的除号，“%”相当于余号
-      // 5 / 2 = 2，2/2=1,1/2=0
-      // 5 % 2 = 1
       if ("".Equals(lblCurentPage.Text.Trim())) lblCurentPage.Text = "1";
       intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
       if (intCurrentPage <= 0) intCurrentPage = 1;
       // 得到总记录数
-      intRecordCount = BllSalesContract.getRecordsAmount();
+      intRecordCount = BllSalesGoods.getRecordsAmount(intContractId);
       // 计算总页数
       intPageCount = (intRecordCount + intPageSize - 1) / intPageSize;
       if (intCurrentPage > intPageCount) intCurrentPage = intPageCount;
       lblPageCount.Text = intPageCount.ToString();
       // 根据当前页获取当前页的分页记录DataTable
       if (intRecordCount > 0)
-        objDT = BllSalesContract.getPage(intCurrentPage, intPageSize);
+        objDT = BllSalesGoods.getPage(intContractId, intCurrentPage, intPageSize);
       else
       {
         lblCurentPage.Text = "1";
