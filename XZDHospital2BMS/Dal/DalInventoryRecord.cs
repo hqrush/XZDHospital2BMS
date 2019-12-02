@@ -28,7 +28,7 @@ INSERT INTO inventory_record (
       aryParams[1] = new MySqlParameter("@id_goods", model.id_goods);
       aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
       aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
-      if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
+      if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM inventory_record";
         return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
@@ -41,7 +41,7 @@ INSERT INTO inventory_record (
       string strSQL = @"DELETE FROM inventory_record WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static int update(ModelInventoryRecord model)
@@ -62,7 +62,7 @@ WHERE
       aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
       aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
       aryParams[4] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return (int)HelperMySql.ExecuteScalar(strSQL, aryParams);
     }
 
     public static ModelInventoryRecord getById(int intId)

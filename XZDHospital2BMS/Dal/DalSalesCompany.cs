@@ -28,10 +28,11 @@ INSERT INTO sales_company (
       aryParams[1] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[2] = new MySqlParameter("@time_create", model.time_create);
       aryParams[3] = new MySqlParameter("@is_deleted", model.is_deleted);
-      if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
+      if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM sales_company";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
@@ -41,7 +42,7 @@ INSERT INTO sales_company (
       string strSQL = @"DELETE FROM sales_company WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static int update(ModelSalesCompany model)
@@ -62,7 +63,7 @@ WHERE
       aryParams[2] = new MySqlParameter("@time_create", model.time_create);
       aryParams[3] = new MySqlParameter("@is_deleted", model.is_deleted);
       aryParams[4] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelSalesCompany getById(int intId)
@@ -71,17 +72,14 @@ WHERE
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT != null && objDT.Rows.Count > 0)
-      {
-        ModelSalesCompany model = new ModelSalesCompany();
-        model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.name = Convert.ToString(objDT.Rows[0]["name"]);
-        model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
-        model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
-        model.is_deleted = Convert.ToInt32(objDT.Rows[0]["is_deleted"]);
-        return model;
-      }
-      else return null;
+      if (objDT == null || objDT.Rows.Count <= 0) return null;
+      ModelSalesCompany model = new ModelSalesCompany();
+      model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
+      model.name = Convert.ToString(objDT.Rows[0]["name"]);
+      model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
+      model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
+      model.is_deleted = Convert.ToInt32(objDT.Rows[0]["is_deleted"]);
+      return model;
     }
 
     public static DataTable getAll()
@@ -119,7 +117,8 @@ LIMIT @PageSize
     public static int getRecordsAmount()
     {
       string strSQL = @"SELECT COUNT(*) FROM sales_company";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      object objReturn = HelperMySql.ExecuteScalar(strSQL);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
     public static int getIdByName(string strCompanyName)

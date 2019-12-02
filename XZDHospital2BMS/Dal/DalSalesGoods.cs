@@ -61,10 +61,11 @@ INSERT INTO sales_goods (
       aryParams[12] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[13] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[14] = new MySqlParameter("@time_add", model.time_add);
-      if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
+      if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM sales_goods";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
@@ -74,7 +75,7 @@ INSERT INTO sales_goods (
       string strSQL = @"DELETE FROM sales_goods WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static int update(ModelSalesGoods model)
@@ -117,7 +118,7 @@ WHERE
       aryParams[13] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[14] = new MySqlParameter("@time_add", model.time_add);
       aryParams[15] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelSalesGoods getById(int intId)
@@ -142,8 +143,8 @@ WHERE
       model.approval_number = Convert.ToString(objDT.Rows[0]["approval_number"]);
       model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
       model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
-      model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
-      model.validity_period = Convert.ToDateTime(objDT.Rows[0]["time_add"]);
+      model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
+      model.time_add = Convert.ToDateTime(objDT.Rows[0]["time_add"]);
       return model;
     }
 
@@ -190,7 +191,20 @@ LIMIT @PageSize
       string strSQL = @"SELECT COUNT(*) FROM sales_goods WHERE id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL, aryParams));
+      object objReturn = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
+    }
+
+    public static decimal getPriceTotal(int intContractId)
+    {
+      string strSQL = @"
+SELECT SUM(price_total)
+FROM sales_goods
+WHERE id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
     }
 
   }

@@ -34,7 +34,7 @@ INSERT INTO checkout_contract (
       aryParams[3] = new MySqlParameter("@name_department", model.name_department);
       aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
-      if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
+      if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM checkout_contract";
         return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
@@ -47,7 +47,7 @@ INSERT INTO checkout_contract (
       string strSQL = @"DELETE FROM checkout_contract WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static int update(ModelCheckoutContract model)
@@ -72,7 +72,7 @@ WHERE
       aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[6] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return (int)HelperMySql.ExecuteScalar(strSQL, aryParams);
     }
 
     public static ModelCheckoutContract getById(int intId)

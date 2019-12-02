@@ -36,7 +36,7 @@ namespace Helper
       }
     }
 
-    public static int ExcuteNoQuery(string strSQL, params MySqlParameter[] aryParam)
+    public static int ExecuteNonQuery(string strSQL, params MySqlParameter[] aryParam)
     {
       using (objConn = new MySqlConnection(strConn))
       {
@@ -49,7 +49,7 @@ namespace Helper
       }
     }
 
-    public static int ExecuteScalar(string strSQL, params MySqlParameter[] aryParam)
+    public static object ExecuteScalar(string strSQL, params MySqlParameter[] aryParam)
     {
       using (objConn = new MySqlConnection(strConn))
       {
@@ -57,7 +57,9 @@ namespace Helper
         using (objCmd = new MySqlCommand(strSQL, objConn))
         {
           objCmd.Parameters.AddRange(aryParam);
-          return Convert.ToInt32(objCmd.ExecuteScalar());
+          object obj = objCmd.ExecuteScalar();
+          if (Convert.IsDBNull(obj)) return null;
+          return obj;
         }
       }
     }

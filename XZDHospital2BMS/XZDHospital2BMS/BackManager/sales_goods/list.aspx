@@ -34,7 +34,7 @@
                 Target="_self" Text="添加新货品" CssClass="btn btn-sm btn-success" />
             </div>
             <div class="wrapper-info col-sm-8">
-              <asp:Label runat="server" ID="lblInfo" />
+              <p>总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" /></p>
             </div>
           </div>
 

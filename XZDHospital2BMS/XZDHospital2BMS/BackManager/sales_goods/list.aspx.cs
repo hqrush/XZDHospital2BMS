@@ -31,7 +31,8 @@ namespace XZDHospital2BMS.BackManager.sales_goods
         if (intCurrentPage <= 0) intCurrentPage = 1;
         lblCurentPage.Text = intCurrentPage.ToString();
         LoadDataPage();
-        // 设置其他控件值
+        // 设置其他控件值，以货币形式显示 2.5.ToString("C")
+        lblPriceTotal.Text = BllSalesGoods.getPriceTotal(intContractId).ToString("C");
         hlBackContract.NavigateUrl = "../sales_contract/list.aspx?page=" + ViewState["ContractPage"];
         hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
       }
@@ -60,7 +61,11 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       if (e.CommandName == "edit")
       {
         if (HelperUtility.hasPurviewOP("SalesGoods_update"))
-          Response.Redirect("edit.aspx?id=" + intId.ToString() + "&page=" + ViewState["page"]);
+        {
+          string strUrl = "edit.aspx" + strUrlBack;
+          strUrl += "&page=" + ViewState["page"] + "&id=" + intId.ToString();
+          Response.Redirect(strUrl);
+        }
         else
           HelperUtility.showAlert("没有操作权限", "list.aspx" + strUrlBack + "&page=" + ViewState["page"]);
       }

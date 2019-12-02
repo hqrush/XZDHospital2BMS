@@ -52,10 +52,11 @@ INSERT INTO sys_admin (
       aryParams[9] = new MySqlParameter("@enabled", model.enabled);
       aryParams[10] = new MySqlParameter("@purviews", model.purviews);
       aryParams[11] = new MySqlParameter("@is_deleted", model.is_deleted);
-      if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
+      if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM sys_admin";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
@@ -71,7 +72,7 @@ WHERE
 ";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static void update(ModelAdmin model)
@@ -110,7 +111,7 @@ WHERE
       aryParams[10] = new MySqlParameter("@purviews", model.purviews);
       aryParams[11] = new MySqlParameter("@is_deleted", model.is_deleted);
       aryParams[12] = new MySqlParameter("@id", model.id);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelAdmin getById(int intId)
@@ -119,24 +120,22 @@ WHERE
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT != null && objDT.Rows.Count > 0)
-      {
-        ModelAdmin model = new ModelAdmin();
-        model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.username = Convert.ToString(objDT.Rows[0]["username"]);
-        model.password = Convert.ToString(objDT.Rows[0]["password"]);
-        model.salt = Convert.ToString(objDT.Rows[0]["salt"]);
-        model.real_name = Convert.ToString(objDT.Rows[0]["real_name"]);
-        model.id_card = Convert.ToString(objDT.Rows[0]["id_card"]);
-        model.mobile_phone = Convert.ToString(objDT.Rows[0]["mobile_phone"]);
-        model.avatar_url = Convert.ToString(objDT.Rows[0]["avatar_url"]);
-        model.time_add = Convert.ToDateTime(objDT.Rows[0]["time_add"]);
-        model.time_last_login = Convert.ToDateTime(objDT.Rows[0]["time_last_login"]);
-        model.enabled = Convert.ToInt32(objDT.Rows[0]["enabled"]);
-        model.purviews = Convert.ToString(objDT.Rows[0]["purviews"]);
-        return model;
-      }
-      else return null;
+      if (objDT == null || objDT.Rows.Count <= 0) return null;
+
+      ModelAdmin model = new ModelAdmin();
+      model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
+      model.username = Convert.ToString(objDT.Rows[0]["username"]);
+      model.password = Convert.ToString(objDT.Rows[0]["password"]);
+      model.salt = Convert.ToString(objDT.Rows[0]["salt"]);
+      model.real_name = Convert.ToString(objDT.Rows[0]["real_name"]);
+      model.id_card = Convert.ToString(objDT.Rows[0]["id_card"]);
+      model.mobile_phone = Convert.ToString(objDT.Rows[0]["mobile_phone"]);
+      model.avatar_url = Convert.ToString(objDT.Rows[0]["avatar_url"]);
+      model.time_add = Convert.ToDateTime(objDT.Rows[0]["time_add"]);
+      model.time_last_login = Convert.ToDateTime(objDT.Rows[0]["time_last_login"]);
+      model.enabled = Convert.ToInt32(objDT.Rows[0]["enabled"]);
+      model.purviews = Convert.ToString(objDT.Rows[0]["purviews"]);
+      return model;
     }
 
     public static DataTable getAll()
@@ -174,7 +173,8 @@ LIMIT @PageSize
     public static int getRecordsAmount()
     {
       string strSQL = @"SELECT COUNT(*) FROM sys_admin";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      object objReturn = HelperMySql.ExecuteScalar(strSQL);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
     public static void login(string strUsername, string strPassword,
@@ -237,7 +237,7 @@ WHERE
         strSQL = @"UPDATE sys_admin SET enabled = 1 WHERE id = @id";
       aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intAdminID);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static void changeIsDeleted(int intAdminID)
@@ -254,7 +254,7 @@ WHERE
         strSQL = @"UPDATE sys_admin SET is_deleted = 1 WHERE id = @id";
       aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intAdminID);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
   }

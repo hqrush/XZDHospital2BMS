@@ -9,3 +9,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.csprojAssemblyR
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.csproj.CopyComplete
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\MySql.Data.dll

@@ -37,10 +37,11 @@ INSERT INTO sales_contract (
       aryParams[4] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[5] = new MySqlParameter("@comment", model.comment);
       aryParams[6] = new MySqlParameter("@is_deleted", model.is_deleted);
-      if (HelperMySql.ExcuteNoQuery(strSQL, aryParams) > 0)
+      if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM sales_contract";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
@@ -50,7 +51,7 @@ INSERT INTO sales_contract (
       string strSQL = @"DELETE FROM sales_contract WHERE id=@id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static int update(ModelSalesContract model)
@@ -77,7 +78,7 @@ WHERE
       aryParams[5] = new MySqlParameter("@comment", model.comment);
       aryParams[6] = new MySqlParameter("@is_deleted", model.is_deleted);
       aryParams[7] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelSalesContract getById(int intId)
@@ -86,20 +87,17 @@ WHERE
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT != null && objDT.Rows.Count > 0)
-      {
-        ModelSalesContract model = new ModelSalesContract();
-        model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.id_company = Convert.ToInt32(objDT.Rows[0]["id_company"]);
-        model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
-        model.time_sign = Convert.ToDateTime(objDT.Rows[0]["time_sign"]);
-        model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
-        model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
-        model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
-        model.is_deleted = Convert.ToInt16(objDT.Rows[0]["is_deleted"]);
-        return model;
-      }
-      else return null;
+      if (objDT == null || objDT.Rows.Count <= 0) return null;
+      ModelSalesContract model = new ModelSalesContract();
+      model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
+      model.id_company = Convert.ToInt32(objDT.Rows[0]["id_company"]);
+      model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
+      model.time_sign = Convert.ToDateTime(objDT.Rows[0]["time_sign"]);
+      model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
+      model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
+      model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
+      model.is_deleted = Convert.ToInt16(objDT.Rows[0]["is_deleted"]);
+      return model;
     }
 
     public static DataTable getAll()
@@ -140,7 +138,8 @@ LIMIT @PageSize
     {
       // 注意选的是所有删除标记是0的记录
       string strSQL = @"SELECT COUNT(*) FROM sales_contract WHERE is_deleted = 0";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      object objReturn = HelperMySql.ExecuteScalar(strSQL);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
     public static void changeIsDeleted(int intID)
@@ -148,7 +147,7 @@ LIMIT @PageSize
       string strSQL = @"UPDATE sales_contract SET is_deleted = 1 WHERE id = @id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intID);
-      HelperMySql.ExcuteNoQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
       //if (intID <= 0) return;
       //int intIsDeleted = 0;
       //string strSQL = "SELECT is_deleted FROM sales_contract WHERE id = @id";

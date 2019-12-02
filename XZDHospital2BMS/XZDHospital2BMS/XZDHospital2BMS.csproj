@@ -62,7 +62,9 @@
     <Content Include="BackManager\sales_contract\edit.aspx" />
     <Content Include="BackManager\sales_contract\list.aspx" />
     <Content Include="BackManager\sales_goods\add.aspx" />
+    <Content Include="BackManager\sales_goods\edit.aspx" />
     <Content Include="BackManager\sales_goods\list.aspx" />
+    <Content Include="BackManager\sales_goods\show.aspx" />
     <Content Include="BackManager\WUCFileUploader.ascx" />
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
@@ -174,12 +176,26 @@
     <Compile Include="BackManager\sales_goods\add.aspx.designer.cs">
       <DependentUpon>add.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BackManager\sales_goods\edit.aspx.cs">
+      <DependentUpon>edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\sales_goods\edit.aspx.designer.cs">
+      <DependentUpon>edit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BackManager\sales_goods\list.aspx.cs">
       <DependentUpon>list.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BackManager\sales_goods\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\sales_goods\show.aspx.cs">
+      <DependentUpon>show.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\sales_goods\show.aspx.designer.cs">
+      <DependentUpon>show.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\WUCFileUploader.ascx.cs">
       <DependentUpon>WUCFileUploader.ascx</DependentUpon>

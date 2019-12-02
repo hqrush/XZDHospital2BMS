@@ -11,7 +11,7 @@ namespace XZDHospital2BMS.BackManager.sales_goods
 {
 
 
-  public partial class list
+  public partial class show
   {
 
     /// <summary>
@@ -24,31 +24,58 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
 
     /// <summary>
-    /// formShow 控件。
+    /// lblProductName 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlForm formShow;
+    protected global::System.Web.UI.WebControls.Label lblProductName;
 
     /// <summary>
-    /// hlBackContract 控件。
+    /// lblType 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.HyperLink hlBackContract;
+    protected global::System.Web.UI.WebControls.Label lblType;
 
     /// <summary>
-    /// hlAddNew 控件。
+    /// lblFactoryName 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.HyperLink hlAddNew;
+    protected global::System.Web.UI.WebControls.Label lblFactoryName;
+
+    /// <summary>
+    /// lblUnit 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblUnit;
+
+    /// <summary>
+    /// lblAmount 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblAmount;
+
+    /// <summary>
+    /// lblPriceUnit 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblPriceUnit;
 
     /// <summary>
     /// lblPriceTotal 控件。
@@ -60,93 +87,48 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     protected global::System.Web.UI.WebControls.Label lblPriceTotal;
 
     /// <summary>
-    /// gvShow 控件。
+    /// lblBatchNumber 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.GridView gvShow;
+    protected global::System.Web.UI.WebControls.Label lblBatchNumber;
 
     /// <summary>
-    /// lblRecordCount 控件。
+    /// lblValidityPeriod 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label lblRecordCount;
+    protected global::System.Web.UI.WebControls.Label lblValidityPeriod;
 
     /// <summary>
-    /// lblCurentPage 控件。
+    /// pnlShowPhoto 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label lblCurentPage;
+    protected global::System.Web.UI.WebControls.Panel pnlShowPhoto;
 
     /// <summary>
-    /// lblPageCount 控件。
+    /// ltrShowPhoto 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label lblPageCount;
+    protected global::System.Web.UI.WebControls.Literal ltrShowPhoto;
 
     /// <summary>
-    /// lbtnFirst 控件。
+    /// lblComment 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.LinkButton lbtnFirst;
-
-    /// <summary>
-    /// lbtnPrev 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.LinkButton lbtnPrev;
-
-    /// <summary>
-    /// lbtnNext 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.LinkButton lbtnNext;
-
-    /// <summary>
-    /// lbtnLast 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.LinkButton lbtnLast;
-
-    /// <summary>
-    /// tbPageNum 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbPageNum;
-
-    /// <summary>
-    /// btnJumpTo 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Button btnJumpTo;
+    protected global::System.Web.UI.WebControls.Label lblComment;
   }
 }

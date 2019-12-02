@@ -42,6 +42,11 @@ namespace Bll
       return DalSalesGoods.getRecordsAmount(intContractId);
     }
 
+    public static decimal getPriceTotal(int intContractId)
+    {
+      return DalSalesGoods.getPriceTotal(intContractId);
+    }
+
   }
 
 }
