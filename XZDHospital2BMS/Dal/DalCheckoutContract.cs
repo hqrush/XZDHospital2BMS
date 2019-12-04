@@ -18,33 +18,37 @@ INSERT INTO checkout_contract (
   name_unit,
   name_department,
   name_sign,
-  photo_urls
+  photo_urls,
+  comment
 ) VALUES (
   @id_admin,
   @time_create,
   @name_unit,
   @name_department,
   @name_sign,
-  @photo_urls
+  @photo_urls,
+  @comment
 )";
-      MySqlParameter[] aryParams = new MySqlParameter[6];
+      MySqlParameter[] aryParams = new MySqlParameter[7];
       aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[1] = new MySqlParameter("@time_create", model.time_create);
       aryParams[2] = new MySqlParameter("@name_unit", model.name_unit);
       aryParams[3] = new MySqlParameter("@name_department", model.name_department);
       aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
+      aryParams[6] = new MySqlParameter("@comment", model.comment);
       if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM checkout_contract";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
 
     public static void deleteById(int intId)
     {
-      string strSQL = @"DELETE FROM checkout_contract WHERE id=@id";
+      string strSQL = @"DELETE FROM checkout_contract WHERE id = @id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
@@ -60,19 +64,21 @@ SET
   name_unit = @name_unit,
   name_department = @name_department,
   name_sign = @name_sign,
-  photo_urls = @photo_urls
+  photo_urls = @photo_urls,
+  comment = @comment
 WHERE
   id = @id
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[7];
+      MySqlParameter[] aryParams = new MySqlParameter[8];
       aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[1] = new MySqlParameter("@time_create", model.time_create);
       aryParams[2] = new MySqlParameter("@name_unit", model.name_unit);
       aryParams[3] = new MySqlParameter("@name_department", model.name_department);
       aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
-      aryParams[6] = new MySqlParameter("@id", model.id);
-      return (int)HelperMySql.ExecuteScalar(strSQL, aryParams);
+      aryParams[6] = new MySqlParameter("@comment", model.comment);
+      aryParams[7] = new MySqlParameter("@id", model.id);
+      return (int)HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelCheckoutContract getById(int intId)
@@ -91,6 +97,7 @@ WHERE
         model.name_department = Convert.ToString(objDT.Rows[0]["name_department"]);
         model.name_sign = Convert.ToString(objDT.Rows[0]["name_sign"]);
         model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
+        model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
         return model;
       }
       else return null;
@@ -131,7 +138,8 @@ LIMIT @PageSize
     public static int getRecordsAmount()
     {
       string strSQL = @"SELECT COUNT(*) FROM checkout_contract";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      object objReturn = HelperMySql.ExecuteScalar(strSQL);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
   }

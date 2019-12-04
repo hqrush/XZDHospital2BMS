@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BackManager\admin\edit.aspx" />
+    <Content Include="BackManager\checkout_contract\add.aspx" />
     <Content Include="BackManager\sales_contract\edit.aspx" />
     <Content Include="BackManager\sales_contract\list.aspx" />
     <Content Include="BackManager\sales_goods\add.aspx" />
@@ -154,6 +155,13 @@
     </Compile>
     <Compile Include="BackManager\admin\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\checkout_contract\add.aspx.cs">
+      <DependentUpon>add.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\checkout_contract\add.aspx.designer.cs">
+      <DependentUpon>add.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\sales_contract\edit.aspx.cs">
       <DependentUpon>edit.aspx</DependentUpon>

@@ -14,6 +14,7 @@ namespace Model
     private string _name_department = "";
     private string _name_sign = "";
     private string _photo_urls = "";
+    private string _comment = "";
 
     public ModelCheckoutContract() { }
 
@@ -105,6 +106,19 @@ namespace Model
       set
       {
         _photo_urls = value;
+      }
+    }
+
+    public string comment
+    {
+      get
+      {
+        return _comment;
+      }
+
+      set
+      {
+        _comment = value;
       }
     }
 

@@ -31,15 +31,15 @@
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">出库管理<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">添加出库单</a></li>
-                <li><a href="#">管理出库单</a></li>
+                <li><a href="/BackManager/checkout_contract/add.aspx">添加出库单</a></li>
+                <li><a href="/BackManager/checkout_contract/list.aspx">管理出库单</a></li>
               </ul>
             </li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">盘点管理<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">添加盘点单</a></li>
-                <li><a href="#">管理盘点单</a></li>
+                <li><a href="/BackManager/inventory_contract/add.aspx">添加盘点单</a></li>
+                <li><a href="/BackManager/inventory_contract/list.aspx">管理盘点单</a></li>
               </ul>
             </li>
             <li class="dropdown">
