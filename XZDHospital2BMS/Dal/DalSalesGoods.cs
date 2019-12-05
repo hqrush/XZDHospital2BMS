@@ -217,32 +217,21 @@ WHERE id_contract = @id_contract";
       string strSql = "";
       if (!"".Equals(strProductName) && "".Equals(strFactoryName))
         strSql = @"
-SELECT
-  admin.real_name AS AdminRealName,
-  company.name AS CompanyName,
-  contract.time_sign AS ContractSignTime,
-  goods.name_product AS GoodsName,
-  goods.name_factory AS GoodsFactoryName,
-  goods.amount AS GoodsAmount,
-  goods.price_unit AS GoodsUnitPrice,
-  goods.validity_period AS GoodsValidityPeriod
-FROM sales_goods goods
-INNER JOIN sales_contract contract ON goods.id_contract = contract.id
-INNER JOIN sys_admin admin ON goods.id_admin = admin.id
-INNER JOIN sales_company company ON contract.id_company = company.id
+SELECT *
+FROM sales_goods
 WHERE
-  goods.name_product LIKE CONCAT('%', @ProductName, '%')
+  name_product LIKE CONCAT('%', @ProductName, '%')
 ";
       else if ("".Equals(strProductName) && !"".Equals(strFactoryName))
         strSql = @"
-SELECT * 
+SELECT *
 FROM sales_goods
 WHERE
   name_factory LIKE CONCAT('%', @FactoryName, '%')
 ";
       else if (!"".Equals(strProductName) && !"".Equals(strFactoryName))
         strSql = @"
-SELECT * 
+SELECT *
 FROM sales_goods
 WHERE
   name_product LIKE CONCAT('%', @ProductName, '%') AND

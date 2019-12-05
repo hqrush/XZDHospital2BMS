@@ -31,7 +31,8 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         // 根据入库单id查询得到入库单model
         ModelSalesContract model = BllSalesContract.getById(intId);
         int intCompanyId = model.id_company;
-        tbCompanyName.Text = (BllSalesCompany.getById(intCompanyId)).name;
+        if (intCompanyId > 0) tbCompanyName.Text = (BllSalesCompany.getById(intCompanyId)).name;
+        else tbCompanyName.Text = "未知公司";
         tbTimeSign.Value = model.time_sign.ToString("yyyy-MM-dd");
         tbComment.Text = model.comment;
         string strPhotoUrls = model.photo_urls;
@@ -74,7 +75,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       if ("".Equals(strCompanyName)) strMsgError += "公司名不能为空！";
       string strTimeSign = tbTimeSign.Value.ToString();
       if ("".Equals(strTimeSign)) strMsgError += "入库单签发时间不能为空！";
-      if (HelperUtility.isDateType(strTimeSign)) strMsgError += "入库单签发时间格式不正确！";
+      if (!HelperUtility.isDateType(strTimeSign)) strMsgError += "入库单签发时间格式不正确！";
       string strComment = tbComment.Text.Trim();
       if (strComment.Length > 1000) strMsgError += "备注信息不能超过500个字数！";
       if (!"".Equals(strMsgError))
@@ -86,7 +87,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       if (strPhotoUrls.EndsWith(","))
         strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
       // 验证完毕，提交数据
-      ModelSalesContract model = new ModelSalesContract();
+      ModelSalesContract model = BllSalesContract.getById(intId);
       if (strCompanyName.Contains("未知公司")) model.id_company = 0;
       else model.id_company = BllSalesCompany.getIdByName(strCompanyName, intAdminId);
       model.id_admin = intAdminId;
