@@ -153,9 +153,7 @@ WHERE
       string strSQL = @"SELECT * FROM sales_goods WHERE id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
-      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT == null || objDT.Rows.Count <= 0) return null;
-      return HelperMySql.GetDataTable(strSQL);
+      return HelperMySql.GetDataTable(strSQL, aryParams);
     }
 
     /// <summary>
@@ -195,6 +193,13 @@ LIMIT @PageSize
       return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
+    #region 其他查询
+
+    /// <summary>
+    /// 得到某个入库单下所有货品的总价
+    /// </summary>
+    /// <param name="intContractId">入库单id</param>
+    /// <returns>某个入库单下所有货品的总价</returns>
     public static decimal getPriceTotal(int intContractId)
     {
       string strSQL = @"
@@ -206,6 +211,73 @@ WHERE id_contract = @id_contract";
       object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
       return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
     }
+
+    public static DataTable getDTByName(string strProductName, string strFactoryName)
+    {
+      string strSql = "";
+      if (!"".Equals(strProductName) && "".Equals(strFactoryName))
+        strSql = @"
+SELECT
+  admin.real_name AS AdminRealName,
+  company.name AS CompanyName,
+  contract.time_sign AS ContractSignTime,
+  goods.name_product AS GoodsName,
+  goods.name_factory AS GoodsFactoryName,
+  goods.amount AS GoodsAmount,
+  goods.price_unit AS GoodsUnitPrice,
+  goods.validity_period AS GoodsValidityPeriod
+FROM sales_goods goods
+INNER JOIN sales_contract contract ON goods.id_contract = contract.id
+INNER JOIN sys_admin admin ON goods.id_admin = admin.id
+INNER JOIN sales_company company ON contract.id_company = company.id
+WHERE
+  goods.name_product LIKE CONCAT('%', @ProductName, '%')
+";
+      else if ("".Equals(strProductName) && !"".Equals(strFactoryName))
+        strSql = @"
+SELECT * 
+FROM sales_goods
+WHERE
+  name_factory LIKE CONCAT('%', @FactoryName, '%')
+";
+      else if (!"".Equals(strProductName) && !"".Equals(strFactoryName))
+        strSql = @"
+SELECT * 
+FROM sales_goods
+WHERE
+  name_product LIKE CONCAT('%', @ProductName, '%') AND
+  name_factory LIKE CONCAT('%', @FactoryName, '%')
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@ProductName", strProductName);
+      aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
+      return HelperMySql.GetDataTable(strSql, aryParams);
+    }
+
+    /// <summary>
+    /// 得到某厂生产的某个货品的库存总量
+    /// </summary>
+    /// <param name="strProductName">某厂名称</param>
+    /// <param name="strFactoryName">某个货品名称</param>
+    /// <returns>库存总量</returns>
+    public static decimal getInventoryAmount(string strProductName, string strFactoryName)
+    {
+      // 先得到得到某厂生产的某个货品的所有的进货总量
+      string strSQL = @"
+SELECT SUM(amount)
+FROM sales_goods
+WHERE
+  name_product = @ProductName AND
+  name_factory = @FactoryName
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@ProductName", strProductName);
+      aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
+      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
+    }
+
+    #endregion
 
   }
 

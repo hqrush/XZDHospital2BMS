@@ -1,11 +1,7 @@
-﻿using Helper;
+﻿using Bll;
+using Helper;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.checkout_contract
 {
@@ -30,12 +26,17 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         HelperUtility.showAlert("没有操作权限", strUrl);
       }
       string strMsgError = "";
-      string strUnitName = cbUnitName1.Value;
-      if ("".Equals(strCompanyName)) strMsgError += "公司名不能为空！";
-      string strTimeSign = tbTimeSign.Value.ToString();
-      if ("".Equals(strTimeSign)) strMsgError += "入库单签发时间不能为空！";
+      string strUnitName, strUnitName1, strUnitName2;
+      strUnitName1 = cbUnitName1.Checked ? cbUnitName1.Value : "";
+      strUnitName2 = cbUnitName2.Checked ? cbUnitName2.Value : "";
+      strUnitName = strUnitName1 + "," + strUnitName2;
+      if (",".Equals(strUnitName)) strMsgError += "申请单位至少选一个！";
+      string strDepartmentName = tbDepartmentName.Value.Trim();
+      if ("".Equals(strDepartmentName)) strMsgError += "申请部门/科室不能为空！";
+      string strSignName = tbSignName.Value.Trim();
+      if ("".Equals(strSignName)) strMsgError += "申请人姓名不能为空！";
       string strComment = tbComment.Text.Trim();
-      if (strComment.Length > 1000) strMsgError += "备注信息不能超过500个字数！";
+      if (strComment.Length > 500) strMsgError += "备注信息不能超过500个字数！";
       if (!"".Equals(strMsgError))
       {
         HelperUtility.showAlert(strMsgError, "add.aspx");
@@ -47,9 +48,11 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       // 验证完毕，提交数据
       int intAdminId = (int)ViewState["AdminId"];
       ModelCheckoutContract model = new ModelCheckoutContract();
-      if (strCompanyName.Contains("未知公司")) model.id_company = 0;
-      else model.id_company = BllSalesCompany.getIdByName(strCompanyName, intAdminId);
       model.id_admin = intAdminId;
+      model.time_create = DateTime.Now;
+      model.name_unit = strUnitName;
+      model.name_department = strDepartmentName;
+      model.name_sign = strSignName;
       model.photo_urls = strPhotoUrls;
       model.comment = strComment;
       int intId = BllCheckoutContract.add(model);

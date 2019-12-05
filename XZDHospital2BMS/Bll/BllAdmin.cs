@@ -64,6 +64,11 @@ namespace Bll
       DalAdmin.changeIsDeleted(intAdminID);
     }
 
+    public static string getRealNameById(int intId)
+    {
+      return DalAdmin.getRealNameById(intId);
+    }
+
   }
 
 }

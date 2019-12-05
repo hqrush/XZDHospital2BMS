@@ -47,6 +47,11 @@ namespace Bll
       return DalSalesGoods.getPriceTotal(intContractId);
     }
 
+    public static DataTable getDTByName(string strProductName, string strFactoryName)
+    {
+      return DalSalesGoods.getDTByName(strProductName, strFactoryName);
+    }
+
   }
 
 }

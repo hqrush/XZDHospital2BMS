@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add.aspx.cs" Inherits="XZDHospital2BMS.BackManager.checkout_contract.add" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="edit.aspx.cs" Inherits="XZDHospital2BMS.BackManager.checkout_contract.edit" %>
 
 <%@ Register Src="~/BackManager/WUCHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
 
@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>填写出库单</title>
+  <title>修改出库单</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
@@ -77,7 +77,9 @@
                         <input type="button" id="btnUpload" value="开始上传"
                           class="btn btn-sm btn-success" />
                       </div>
-                      <asp:Panel runat="server" ID="pnlFileShow" />
+                      <asp:Panel runat="server" ID="pnlFileShow">
+                        <asp:Literal runat="server" ID="ltrShowPhoto" />
+                      </asp:Panel>
                       <div id="wrapper-file-uploaded">
                         <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
                       </div>
@@ -96,9 +98,9 @@
 
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
-                  <asp:Button runat="server" ID="btnAdd" Text="确认提交"
+                  <asp:Button runat="server" ID="btnEdit" Text="确认提交"
                     CssClass="btn btn-primary" OnClientClick="return checkNameTime();"
-                    OnClick="btnAdd_Click" />
+                    OnClick="btnEdit_Click" />
                 </div>
               </div>
 

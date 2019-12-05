@@ -257,6 +257,15 @@ WHERE
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    public static string getRealNameById(int intId)
+    {
+      string strSQL = @"SELECT real_name FROM sys_admin WHERE id = @id";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id", intId);
+      object objReturn = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objReturn == null ? "" : Convert.ToString(objReturn);
+    }
+
   }
 
 }
