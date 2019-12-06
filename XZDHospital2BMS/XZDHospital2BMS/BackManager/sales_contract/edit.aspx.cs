@@ -77,7 +77,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       if ("".Equals(strTimeSign)) strMsgError += "入库单签发时间不能为空！";
       if (!HelperUtility.isDateType(strTimeSign)) strMsgError += "入库单签发时间格式不正确！";
       string strComment = tbComment.Text.Trim();
-      if (strComment.Length > 1000) strMsgError += "备注信息不能超过500个字数！";
+      if (strComment.Length > 500) strMsgError += "备注信息不能超过500个字数！";
       if (!"".Equals(strMsgError))
       {
         HelperUtility.showAlert(strMsgError, strThisPageUrl);

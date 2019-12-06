@@ -92,9 +92,9 @@
 
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
-                  <asp:Button runat="server" ID="btnCompanyContractAdd" Text="确认提交"
+                  <asp:Button runat="server" ID="btnAdd" Text="确认提交"
                     CssClass="btn btn-primary" OnClientClick="return checkNameTime();"
-                    OnClick="btnCompanyContractAdd_Click" />
+                    OnClick="btnAdd_Click" />
                 </div>
               </div>
 

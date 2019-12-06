@@ -33,7 +33,14 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       {
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-
+        // 查询得到某个入库单id下的货品总数和总价
+        Label lblId = (Label)e.Row.FindControl("lblId");
+        Label lblGoodsAmount = (Label)e.Row.FindControl("lblGoodsAmount");
+        Label lblPriceTotal = (Label)e.Row.FindControl("lblPriceTotal");
+        int intId = Convert.ToInt32(lblId.Text);
+        lblGoodsAmount.Text = BllSalesGoods.getRecordsAmount(intId).ToString();
+        lblPriceTotal.Text = BllSalesGoods.getPriceTotal(intId).ToString("C");
+        // 将销售公司id转换成名称，将adminid转换成管理员姓名，显示缩略图
         Label lblCompanyId = (Label)e.Row.FindControl("lblCompanyId");
         Label lblAdminId = (Label)e.Row.FindControl("lblAdminId");
         Label lblPhotoUrls = (Label)e.Row.FindControl("lblPhotoUrls");

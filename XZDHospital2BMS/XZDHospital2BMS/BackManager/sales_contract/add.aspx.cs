@@ -5,6 +5,7 @@ using System;
 
 namespace XZDHospital2BMS.BackManager.sales_contract
 {
+
   public partial class add : System.Web.UI.Page
   {
 
@@ -18,7 +19,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       }
     }
 
-    protected void btnCompanyContractAdd_Click(object sender, EventArgs e)
+    protected void btnAdd_Click(object sender, EventArgs e)
     {
       if (!HelperUtility.hasPurviewOP("SalesContract_add"))
       {
@@ -30,8 +31,9 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       if ("".Equals(strCompanyName)) strMsgError += "公司名不能为空！";
       string strTimeSign = tbTimeSign.Value.ToString();
       if ("".Equals(strTimeSign)) strMsgError += "入库单签发时间不能为空！";
+      if (!HelperUtility.isDateType(strTimeSign)) strMsgError += "入库单签发时间格式不正确！";
       string strComment = tbComment.Text.Trim();
-      if (strComment.Length > 1000) strMsgError += "备注信息不能超过500个字数！";
+      if (strComment.Length > 500) strMsgError += "备注信息不能超过500个字数！";
       if (!"".Equals(strMsgError))
       {
         HelperUtility.showAlert(strMsgError, "add.aspx");
@@ -62,4 +64,5 @@ namespace XZDHospital2BMS.BackManager.sales_contract
     }
 
   }
+
 }

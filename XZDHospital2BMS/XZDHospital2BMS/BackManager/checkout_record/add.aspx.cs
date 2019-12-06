@@ -37,7 +37,10 @@ namespace XZDHospital2BMS.BackManager.checkout_record
       strNameProduct = tbProductName.Value.Trim();
       strNameFactory = tbFactoryName.Value.Trim();
       if ("".Equals(strNameProduct) && "".Equals(strNameFactory))
+      {
         HelperUtility.showAlert("货品名称和厂家名称不能都为空！", "add.aspx" + strUrlBack);
+        return;
+      }
       LoadData(strNameProduct, strNameFactory);
     }
 
@@ -54,8 +57,17 @@ namespace XZDHospital2BMS.BackManager.checkout_record
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
 
         Label lblId = (Label)e.Row.FindControl("lblId");
-        //HyperLink hlShow = (HyperLink)e.Row.FindControl("hlShow");
-        //hlShow.NavigateUrl = "show.aspx?id=" + lblId.Text;
+        TextBox tbAmount = (TextBox)e.Row.FindControl("tbAmount");
+        Button btnAddToList = (Button)e.Row.FindControl("btnAddToList");
+
+        int intCheckoutContractId = Convert.ToInt32(ViewState["ContractId"]);
+        int intGoodsId = Convert.ToInt32(lblId.Text);
+        if ("".Equals(tbAmount.Text)) tbAmount.Text = "0";
+        string strClickHandler = "addGoods(" +
+          intCheckoutContractId + "," +
+          intGoodsId + ",\"" +
+          tbAmount.ClientID + "\")";
+        btnAddToList.Attributes.Add("onclick", strClickHandler);
       }
     }
 
@@ -80,7 +92,7 @@ namespace XZDHospital2BMS.BackManager.checkout_record
     public void LoadData(string strNameProduct, string strNameFactory)
     {
       DataTable objDT = BllSalesGoods.getDTByName(strNameProduct, strNameFactory);
-      if (objDT == null)
+      if (objDT == null || objDT.Rows.Count <= 0)
       {
         pnlInfo.Visible = true;
         gvShow.Visible = false;

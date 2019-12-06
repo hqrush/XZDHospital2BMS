@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-sm-2">
                   <asp:Button runat="server" ID="btnQuery" class="btn btn-success btn-sm"
-                    Text="查询" OnClick="btnQuery_Click" />
+                    Text="查询" OnClientClick="return checkNotNull();" OnClick="btnQuery_Click" />
                 </div>
                 <div class="col-sm-2">
                   <asp:Button runat="server" ID="btnShowList" Text="查看出库清单"
@@ -109,15 +109,17 @@
                     <asp:TemplateField HeaderText="库存量">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblAmount"
-                          Text="" />
+                        <asp:Label runat="server" ID="lblInventory" />
                       </ItemTemplate>
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="提货数">
                       <ItemStyle Width="30px" />
                       <ItemTemplate>
-                        <asp:TextBox runat="server" ID="tbAmount" Width="60" TextMode="Number" />
+                        <asp:TextBox runat="server" ID="tbAmount"
+                          onkeyup="if(isNaN(value))execCommand('undo')"
+                          onafterpaste="if(isNaN(value))execCommand('undo')"
+                          CssClass="form-control" Width="60" />
                       </ItemTemplate>
                     </asp:TemplateField>
 
@@ -126,7 +128,7 @@
                       <ItemTemplate>
                         <asp:Label runat="server" ID="lblId" Visible="false"
                           Text='<%# Eval("id").ToString() %>' />
-                        <asp:Button runat="server" ID="btnBuy" Text="添加到出库单"
+                        <asp:Button runat="server" ID="btnAddToList" Text="添加到出库单"
                           CssClass="btn btn-warning" />
                       </ItemTemplate>
                     </asp:TemplateField>

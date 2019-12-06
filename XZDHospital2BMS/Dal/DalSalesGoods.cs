@@ -181,19 +181,19 @@ LIMIT @PageSize
       return HelperMySql.GetDataTable(strSQL, aryParams);
     }
 
+    #region 其他查询
+
     /// <summary>
-    /// 得到记录总数
+    /// 得到属于某个入库单下的所有货品记录总数
     /// </summary>
     public static int getRecordsAmount(int intContractId)
     {
-      string strSQL = @"SELECT COUNT(*) FROM sales_goods WHERE id_contract = @id_contract";
+      string strSQL = @"SELECT COUNT(id) FROM sales_goods WHERE id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
       object objReturn = HelperMySql.ExecuteScalar(strSQL, aryParams);
       return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
-
-    #region 其他查询
 
     /// <summary>
     /// 得到某个入库单下所有货品的总价
@@ -237,6 +237,7 @@ WHERE
   name_product LIKE CONCAT('%', @ProductName, '%') AND
   name_factory LIKE CONCAT('%', @FactoryName, '%')
 ";
+      else return null;
       MySqlParameter[] aryParams = new MySqlParameter[2];
       aryParams[0] = new MySqlParameter("@ProductName", strProductName);
       aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);

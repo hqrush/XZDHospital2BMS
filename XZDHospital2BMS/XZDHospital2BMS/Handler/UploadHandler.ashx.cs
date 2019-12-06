@@ -17,7 +17,7 @@ namespace XZDHospital2BMS.Handler
       if (context.Request.Params["op_flag"] == null ||
         "".Equals(context.Request.Params["op_flag"].ToString()))
       {
-        context.Response.Write(setReturn("500", "需要指明操作类型！", ""));
+        context.Response.Write(HelperUtility.setReturnJson("500", "需要指明操作类型！", ""));
         return;
       }
       strOPFlag = context.Request.Params["op_flag"].ToString();
@@ -30,7 +30,7 @@ namespace XZDHospital2BMS.Handler
           DelFile(context);
           break;
         default:
-          context.Response.Write(setReturn("500", "需要指明操作类型！", ""));
+          context.Response.Write(HelperUtility.setReturnJson("500", "需要指明操作类型！", ""));
           break;
       }
     }
@@ -41,7 +41,7 @@ namespace XZDHospital2BMS.Handler
       HttpPostedFile objHPF = context.Request.Files["photo_file"];
       if (objHPF == null)
       {
-        context.Response.Write(setReturn("500", "要上传的文件为空！", ""));
+        context.Response.Write(HelperUtility.setReturnJson("500", "要上传的文件为空！", ""));
         return;
       }
       ModelUploadFileConfig objConfig = new ModelUploadFileConfig();
@@ -49,9 +49,9 @@ namespace XZDHospital2BMS.Handler
       objConfig.AllowUploadImageFileExt = "jpg,jpeg,png";
       HelperUploadFile.SaveULFileFromHPF(objHPF, objConfig);
       if (objConfig.OPFlag)
-        context.Response.Write(setReturn("200", "", objConfig.ServerFilePath));
+        context.Response.Write(HelperUtility.setReturnJson("200", "", objConfig.ServerFilePath));
       else
-        context.Response.Write(setReturn("500", objConfig.OPMessage, ""));
+        context.Response.Write(HelperUtility.setReturnJson("500", objConfig.OPMessage, ""));
     }
 
     private void DelFile(HttpContext context)
@@ -59,7 +59,7 @@ namespace XZDHospital2BMS.Handler
       if (context.Request.Params["photo_url"] == null ||
         "".Equals(context.Request.Params["photo_url"].ToString()))
       {
-        context.Response.Write(setReturn("500", "需要指明要删除的图片地址！", ""));
+        context.Response.Write(HelperUtility.setReturnJson("500", "需要指明要删除的图片地址！", ""));
         return;
       }
       string strUrl = context.Request.Params["photo_url"].ToString();
@@ -68,19 +68,10 @@ namespace XZDHospital2BMS.Handler
       if (File.Exists(strFileFullPath))
       {
         File.Delete(strFileFullPath);
-        context.Response.Write(setReturn("200", "", ""));
+        context.Response.Write(HelperUtility.setReturnJson("200", "", ""));
       }
       else
-        context.Response.Write(setReturn("500", "删除文件出错！", ""));
-    }
-
-    private string setReturn(string strCode, string strMsg, string strData)
-    {
-      ModelReturnJson model = new ModelReturnJson();
-      model.StatusCode = strCode;
-      model.Message = strMsg;
-      model.Data = strData;
-      return model.ToString();
+        context.Response.Write(HelperUtility.setReturnJson("500", "删除文件出错！", ""));
     }
 
     public bool IsReusable

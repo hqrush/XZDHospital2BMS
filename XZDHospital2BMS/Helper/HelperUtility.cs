@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -357,6 +358,7 @@ namespace Helper
       return System.Text.RegularExpressions.Regex.IsMatch(strIdCard, @"(^\d{18}$)|(^\d{15}$)");
     }
 
+    // 验证是否是日期类型
     public static bool isDateType(string strDate)
     {
       try
@@ -368,6 +370,30 @@ namespace Helper
       {
         return false;
       }
+    }
+
+    // 验证是否是数字类型
+    public static bool isNumber(string strSource)
+    {
+      try
+      {
+        int intReturn = Convert.ToInt32(strSource);
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+
+    public static string setReturnJson(string strCode, string strMsg, string strData)
+    {
+      ModelReturnJson model = new ModelReturnJson();
+      model.StatusCode = strCode;
+      model.Message = strMsg;
+      model.Data = strData;
+      return model.ToString();
     }
 
   }

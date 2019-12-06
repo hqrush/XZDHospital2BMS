@@ -95,7 +95,9 @@
                 <label for="tbAmount" class="col-sm-2 control-label">
                   <strong class="red">*</strong>货品数量：</label>
                 <div class="col-sm-5">
-                  <asp:TextBox runat="server" ID="tbAmount" TextMode="Number"
+                  <asp:TextBox runat="server" ID="tbAmount"
+                    onkeyup="if(isNaN(value))execCommand('undo')"
+                    onafterpaste="if(isNaN(value))execCommand('undo')"
                     CssClass="form-control" placeholder="输入货品数量..." />
                 </div>
                 <div class="col-sm-5">
@@ -107,7 +109,9 @@
                 <label for="tbPriceUnit" class="col-sm-2 control-label">
                   <strong class="red">*</strong>货品单价：</label>
                 <div class="col-sm-5">
-                  <asp:TextBox runat="server" ID="tbPriceUnit" TextMode="Number"
+                  <asp:TextBox runat="server" ID="tbPriceUnit"
+                    onkeyup="if(isNaN(value))execCommand('undo')"
+                    onafterpaste="if(isNaN(value))execCommand('undo')"
                     CssClass="form-control" placeholder="输入货品单价（含税价）..." />
                 </div>
                 <div class="col-sm-5">

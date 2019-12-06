@@ -34,7 +34,7 @@
               <Columns>
 
                 <asp:TemplateField HeaderText="销售公司">
-                  <ItemStyle Width="200px" />
+                  <ItemStyle Width="180px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblCompanyId"
                       Text='<%# Eval("id_company").ToString() %>' />
@@ -58,7 +58,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="照片凭证">
-                  <ItemStyle Width="300px" />
+                  <ItemStyle Width="240px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblPhotoUrls"
                       Text='<%# Eval("photo_urls").ToString() %>' />
@@ -69,6 +69,22 @@
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblComment"
                       Text='<%# Eval("comment").ToString() %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="货品总数">
+                  <ItemStyle Width="80px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblId" Visible="false"
+                      Text='<%# Eval("id").ToString() %>' />
+                    <asp:Label runat="server" ID="lblGoodsAmount" />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="货品总价">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblPriceTotal" />
                   </ItemTemplate>
                 </asp:TemplateField>
 

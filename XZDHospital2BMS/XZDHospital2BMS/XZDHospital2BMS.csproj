@@ -74,6 +74,7 @@
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
     <Content Include="static\css\lib\bootstrap-select.min.css" />
+    <Content Include="static\js\check-form\checkout_record.js" />
     <Content Include="static\js\check-form\sales_goods.js" />
     <Content Include="static\js\lib\bootstrap-select.min.js" />
     <Content Include="static\css\lib\datepicker.min.css" />
@@ -87,6 +88,7 @@
     <Content Include="Handler\CheckAdminHandler.ashx" />
     <Content Include="Handler\LogoutHandler.ashx" />
     <Content Include="Handler\UploadHandler.ashx" />
+    <Content Include="Handler\AddCheckoutGoods.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\webuploader\icons.psd" />
     <Content Include="static\image\webuploader\progress.psd" />
@@ -243,6 +245,9 @@
     </Compile>
     <Compile Include="BackManager\WUCFileUploader.ascx.designer.cs">
       <DependentUpon>WUCFileUploader.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\AddCheckoutGoods.ashx.cs">
+      <DependentUpon>AddCheckoutGoods.ashx</DependentUpon>
     </Compile>
     <Compile Include="Handler\CheckAdminHandler.ashx.cs">
       <DependentUpon>CheckAdminHandler.ashx</DependentUpon>
