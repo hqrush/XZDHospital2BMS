@@ -214,57 +214,47 @@ WHERE id_contract = @id_contract";
 
     public static DataTable getDTByName(string strProductName, string strFactoryName)
     {
-      string strSql = "";
+      string strSql, strSqlHead, strSqlWhere;
+      strSqlHead = @"
+SELECT
+  goods.id,
+  goods.id_contract,
+  contract.time_sign,
+  name_product,
+  name_factory,
+  type,
+  price_unit,
+  validity_period,
+  amount
+FROM sales_goods goods
+INNER JOIN sales_contract contract
+ON
+  goods.id_contract = contract.id
+";
+      MySqlParameter[] aryParams;
       if (!"".Equals(strProductName) && "".Equals(strFactoryName))
-        strSql = @"
-SELECT *
-FROM sales_goods
-WHERE
-  name_product LIKE CONCAT('%', @ProductName, '%')
-";
+      {
+        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%')";
+        aryParams = new MySqlParameter[1];
+        aryParams[0] = new MySqlParameter("@ProductName", strProductName);
+      }
       else if ("".Equals(strProductName) && !"".Equals(strFactoryName))
-        strSql = @"
-SELECT *
-FROM sales_goods
-WHERE
-  name_factory LIKE CONCAT('%', @FactoryName, '%')
-";
+      {
+        strSqlWhere = " WHERE name_factory LIKE CONCAT('%', @FactoryName, '%')";
+        aryParams = new MySqlParameter[1];
+        aryParams[0] = new MySqlParameter("@FactoryName", strFactoryName);
+      }
       else if (!"".Equals(strProductName) && !"".Equals(strFactoryName))
-        strSql = @"
-SELECT *
-FROM sales_goods
-WHERE
-  name_product LIKE CONCAT('%', @ProductName, '%') AND
-  name_factory LIKE CONCAT('%', @FactoryName, '%')
-";
+      {
+        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%') AND " +
+            "name_factory LIKE CONCAT('%', @FactoryName, '%')";
+        aryParams = new MySqlParameter[2];
+        aryParams[0] = new MySqlParameter("@ProductName", strProductName);
+        aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
+      }
       else return null;
-      MySqlParameter[] aryParams = new MySqlParameter[2];
-      aryParams[0] = new MySqlParameter("@ProductName", strProductName);
-      aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
+      strSql = strSqlHead + strSqlWhere;
       return HelperMySql.GetDataTable(strSql, aryParams);
-    }
-
-    /// <summary>
-    /// 得到某厂生产的某个货品的库存总量
-    /// </summary>
-    /// <param name="strProductName">某厂名称</param>
-    /// <param name="strFactoryName">某个货品名称</param>
-    /// <returns>库存总量</returns>
-    public static decimal getInventoryAmount(string strProductName, string strFactoryName)
-    {
-      // 先得到得到某厂生产的某个货品的所有的进货总量
-      string strSQL = @"
-SELECT SUM(amount)
-FROM sales_goods
-WHERE
-  name_product = @ProductName AND
-  name_factory = @FactoryName
-";
-      MySqlParameter[] aryParams = new MySqlParameter[2];
-      aryParams[0] = new MySqlParameter("@ProductName", strProductName);
-      aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
-      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
-      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
     }
 
     #endregion

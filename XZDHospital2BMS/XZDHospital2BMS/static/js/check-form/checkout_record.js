@@ -9,10 +9,16 @@ function checkNotNull() {
 }
 
 // 添加到出库清单的ajax操作
-function addGoods(intCheckoutContractId, intGoodsId, tbAmount) {
+function addGoods(intCheckoutContractId, intGoodsId, lblInventory, tbAmount) {
+  // Label控件转成span标签，取值不是用val()，而是用text()
+  var intInventory = $("#" + lblInventory + "").text();
   var intAmount = $("#" + tbAmount + "").val();
   if (!(intAmount > 0)) {
     alert("提货数必须大于0！");
+    return false;
+  }
+  if (intAmount > intInventory) {
+    alert("库存不足，提货数不能大于库存！");
     return false;
   }
   var formData = new FormData();
@@ -29,10 +35,10 @@ function addGoods(intCheckoutContractId, intGoodsId, tbAmount) {
     // 不处理数据
     contentType: false,
     success: function (result) {
-      alert(result.StatusCode);
       var code = result.StatusCode;
       var msg = result.Message;
       if (code === "200") {
+        $("#" + lblInventory + "").html(intInventory - intAmount);
         alert("已添加！");
         return true;
       } else if (code === "500") {

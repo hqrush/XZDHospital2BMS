@@ -28,7 +28,8 @@ INSERT INTO checkout_record (
       if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM checkout_record";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
@@ -57,7 +58,7 @@ WHERE
       aryParams[1] = new MySqlParameter("@id_goods", model.id_goods);
       aryParams[2] = new MySqlParameter("@amount", model.amount);
       aryParams[3] = new MySqlParameter("@id", model.id);
-      return (int)HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelCheckoutRecord getById(int intId)
@@ -78,16 +79,19 @@ WHERE
       else return null;
     }
 
-    public static DataTable getAll()
+    // 得到所有记录是无意义的，应该是得到某个出库单下所有的出库货品的记录
+    public static DataTable getAll(int intContractId)
     {
-      string strSQL = @"SELECT * FROM checkout_record";
-      return HelperMySql.GetDataTable(strSQL);
+      string strSQL = @"SELECT * FROM checkout_record WHERE id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      return HelperMySql.GetDataTable(strSQL, aryParams);
     }
 
     /// <summary>
     /// 分页查询
     /// </summary>
-    public static DataTable getPage(int intPage, int intPageSize)
+    public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
       string strSQL = @"
 SELECT *
@@ -96,24 +100,63 @@ WHERE id <=
 (
   SELECT id
   FROM checkout_record
+  WHERE id_contract = @id_contract
   ORDER BY id DESC
   LIMIT " + (intPage - 1) * intPageSize + @" , 1
-)
+) AND id_contract = @id_contract
 ORDER BY id DESC
 LIMIT @PageSize
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[1];
-      aryParams[0] = new MySqlParameter("@PageSize", intPageSize);
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      aryParams[1] = new MySqlParameter("@PageSize", intPageSize);
       return HelperMySql.GetDataTable(strSQL, aryParams);
     }
 
     /// <summary>
     /// 得到记录总数
     /// </summary>
-    public static int getRecordsAmount()
+    public static int getRecordsAmount(int intContractId)
     {
-      string strSQL = @"SELECT COUNT(*) FROM checkout_record";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      string strSQL = @"SELECT COUNT(*) FROM checkout_record WHERE id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      object objReturn = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
+    }
+
+    /// <summary>
+    /// 得到某个出库单下所有货品的总价
+    /// </summary>
+    /// <param name="intContractId">出库单id</param>
+    /// <returns>某个出库单下所有货品的总价</returns>
+    public static decimal getPriceTotal(int intContractId)
+    {
+      string strSQL = @"
+SELECT SUM(price_total)
+FROM checkout_record
+WHERE id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
+    }
+
+    /// <summary>
+    /// 得到某个某个货品的出库数
+    /// </summary>
+    /// <param name="intGoodsId">出库货品id</param>
+    /// <returns>某个出库单下所有货品的总价</returns>
+    public static decimal getAmountByGoodsId(int intGoodsId)
+    {
+      string strSQL = @"
+SELECT SUM(amount)
+FROM checkout_record
+WHERE id_goods = @id_goods";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_goods", intGoodsId);
+      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
     }
 
   }

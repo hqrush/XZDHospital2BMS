@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.checkout_record
@@ -55,18 +56,31 @@ namespace XZDHospital2BMS.BackManager.checkout_record
       {
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-
         Label lblId = (Label)e.Row.FindControl("lblId");
-        TextBox tbAmount = (TextBox)e.Row.FindControl("tbAmount");
-        Button btnAddToList = (Button)e.Row.FindControl("btnAddToList");
-
-        int intCheckoutContractId = Convert.ToInt32(ViewState["ContractId"]);
         int intGoodsId = Convert.ToInt32(lblId.Text);
-        if ("".Equals(tbAmount.Text)) tbAmount.Text = "0";
+        // 库存量的显示及更新要用到的Label控件
+        Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
+        Label lblInventory = (Label)e.Row.FindControl("lblInventory");
+        // 得到出库的货品总量
+        decimal intOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        // 得到入库的货品总量
+        if ("".Equals(lblAmountIn.Text)) lblAmountIn.Text = "0";
+        decimal intIn = Convert.ToDecimal(lblAmountIn.Text);
+        // 计算库存量
+        decimal intInventory = intIn - intOut;
+        lblInventory.Text = intInventory.ToString("N");
+        // 根据出库单id，货品id，出库数量添加一条出库货品表
+        // 先得到出库单id，货品id，输入出库数量的textbox控件id
+        TextBox tbCheckoutAmount = (TextBox)e.Row.FindControl("tbCheckoutAmount");
+        HtmlInputButton btnAddToList = (HtmlInputButton)e.Row.FindControl("btnAddToList");
+        int intCheckoutContractId = Convert.ToInt32(ViewState["ContractId"]);
+        if ("".Equals(tbCheckoutAmount.Text)) tbCheckoutAmount.Text = "0";
         string strClickHandler = "addGoods(" +
           intCheckoutContractId + "," +
           intGoodsId + ",\"" +
-          tbAmount.ClientID + "\")";
+          lblInventory.ClientID + "\",\"" +
+          tbCheckoutAmount.ClientID + "\")";
+        // 将上述值绑定到按钮事件上
         btnAddToList.Attributes.Add("onclick", strClickHandler);
       }
     }

@@ -83,6 +83,14 @@
                       </ItemTemplate>
                     </asp:TemplateField>
 
+                    <asp:TemplateField HeaderText="规格">
+                      <ItemStyle Width="150px" />
+                      <ItemTemplate>
+                        <asp:Label runat="server" ID="lblType"
+                          Text='<%# Eval("type").ToString() %>' />
+                      </ItemTemplate>
+                    </asp:TemplateField>
+
                     <asp:TemplateField HeaderText="单价">
                       <ItemStyle Width="60px" />
                       <ItemTemplate>
@@ -94,7 +102,8 @@
                     <asp:TemplateField HeaderText="入库时间">
                       <ItemStyle Width="100px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblSalesContractTime" />
+                        <asp:Label runat="server" ID="lblSalesContractTime"
+                          Text='<%# Eval("time_sign", "{0:yyyy-MM-dd}") %>' />
                       </ItemTemplate>
                     </asp:TemplateField>
 
@@ -109,14 +118,16 @@
                     <asp:TemplateField HeaderText="库存量">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
+                        <asp:Label runat="server" ID="lblAmountIn" Visible="false"
+                          Text='<%# Eval("amount", "{0:f2}") %>' />
                         <asp:Label runat="server" ID="lblInventory" />
                       </ItemTemplate>
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="提货数">
-                      <ItemStyle Width="30px" />
+                      <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:TextBox runat="server" ID="tbAmount"
+                        <asp:TextBox runat="server" ID="tbCheckoutAmount"
                           onkeyup="if(isNaN(value))execCommand('undo')"
                           onafterpaste="if(isNaN(value))execCommand('undo')"
                           CssClass="form-control" Width="60" />
@@ -128,8 +139,8 @@
                       <ItemTemplate>
                         <asp:Label runat="server" ID="lblId" Visible="false"
                           Text='<%# Eval("id").ToString() %>' />
-                        <asp:Button runat="server" ID="btnAddToList" Text="添加到出库单"
-                          CssClass="btn btn-warning" />
+                        <input type="button" runat="server" id="btnAddToList" value="添加到出库单"
+                          class="btn btn-warning" />
                       </ItemTemplate>
                     </asp:TemplateField>
 

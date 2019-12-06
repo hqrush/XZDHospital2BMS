@@ -4,6 +4,7 @@ using System.Data;
 
 namespace Bll
 {
+
   public class BllCheckoutRecord
   {
 
@@ -27,19 +28,29 @@ namespace Bll
       return DalCheckoutRecord.getById(intId);
     }
 
-    public static DataTable getAll()
+    public static DataTable getAll(int intContractId)
     {
-      return DalCheckoutRecord.getAll();
+      return DalCheckoutRecord.getAll(intContractId);
     }
 
-    public static DataTable getPage(int intPage, int intPageSize)
+    public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
-      return DalCheckoutRecord.getPage(intPage, intPageSize);
+      return DalCheckoutRecord.getPage(intContractId, intPage, intPageSize);
     }
 
-    public static int getRecordsAmount()
+    public static int getRecordsAmount(int intContractId)
     {
-      return DalCheckoutRecord.getRecordsAmount();
+      return DalCheckoutRecord.getRecordsAmount(intContractId);
+    }
+
+    public static decimal getPriceTotal(int intContractId)
+    {
+      return DalCheckoutRecord.getPriceTotal(intContractId);
+    }
+
+    public static decimal getAmountByGoodsId(int intGoodsId)
+    {
+      return DalCheckoutRecord.getAmountByGoodsId(intGoodsId);
     }
 
   }
