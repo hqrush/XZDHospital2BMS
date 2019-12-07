@@ -14,19 +14,19 @@ namespace XZDHospital2BMS.Handler
     {
       context.Response.ContentType = "application/json";
       if (context.Request.Params["CheckoutContractId"] == null ||
-        !HelperUtility.isNumber(context.Request.Params["CheckoutContractId"].ToString()))
+        !HelperUtility.isDecimal(context.Request.Params["CheckoutContractId"].ToString()))
       {
         context.Response.Write(HelperUtility.setReturnJson("500", "需要指明出库单ID！", ""));
         return;
       }
       if (context.Request.Params["GoodsId"] == null ||
-        !HelperUtility.isNumber(context.Request.Params["GoodsId"].ToString()))
+        !HelperUtility.isDecimal(context.Request.Params["GoodsId"].ToString()))
       {
         context.Response.Write(HelperUtility.setReturnJson("500", "需要指明出库单ID！", ""));
         return;
       }
       if (context.Request.Params["Amount"] == null ||
-        !HelperUtility.isNumber(context.Request.Params["Amount"].ToString()))
+        !HelperUtility.isDecimal(context.Request.Params["Amount"].ToString()))
       {
         context.Response.Write(HelperUtility.setReturnJson("500", "需要指明数量！", ""));
         return;

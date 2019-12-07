@@ -375,12 +375,26 @@ namespace Helper
       }
     }
 
-    // 验证是否是数字类型
-    public static bool isNumber(string strSource)
+    // 验证是否是Int数字类型
+    public static bool isInt(string strSource)
     {
       try
       {
-        decimal intReturn = Convert.ToDecimal(strSource);
+        int intReturn = Convert.ToInt32(strSource);
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+    // 验证是否是decimal数字类型
+    public static bool isDecimal(string strSource)
+    {
+      try
+      {
+        decimal dcmReturn = Convert.ToDecimal(strSource);
         return true;
       }
       catch

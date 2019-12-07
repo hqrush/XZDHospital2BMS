@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-namespace XZDHospital2BMS.BackManager.checkout_record
+namespace XZDHospital2BMS.BackManager.inventory_record
 {
 
   public partial class add : System.Web.UI.Page
@@ -19,7 +19,7 @@ namespace XZDHospital2BMS.BackManager.checkout_record
     {
       if (!IsPostBack)
       {
-        int intAdminId = HelperUtility.hasPurviewPage("CheckoutRecord_add");
+        int intAdminId = HelperUtility.hasPurviewPage("InventoryRecord_add");
         ViewState["AdminId"] = intAdminId;
         int intCId = HelperUtility.getQueryInt("cid");
         ViewState["ContractId"] = intCId;
@@ -63,7 +63,7 @@ namespace XZDHospital2BMS.BackManager.checkout_record
         Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
         Label lblInventory = (Label)e.Row.FindControl("lblInventory");
         // 得到出库的货品总量
-        decimal intOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        decimal intOut = BllInventoryRecord.getAmountByGoodsId(intGoodsId);
         // 得到入库的货品总量
         if ("".Equals(lblAmountIn.Text)) lblAmountIn.Text = "0";
         decimal intIn = Convert.ToDecimal(lblAmountIn.Text);
@@ -72,15 +72,15 @@ namespace XZDHospital2BMS.BackManager.checkout_record
         lblInventory.Text = intInventory.ToString("N");
         // 根据出库单id，货品id，出库数量添加一条出库货品表
         // 先得到出库单id，货品id，输入出库数量的textbox控件id
-        TextBox tbCheckoutAmount = (TextBox)e.Row.FindControl("tbCheckoutAmount");
+        TextBox tbInventoryAmount = (TextBox)e.Row.FindControl("tbInventoryAmount");
         HtmlInputButton btnAddToList = (HtmlInputButton)e.Row.FindControl("btnAddToList");
-        int intCheckoutContractId = Convert.ToInt32(ViewState["ContractId"]);
-        if ("".Equals(tbCheckoutAmount.Text)) tbCheckoutAmount.Text = "0";
+        int intInventoryContractId = Convert.ToInt32(ViewState["ContractId"]);
+        if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
         string strClickHandler = "addGoods(" +
-          intCheckoutContractId + "," +
+          intInventoryContractId + "," +
           intGoodsId + ",\"" +
           lblInventory.ClientID + "\",\"" +
-          tbCheckoutAmount.ClientID + "\")";
+          tbInventoryAmount.ClientID + "\")";
         // 将上述值绑定到按钮事件上
         btnAddToList.Attributes.Add("onclick", strClickHandler);
       }
@@ -92,7 +92,7 @@ namespace XZDHospital2BMS.BackManager.checkout_record
       string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
       if (e.CommandName == "edit")
       {
-        if (HelperUtility.hasPurviewOP("SalesGoods_update"))
+        if (HelperUtility.hasPurviewOP("InventoryRecord_update"))
         {
           string strUrl = "edit.aspx" + strUrlBack;
           strUrl += "&page=" + ViewState["page"] + "&id=" + intId.ToString();

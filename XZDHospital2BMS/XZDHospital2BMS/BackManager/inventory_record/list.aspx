@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="list.aspx.cs" Inherits="XZDHospital2BMS.BackManager.checkout_record.list" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="list.aspx.cs" Inherits="XZDHospital2BMS.BackManager.inventory_record.list" %>
 
 <%@ Register Src="~/BackManager/wucHeader.ascx" TagPrefix="wuc" TagName="wucHeader" %>
 
@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>欢迎使用信州区第二人民医院后台管理系统 出库货品列表</title>
+  <title>欢迎使用信州区第二人民医院后台管理系统 盘点货品列表</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
@@ -29,10 +29,13 @@
           <div class="wrapper-op form-group">
             <div class="wrapper-btn col-sm-4">
               <asp:HyperLink runat="server" ID="hlBackContract"
-                Target="_self" Text="返回出库单" CssClass="btn btn-sm btn-success" />
+                Target="_self" Text="返回盘点单" CssClass="btn btn-sm btn-success" />
               <asp:HyperLink runat="server" ID="hlAddNew"
-                Target="_self" Text="添加出库货品" CssClass="btn btn-sm btn-success" />
-              <button type="button" class="btn btn-info btn-sm">
+                Target="_self" Text="添加盘点货品" CssClass="btn btn-sm btn-success" />
+              <button type="button" id="btnExportExcel" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-print" />导出Excel表格
+              </button>
+              <button type="button" id="btnPrint" class="btn btn-info btn-sm">
                 <span class="glyphicon glyphicon-print" />打印清单
               </button>
             </div>
@@ -74,18 +77,12 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="数量">
+                <asp:TemplateField HeaderText="盘点数量">
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblAmount"
-                      Text='<%# Eval("amount", "{0:f2}") %>' />
+                    <asp:Label runat="server" ID="lblAmountReal"
+                      Text='<%# Eval("amount_real", "{0:f2}") %>' />
                   </ItemTemplate>
-                  <EditItemTemplate>
-                    <asp:TextBox runat="server" ID="tbAmount" Width="70px" MaxLength="8"
-                      onkeyup="if(isNaN(value))execCommand('undo')"
-                      onafterpaste="if(isNaN(value))execCommand('undo')"
-                      Text='<%# Eval("amount", "{0:f2}") %>' />
-                  </EditItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="单价">

@@ -27,19 +27,29 @@ namespace Bll
       return DalInventoryRecord.getById(intId);
     }
 
-    public static DataTable getAll()
+    public static DataTable getAll(int intContractId)
     {
-      return DalInventoryRecord.getAll();
+      return DalInventoryRecord.getAll(intContractId);
     }
 
-    public static DataTable getPage(int intPage, int intPageSize)
+    public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
-      return DalInventoryRecord.getPage(intPage, intPageSize);
+      return DalInventoryRecord.getPage(intContractId, intPage, intPageSize);
     }
 
-    public static int getRecordsAmount()
+    public static int getRecordsAmount(int intContractId)
     {
-      return DalInventoryRecord.getRecordsAmount();
+      return DalInventoryRecord.getRecordsAmount(intContractId);
+    }
+
+    public static decimal getPriceTotal(int intContractId)
+    {
+      return DalInventoryRecord.getPriceTotal(intContractId);
+    }
+
+    public static decimal getAmountByGoodsId(int intGoodsId)
+    {
+      return DalInventoryRecord.getAmountByGoodsId(intGoodsId);
     }
 
   }
