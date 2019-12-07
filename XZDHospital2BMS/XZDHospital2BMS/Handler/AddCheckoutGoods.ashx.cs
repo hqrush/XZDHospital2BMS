@@ -34,8 +34,8 @@ namespace XZDHospital2BMS.Handler
 
       int intCheckoutContractId = Convert.ToInt32(context.Request.Params["CheckoutContractId"]);
       int intGoodsId = Convert.ToInt32(context.Request.Params["GoodsId"]);
-      int intAmount = Convert.ToInt32(context.Request.Params["Amount"]);
-      if (!(intCheckoutContractId > 0 && intGoodsId > 0 && intAmount > 0))
+      decimal dcmAmount = Convert.ToDecimal(context.Request.Params["Amount"]);
+      if (!(intCheckoutContractId > 0 && intGoodsId > 0 && dcmAmount > 0))
       {
         context.Response.Write(HelperUtility.setReturnJson("500", "数字不对！", ""));
         return;
@@ -43,7 +43,7 @@ namespace XZDHospital2BMS.Handler
       ModelCheckoutRecord model = new ModelCheckoutRecord();
       model.id_contract = intCheckoutContractId;
       model.id_goods = intGoodsId;
-      model.amount = intAmount;
+      model.amount = dcmAmount;
       int intId = BllCheckoutRecord.add(model);
       if (intId > 0)
       {

@@ -10,7 +10,7 @@ namespace Model
     private int _id = 0;
     private int _id_contract = 0;
     private int _id_goods = 0;
-    private int _amount = 0;
+    private decimal _amount = 0;
 
     public ModelCheckoutRecord() { }
 
@@ -53,7 +53,7 @@ namespace Model
       }
     }
 
-    public int amount
+    public decimal amount
     {
       get
       {

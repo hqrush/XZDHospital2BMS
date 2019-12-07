@@ -61,6 +61,21 @@ WHERE
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    public static int updateAmountById(decimal dcmAmount, int intId)
+    {
+      string strSQL = @"
+UPDATE checkout_record
+SET
+  amount = @amount
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@amount", dcmAmount);
+      aryParams[1] = new MySqlParameter("@id", intId);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
     public static ModelCheckoutRecord getById(int intId)
     {
       string strSQL = @"SELECT * FROM checkout_record WHERE id = @id";
@@ -73,7 +88,7 @@ WHERE
         model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
         model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_contract"]);
         model.id_goods = Convert.ToInt32(objDT.Rows[0]["id_goods"]);
-        model.amount = Convert.ToInt32(objDT.Rows[0]["amount"]);
+        model.amount = Convert.ToDecimal(objDT.Rows[0]["amount"]);
         return model;
       }
       else return null;
@@ -82,7 +97,28 @@ WHERE
     // 得到所有记录是无意义的，应该是得到某个出库单下所有的出库货品的记录
     public static DataTable getAll(int intContractId)
     {
-      string strSQL = @"SELECT * FROM checkout_record WHERE id_contract = @id_contract";
+      string strSQL = @"
+SELECT
+  record.id,
+  record.id_goods,
+  record.amount,
+  contract.time_sign,
+  goods.name_product,
+  goods.name_factory,
+  goods.price_unit,
+  goods.batch_number,
+  goods.validity_period,
+  goods.type
+FROM checkout_record record
+INNER JOIN sales_contract contract
+ON
+  record.id_contract = contract.id
+INNER JOIN sales_goods goods
+ON
+  record.id_goods = goods.id
+WHERE
+  record.id_contract = @id_contract
+";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
       return HelperMySql.GetDataTable(strSQL, aryParams);
@@ -133,13 +169,25 @@ LIMIT @PageSize
     public static decimal getPriceTotal(int intContractId)
     {
       string strSQL = @"
-SELECT SUM(price_total)
+SELECT id_goods, amount
 FROM checkout_record
 WHERE id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
-      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
-      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      if (objDT == null || objDT.Rows.Count <= 0) return 0;
+      int intGoodsId;
+      decimal dcmAmount;
+      decimal dcmPriceUnit;
+      decimal dcmPriceTotal = 0;
+      for (int i = 0; i < objDT.Rows.Count; i++)
+      {
+        intGoodsId = Convert.ToInt32(objDT.Rows[i]["id_goods"]);
+        dcmAmount = Convert.ToDecimal(objDT.Rows[i]["amount"]);
+        dcmPriceUnit = DalSalesGoods.getById(intGoodsId).price_unit;
+        dcmPriceTotal += dcmPriceUnit * dcmAmount;
+      }
+      return dcmPriceTotal;
     }
 
     /// <summary>

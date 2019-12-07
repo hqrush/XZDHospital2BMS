@@ -23,6 +23,7 @@ namespace XZDHospital2BMS.BackManager.sales_goods
         int intId = HelperUtility.getQueryInt("id");
 
         ModelSalesGoods model = BllSalesGoods.getById(intId);
+        if (model == null) HelperUtility.showAlert("没有找到此货品！", "list.aspx");
         lblProductName.Text = model.name_product;
         lblType.Text = model.type;
         lblFactoryName.Text = model.name_factory;

@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>欢迎使用信州区第二人民医院后台管理系统 入库货品列表</title>
+  <title>欢迎使用信州区第二人民医院后台管理系统 出库货品列表</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
@@ -33,7 +33,7 @@
               <asp:HyperLink runat="server" ID="hlAddNew"
                 Target="_self" Text="添加出库货品" CssClass="btn btn-sm btn-success" />
               <button type="button" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-print"></span>打印清单
+                <span class="glyphicon glyphicon-print" />打印清单
               </button>
             </div>
             <div class="wrapper-info col-sm-8">
@@ -44,16 +44,19 @@
           <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
-              OnRowDataBound="gvShow_RowDataBound" CssClass="table table-condensed">
+              OnRowDataBound="gvShow_RowDataBound" OnRowEditing="gvShow_RowEditing"
+              OnRowUpdating="gvShow_RowUpdating" OnRowCancelingEdit="gvShow_RowCancelingEdit"
+              CssClass="table table-condensed">
               <RowStyle BackColor="#e6eaee" />
               <AlternatingRowStyle BackColor="#f5f5f5" />
               <Columns>
 
                 <asp:TemplateField HeaderText="通用名称及剂型">
                   <ItemTemplate>
+                    <asp:Label runat="server" ID="lblGoodsId"
+                      Text='<%# Eval("id_goods").ToString() %>' Visible="false" />
                     <asp:HyperLink runat="server" ID="hlProductName" Target="_blank"
-                      Text='<%# Eval("name_product").ToString() %>'
-                      NavigateUrl='show.aspx?id=<%# Eval("id").ToString() %>' />
+                      Text='<%# Eval("name_product").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -65,20 +68,26 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
+                <asp:TemplateField HeaderText="规格">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblType"
+                      Text='<%# Eval("type").ToString() %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:TemplateField HeaderText="数量">
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAmount"
                       Text='<%# Eval("amount", "{0:f2}") %>' />
                   </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="库存数量">
-                  <ItemStyle Width="100px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblInventory"
-                      Text='<%# Eval("inventory", "{0:f2}") %>' />
-                  </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:TextBox runat="server" ID="tbAmount" Width="70px" MaxLength="8"
+                      onkeyup="if(isNaN(value))execCommand('undo')"
+                      onafterpaste="if(isNaN(value))execCommand('undo')"
+                      Text='<%# Eval("amount", "{0:f2}") %>' />
+                  </EditItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="单价">
@@ -97,6 +106,14 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
+                <asp:TemplateField HeaderText="入库时间">
+                  <ItemStyle Width="110px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblSignTime"
+                      Text='<%# Eval("time_sign", "{0:yyyy-MM-dd}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:TemplateField HeaderText="有效期至">
                   <ItemStyle Width="110px" />
                   <ItemTemplate>
@@ -105,26 +122,22 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="添加人">
-                  <ItemStyle Width="70px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblAdminId"
-                      Text='<%# Eval("id_admin").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
                 <asp:TemplateField HeaderText="操作">
                   <ItemStyle Width="150px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblId" Text='<%# Eval("id").ToString() %>' Visible="false" />
-                    <asp:HyperLink runat="server" ID="hlShow" Target="_blank"
-                      CssClass="btn btn-info btn-xs" Text="查看" />
                     <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs" Text="编辑"
-                      OnCommand="OP_Command" CommandName="edit" CommandArgument='<%# Eval("id") %>' />
+                      CommandName="edit" />
                     <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs" Text="删除"
                       OnClientClick="return confirm('确定要删除？');"
                       OnCommand="OP_Command" CommandName="del" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:Button runat="server" ID="btnUpdate"
+                      CssClass="btn btn-info btn-xs" Text="更新" CommandName="update" />
+                    <asp:Button runat="server" ID="btnCancel"
+                      CssClass="btn btn-info btn-xs" Text="取消" CommandName="cancel" />
+                  </EditItemTemplate>
                 </asp:TemplateField>
 
               </Columns>

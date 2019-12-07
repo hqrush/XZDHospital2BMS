@@ -23,6 +23,11 @@ namespace Bll
       return DalCheckoutRecord.update(model);
     }
 
+    public static int updateAmountById(decimal dcmAmount, int intId)
+    {
+      return DalCheckoutRecord.updateAmountById(dcmAmount, intId);
+    }
+
     public static ModelCheckoutRecord getById(int intId)
     {
       return DalCheckoutRecord.getById(intId);

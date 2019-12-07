@@ -98,13 +98,16 @@ namespace Helper
     public static void showAlert(string strMsg, string strUrl)
     {
       string strScript = "<script>";
-      if (!"".Equals(strMsg))
+      if (!"".Equals(strMsg) && !"".Equals(strUrl))
       {
         strScript += "alert('" + strMsg + "');";
         strScript += "location='" + strUrl + "';</script>";
       }
-      else
+      else if (!"".Equals(strMsg) && "".Equals(strUrl))
+        strScript += "alert('" + strMsg + "');</script>";
+      else if ("".Equals(strMsg) && !"".Equals(strUrl))
         strScript += "location='" + strUrl + "';</script>";
+      else return;
       HttpContext.Current.Response.Write(strScript);
     }
 
@@ -377,7 +380,7 @@ namespace Helper
     {
       try
       {
-        int intReturn = Convert.ToInt32(strSource);
+        decimal intReturn = Convert.ToDecimal(strSource);
         return true;
       }
       catch
@@ -385,7 +388,6 @@ namespace Helper
         return false;
       }
     }
-
 
     public static string setReturnJson(string strCode, string strMsg, string strData)
     {

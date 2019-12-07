@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="BllCheckoutContract.cs" />
     <Compile Include="BllCheckoutRecord.cs" />
-    <Compile Include="BllGoods.cs" />
     <Compile Include="BllInventoryContract.cs" />
     <Compile Include="BllInventoryRecord.cs" />
     <Compile Include="BllSalesGoods.cs" />

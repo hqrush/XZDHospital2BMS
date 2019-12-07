@@ -38,7 +38,8 @@ function addGoods(intCheckoutContractId, intGoodsId, lblInventory, tbAmount) {
       var code = result.StatusCode;
       var msg = result.Message;
       if (code === "200") {
-        $("#" + lblInventory + "").html(intInventory - intAmount);
+        intInventory = (intInventory - intAmount).toFixed(2);
+        $("#" + lblInventory + "").html(intInventory);
         alert("已添加！");
         return true;
       } else if (code === "500") {
