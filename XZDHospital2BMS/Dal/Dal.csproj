@@ -47,6 +47,7 @@
     <Compile Include="DalCheckoutContract.cs" />
     <Compile Include="DalInventoryRecord.cs" />
     <Compile Include="DalInventoryContract.cs" />
+    <Compile Include="DalMedicalRecord.cs" />
     <Compile Include="DalSalesGoods.cs" />
     <Compile Include="DalSalesContract.cs" />
     <Compile Include="DalSalesCompany.cs" />

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BllMedicalRecord.cs" />
     <Compile Include="BllCheckoutContract.cs" />
     <Compile Include="BllCheckoutRecord.cs" />
     <Compile Include="BllInventoryContract.cs" />

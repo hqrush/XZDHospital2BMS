@@ -43,8 +43,8 @@
                     信州区第二人民医院
                   </label>
                   <label class="checkbox-inline">
-                    <input runat="server" type="checkbox" id="cbUnitName2" value="东市街道卫生站">
-                    东市街道卫生站
+                    <input runat="server" type="checkbox" id="cbUnitName2" value="东市街道社区卫生服务中心">
+                    东市街道社区卫生服务中心
                   </label>
                 </div>
               </div>

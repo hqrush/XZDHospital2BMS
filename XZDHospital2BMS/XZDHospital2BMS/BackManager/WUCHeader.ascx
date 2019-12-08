@@ -43,6 +43,13 @@
               </ul>
             </li>
             <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">病历管理<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/BackManager/medical_record/add.aspx">添加病历</a></li>
+                <li><a href="/BackManager/medical_record/list.aspx">管理病历</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">系统设置<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/BackManager/admin/add.aspx">添加管理员</a></li>

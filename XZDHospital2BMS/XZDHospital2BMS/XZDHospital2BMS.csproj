@@ -69,6 +69,9 @@
     <Content Include="BackManager\inventory_contract\list.aspx" />
     <Content Include="BackManager\inventory_record\add.aspx" />
     <Content Include="BackManager\inventory_record\list.aspx" />
+    <Content Include="BackManager\medical_record\add.aspx" />
+    <Content Include="BackManager\medical_record\edit.aspx" />
+    <Content Include="BackManager\medical_record\list.aspx" />
     <Content Include="BackManager\sales_contract\edit.aspx" />
     <Content Include="BackManager\sales_contract\list.aspx" />
     <Content Include="BackManager\sales_goods\add.aspx" />
@@ -81,6 +84,7 @@
     <Content Include="static\css\lib\bootstrap-select.min.css" />
     <Content Include="static\js\check-form\inventory_record.js" />
     <Content Include="static\js\check-form\checkout_record.js" />
+    <Content Include="static\js\check-form\medical_record.js" />
     <Content Include="static\js\check-form\sales_goods.js" />
     <Content Include="static\js\lib\bootstrap-select.min.js" />
     <Content Include="static\css\lib\datepicker.min.css" />
@@ -236,6 +240,27 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BackManager\inventory_record\list.aspx.designer.cs">
+      <DependentUpon>list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\medical_record\add.aspx.cs">
+      <DependentUpon>add.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\medical_record\add.aspx.designer.cs">
+      <DependentUpon>add.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\medical_record\edit.aspx.cs">
+      <DependentUpon>edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\medical_record\edit.aspx.designer.cs">
+      <DependentUpon>edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\medical_record\list.aspx.cs">
+      <DependentUpon>list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\medical_record\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\sales_contract\edit.aspx.cs">
