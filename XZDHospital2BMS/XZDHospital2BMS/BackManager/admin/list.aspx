@@ -14,18 +14,23 @@
   <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-     <![endif]-->
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
 </head>
 <body>
+  <form id="formShow" runat="server">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <form id="formShow" runat="server">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="wrapper-add">
+            <a href="add.aspx" class="btn btn-info">添加管理员</a>
+          </div>
+
           <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
@@ -35,7 +40,7 @@
               <Columns>
 
                 <asp:TemplateField HeaderText="用户名">
-                  <ItemStyle Width="60px" />
+                  <ItemStyle Width="120px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblUsername"
                       Text='<%# Eval("username").ToString() %>' />
@@ -43,7 +48,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="真实姓名">
-                  <ItemStyle Width="60px" />
+                  <ItemStyle Width="120px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblRealname"
                       Text='<%# Eval("real_name").ToString() %>' />
@@ -51,7 +56,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="手机号码">
-                  <ItemStyle Width="80px" />
+                  <ItemStyle Width="120px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblMobilePhone"
                       Text='<%# Eval("mobile_phone").ToString() %>' />
@@ -59,7 +64,6 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="添加时间">
-                  <ItemStyle Width="120px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblTimeAdd"
                       Text='<%# Eval("time_add").ToString() %>' />
@@ -67,7 +71,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="最后登录">
-                  <ItemStyle Width="120px" />
+                  <ItemStyle Width="200px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblTimeLastLogin"
                       Text='<%# Eval("time_last_login").ToString() %>' />
@@ -75,7 +79,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="是否启用">
-                  <ItemStyle Width="40px" />
+                  <ItemStyle Width="90px" />
                   <ItemTemplate>
                     <asp:ImageButton runat="server" ID="imgbtnEnabled" Width="16"
                       AlternateText='<%# Eval("enabled").ToString() %>'
@@ -85,7 +89,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="是否删除">
-                  <ItemStyle Width="40px" />
+                  <ItemStyle Width="90px" />
                   <ItemTemplate>
                     <asp:ImageButton runat="server" ID="imgbtnIsDeleted" Width="16"
                       AlternateText='<%# Eval("is_deleted").ToString() %>'
@@ -95,7 +99,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="操作">
-                  <ItemStyle Width="150px" />
+                  <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs" Text="编辑"
                       OnCommand="OP_Command" CommandName="edit" CommandArgument='<%# Eval("id") %>' />
@@ -109,26 +113,27 @@
 
             </asp:GridView>
 
-            <div class="wrapper-pager">
-              <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+          </div>
+
+          <div class="wrapper-pager">
+            <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
                 当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
                 总页数：<asp:Label ID="lblPageCount" runat="server" />
-              </span>
-              <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
-              <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
-              <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
-                Text="跳转至" OnClick="btnJumpTo_Click" />
-            </div>
-
+            </span>
+            <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+            <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
+            <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
+              Text="跳转至" OnClick="btnJumpTo_Click" />
           </div>
-        </form>
+
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script src="/static/js/lib/bootstrap.min.js"></script>
 </body>

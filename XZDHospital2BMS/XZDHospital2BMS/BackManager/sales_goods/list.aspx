@@ -18,25 +18,25 @@
      <![endif]-->
 </head>
 <body>
+  <form runat="server" id="formShow" class="form-horizontal">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <form runat="server" id="formShow" class="form-horizontal">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
           <div class="wrapper-op form-group">
-            <div class="wrapper-btn col-sm-4">
+            <div class="wrapper-btn col-sm-6">
               <asp:HyperLink runat="server" ID="hlBackContract"
                 Target="_self" Text="返回入库单" CssClass="btn btn-sm btn-success" />
               <asp:HyperLink runat="server" ID="hlAddNew"
                 Target="_self" Text="添加新货品" CssClass="btn btn-sm btn-success" />
               <button type="button" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-print"></span> 打印清单
+                <span class="glyphicon glyphicon-print"></span>打印清单
               </button>
             </div>
-            <div class="wrapper-info col-sm-8">
+            <div class="wrapper-info col-sm-6">
               <p>总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" /></p>
             </div>
           </div>
@@ -123,27 +123,27 @@
 
             </asp:GridView>
 
-            <div class="wrapper-pager">
-              <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
-                当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
-                总页数：<asp:Label ID="lblPageCount" runat="server" />
-              </span>
-              <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
-              <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
-              <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
-                Text="跳转至" OnClick="btnJumpTo_Click" />
-            </div>
-
           </div>
 
-        </form>
+          <div class="wrapper-pager">
+            <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+                当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
+                总页数：<asp:Label ID="lblPageCount" runat="server" />
+            </span>
+            <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+            <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
+            <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
+              Text="跳转至" OnClick="btnJumpTo_Click" />
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script src="/static/js/lib/bootstrap.min.js"></script>
 </body>

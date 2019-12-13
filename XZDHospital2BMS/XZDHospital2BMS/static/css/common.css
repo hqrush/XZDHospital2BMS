@@ -18,6 +18,10 @@
     margin: 0;
   }
 
+.wrapper-add {
+  margin-bottom: 20px;
+}
+
 .wrapper-op .wrapper-info {
 }
 
