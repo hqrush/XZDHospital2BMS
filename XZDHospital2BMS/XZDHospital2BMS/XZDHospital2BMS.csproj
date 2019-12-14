@@ -64,6 +64,8 @@
     <Content Include="BackManager\checkout_contract\list.aspx" />
     <Content Include="BackManager\checkout_record\add.aspx" />
     <Content Include="BackManager\checkout_record\list.aspx" />
+    <Content Include="BackManager\department\department.txt" />
+    <Content Include="BackManager\department\list.aspx" />
     <Content Include="BackManager\inventory_contract\add.aspx" />
     <Content Include="BackManager\inventory_contract\edit.aspx" />
     <Content Include="BackManager\inventory_contract\list.aspx" />
@@ -85,6 +87,8 @@
     <Content Include="static\js\check-form\inventory_record.js" />
     <Content Include="static\js\check-form\checkout_record.js" />
     <Content Include="static\js\check-form\medical_record.js" />
+    <Content Include="static\js\check-form\checkout_contract.js" />
+    <Content Include="static\js\check-form\sales_contract.js" />
     <Content Include="static\js\check-form\sales_goods.js" />
     <Content Include="static\js\lib\bootstrap-select.min.js" />
     <Content Include="static\css\lib\datepicker.min.css" />
@@ -99,6 +103,7 @@
     <Content Include="Handler\LogoutHandler.ashx" />
     <Content Include="Handler\UploadHandler.ashx" />
     <Content Include="Handler\AddCheckoutGoods.ashx" />
+    <Content Include="Handler\AddInventoryRecord.ashx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\webuploader\icons.psd" />
     <Content Include="static\image\webuploader\progress.psd" />
@@ -113,7 +118,6 @@
     <Content Include="BackManager\admin\add.aspx" />
     <Content Include="BackManager\admin\list.aspx" />
     <Content Include="BackManager\home.aspx" />
-    <Content Include="BackManager\logout.aspx" />
     <Content Include="BackManager\login.aspx" />
     <Content Include="BackManager\WUCHeader.ascx" />
     <Content Include="static\css\lib\bootstrap-theme.min.css" />
@@ -205,6 +209,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BackManager\checkout_record\list.aspx.designer.cs">
+      <DependentUpon>list.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BackManager\department\list.aspx.cs">
+      <DependentUpon>list.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BackManager\department\list.aspx.designer.cs">
       <DependentUpon>list.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\inventory_contract\add.aspx.cs">
@@ -315,6 +326,9 @@
     <Compile Include="Handler\AddCheckoutGoods.ashx.cs">
       <DependentUpon>AddCheckoutGoods.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Handler\AddInventoryRecord.ashx.cs">
+      <DependentUpon>AddInventoryRecord.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Handler\CheckAdminHandler.ashx.cs">
       <DependentUpon>CheckAdminHandler.ashx</DependentUpon>
     </Compile>
@@ -327,13 +341,6 @@
     </Compile>
     <Compile Include="BackManager\home.aspx.designer.cs">
       <DependentUpon>home.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BackManager\logout.aspx.cs">
-      <DependentUpon>logout.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BackManager\logout.aspx.designer.cs">
-      <DependentUpon>logout.aspx</DependentUpon>
     </Compile>
     <Compile Include="BackManager\login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>

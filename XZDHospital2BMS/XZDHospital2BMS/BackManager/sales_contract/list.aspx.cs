@@ -1,12 +1,7 @@
 ﻿using Bll;
 using Helper;
-using Model;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.sales_contract
@@ -51,20 +46,6 @@ namespace XZDHospital2BMS.BackManager.sales_contract
           lblCompanyId.Text = "未知公司";
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = (BllAdmin.getById(intAdminId)).real_name;
-        string strPhotoUrls = lblPhotoUrls.Text;
-        List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-        HyperLink hl;
-        for (int i = 0; i < listPhotoUrls.Count; i++)
-        {
-          hl = new HyperLink();
-          hl.ImageUrl = listPhotoUrls[i];
-          hl.ImageWidth = 60;
-          hl.ImageHeight = 60;
-          hl.NavigateUrl = listPhotoUrls[i];
-          hl.Target = "_blank";
-          lblPhotoUrls.Parent.Controls.Add(hl);
-        }
-        lblPhotoUrls.Visible = false;
       }
     }
 
@@ -119,9 +100,6 @@ namespace XZDHospital2BMS.BackManager.sales_contract
     public void LoadDataPage()
     {
       DataTable objDT;
-      // “/”相当于整数除法中的除号，“%”相当于余号
-      // 5 / 2 = 2，2/2=1,1/2=0
-      // 5 % 2 = 1
       if ("".Equals(lblCurentPage.Text.Trim())) lblCurentPage.Text = "1";
       intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
       if (intCurrentPage <= 0) intCurrentPage = 1;

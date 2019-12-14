@@ -43,8 +43,8 @@
                     信州区第二人民医院
                   </label>
                   <label class="checkbox-inline">
-                    <input runat="server" type="checkbox" id="cbUnitName2" value="东市街道卫生站">
-                    东市街道卫生站
+                    <input runat="server" type="checkbox" id="cbUnitName2" value="东市街道社区卫生服务中心">
+                    东市街道社区卫生服务中心
                   </label>
                 </div>
               </div>
@@ -64,27 +64,6 @@
                 <div class="col-sm-5">
                   <input runat="server" id="tbSignName" type='text'
                     class="form-control" placeholder="请填写提出本次出库申请人姓名..." />
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="tbPhotoUrls" class="col-sm-2 control-label">申请人签名照片：</label>
-                <div class="col-sm-8">
-                  <div class="wrapper-photos">
-                    <div class="wrapper-file-uploader">
-                      <div id="wrapper-file-select" class="form-inline">
-                        <input id="inputFile" type="file" class="form-control" />
-                        <input type="button" id="btnUpload" value="开始上传"
-                          class="btn btn-sm btn-success" />
-                      </div>
-                      <asp:Panel runat="server" ID="pnlFileShow">
-                        <asp:Literal runat="server" ID="ltrShowPhoto" />
-                      </asp:Panel>
-                      <div id="wrapper-file-uploaded">
-                        <input runat="server" id="tbPhotoUrls" type="hidden" class="form-control" />
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -115,6 +94,5 @@
 
   <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/upload-photo.js"></script>
 </body>
 </html>

@@ -39,15 +39,14 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         HelperUtility.showAlert(strMsgError, "add.aspx");
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Value;
-      if (strPhotoUrls.EndsWith(","))
-        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
+      string strPhotoUrls = "";
       // 验证完毕，提交数据
       int intAdminId = (int)ViewState["AdminId"];
       ModelSalesContract model = new ModelSalesContract();
       if (strCompanyName.Contains("未知公司")) model.id_company = 0;
       else model.id_company = BllSalesCompany.getIdByName(strCompanyName, intAdminId);
       model.id_admin = intAdminId;
+      model.time_sign = Convert.ToDateTime(strTimeSign);
       model.photo_urls = strPhotoUrls;
       model.comment = strComment;
       int intId = BllSalesContract.add(model);

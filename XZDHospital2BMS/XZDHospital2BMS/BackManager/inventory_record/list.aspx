@@ -18,16 +18,16 @@
      <![endif]-->
 </head>
 <body>
+  <form runat="server" id="formShow" class="form-horizontal">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <form runat="server" id="formShow" class="form-horizontal">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
           <div class="wrapper-op form-group">
-            <div class="wrapper-btn col-sm-4">
+            <div class="wrapper-btn col-sm-6">
               <asp:HyperLink runat="server" ID="hlBackContract"
                 Target="_self" Text="返回盘点单" CssClass="btn btn-sm btn-success" />
               <asp:HyperLink runat="server" ID="hlAddNew"
@@ -39,7 +39,7 @@
                 <span class="glyphicon glyphicon-print" />打印清单
               </button>
             </div>
-            <div class="wrapper-info col-sm-8">
+            <div class="wrapper-info col-sm-6">
               <p>总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" /></p>
             </div>
           </div>
@@ -133,11 +133,11 @@
 
           </div>
 
-        </form>
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script src="/static/js/lib/bootstrap.min.js"></script>
 </body>

@@ -21,19 +21,18 @@
 </head>
 <body>
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+  <form runat="server" class="form-horizontal" role="form">
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">填写入库货品信息表单</h3>
-          </div>
-          <div class="panel-body">
-
-            <form runat="server" class="form-horizontal" role="form">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">填写入库货品信息表单</h3>
+            </div>
+            <div class="panel-body">
 
               <div class="form-group">
                 <label for="tbProductName" class="col-sm-2 control-label">
@@ -179,15 +178,14 @@
                 </div>
               </div>
 
-            </form>
-
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/datepicker.min.js"></script>

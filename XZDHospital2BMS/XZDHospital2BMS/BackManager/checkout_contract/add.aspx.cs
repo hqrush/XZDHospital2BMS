@@ -42,9 +42,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         HelperUtility.showAlert(strMsgError, "add.aspx");
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Value;
-      if (strPhotoUrls.EndsWith(","))
-        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
+      string strPhotoUrls = "";
       // 验证完毕，提交数据
       int intAdminId = (int)ViewState["AdminId"];
       ModelCheckoutContract model = new ModelCheckoutContract();

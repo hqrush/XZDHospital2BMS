@@ -2,17 +2,12 @@
 using Helper;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.sales_contract
 {
 
   public partial class edit : System.Web.UI.Page
   {
-
-    private int intPhotoAmounts = 0;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -35,30 +30,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         else tbCompanyName.Text = "未知公司";
         tbTimeSign.Value = model.time_sign.ToString("yyyy-MM-dd");
         tbComment.Text = model.comment;
-        string strPhotoUrls = model.photo_urls;
-        if (!"".Equals(strPhotoUrls))
-        {
-          string strImgUrl, strJS;
-          List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-          intPhotoAmounts = listPhotoUrls.Count;
-          for (int i = 0; i < intPhotoAmounts; i++)
-          {
-            strImgUrl = listPhotoUrls[i];
-            strJS = "<div id=\"img-" + i + "\" class=\"wrapper-photo-show\">";
-            strJS += "<img width=\"100\" height=\"100\" src=\"" + strImgUrl + "\" /><br />";
-            strJS += "<input type=\"button\" id=\"btnDelPhoto\" class=\"btn btn-sm btn-warning\"" +
-              " onclick=\"delPhoto(" + i + ")\" value=\"删除\" /></div>";
-            ltrShowPhoto.Text += strJS;
-          }
-        }
-        tbPhotoUrls.Value = strPhotoUrls;
       }
-    }
-
-    // 从数据库里读取入库单凭证照片的数量，设置js变量的值
-    public int setPhotoAmount()
-    {
-      return intPhotoAmounts;
     }
 
     protected void btnEdit_Click(object sender, EventArgs e)
@@ -83,9 +55,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         HelperUtility.showAlert(strMsgError, strThisPageUrl);
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Value;
-      if (strPhotoUrls.EndsWith(","))
-        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
+      string strPhotoUrls = "";
       // 验证完毕，提交数据
       ModelSalesContract model = BllSalesContract.getById(intId);
       if (strCompanyName.Contains("未知公司")) model.id_company = 0;
@@ -93,6 +63,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       model.id_admin = intAdminId;
       model.photo_urls = strPhotoUrls;
       model.comment = strComment;
+      model.time_sign = Convert.ToDateTime(strTimeSign);
       // 更新数据库记录
       BllSalesContract.update(model);
       // 跳转回列表页

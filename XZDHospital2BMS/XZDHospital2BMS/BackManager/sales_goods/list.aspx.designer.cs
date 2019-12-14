@@ -15,15 +15,6 @@ namespace XZDHospital2BMS.BackManager.sales_goods
   {
 
     /// <summary>
-    /// wucHeader 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
-
-    /// <summary>
     /// formShow 控件。
     /// </summary>
     /// <remarks>
@@ -31,6 +22,15 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlForm formShow;
+
+    /// <summary>
+    /// wucHeader 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
 
     /// <summary>
     /// hlBackContract 控件。

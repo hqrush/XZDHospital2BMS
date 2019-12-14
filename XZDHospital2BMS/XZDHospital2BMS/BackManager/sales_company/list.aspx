@@ -19,13 +19,13 @@
      <![endif]-->
 </head>
 <body>
+  <form id="formShow" runat="server">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <form id="formShow" runat="server">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
           <div class="wrapper-add col-sm-5">
 
@@ -113,11 +113,11 @@
 
           </div>
 
-        </form>
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script src="/static/js/lib/bootstrap.min.js"></script>
 </body>

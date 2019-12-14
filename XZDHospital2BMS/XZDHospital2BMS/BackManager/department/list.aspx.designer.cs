@@ -7,12 +7,21 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace XZDHospital2BMS.BackManager.sales_contract
+namespace XZDHospital2BMS.BackManager.department
 {
 
 
-  public partial class add
+  public partial class list
   {
+
+    /// <summary>
+    /// formShow 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlForm formShow;
 
     /// <summary>
     /// wucHeader 控件。
@@ -24,48 +33,21 @@ namespace XZDHospital2BMS.BackManager.sales_contract
     protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
 
     /// <summary>
-    /// tbCompanyName 控件。
+    /// tbDepartmentName 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbCompanyName;
+    protected global::System.Web.UI.HtmlControls.HtmlTextArea tbDepartmentName;
 
     /// <summary>
-    /// rptName 控件。
+    /// btnSubmit 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Repeater rptName;
-
-    /// <summary>
-    /// tbTimeSign 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputText tbTimeSign;
-
-    /// <summary>
-    /// tbComment 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.TextBox tbComment;
-
-    /// <summary>
-    /// btnAdd 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Button btnAdd;
+    protected global::System.Web.UI.WebControls.Button btnSubmit;
   }
 }

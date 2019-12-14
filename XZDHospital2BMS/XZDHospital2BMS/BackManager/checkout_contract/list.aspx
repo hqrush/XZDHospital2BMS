@@ -13,18 +13,23 @@
   <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-     <![endif]-->
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+  <![endif]-->
 </head>
 <body>
+  <form id="formShow" runat="server">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <form id="formShow" runat="server">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="wrapper-add">
+            <a href="add.aspx" class="btn btn-info">添加出库单</a>
+          </div>
+
           <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
@@ -112,26 +117,27 @@
 
             </asp:GridView>
 
-            <div class="wrapper-pager">
-              <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+          </div>
+
+          <div class="wrapper-pager">
+            <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
                 当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
                 总页数：<asp:Label ID="lblPageCount" runat="server" />
-              </span>
-              <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
-              <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
-              <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
-              <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
-                Text="跳转至" OnClick="btnJumpTo_Click" />
-            </div>
-
+            </span>
+            <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+            <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
+            <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
+              Text="跳转至" OnClick="btnJumpTo_Click" />
           </div>
-        </form>
+
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script src="/static/js/lib/bootstrap.min.js"></script>
 </body>

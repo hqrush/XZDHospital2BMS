@@ -34,30 +34,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         tbDepartmentName.Value = model.name_department;
         tbSignName.Value = model.name_sign;
         tbComment.Text = model.comment;
-        string strPhotoUrls = model.photo_urls;
-        if (!"".Equals(strPhotoUrls))
-        {
-          string strImgUrl, strJS;
-          List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-          intPhotoAmounts = listPhotoUrls.Count;
-          for (int i = 0; i < intPhotoAmounts; i++)
-          {
-            strImgUrl = listPhotoUrls[i];
-            strJS = "<div id=\"img-" + i + "\" class=\"wrapper-photo-show\">";
-            strJS += "<img width=\"100\" height=\"100\" src=\"" + strImgUrl + "\" /><br />";
-            strJS += "<input type=\"button\" id=\"btnDelPhoto\" class=\"btn btn-sm btn-warning\"" +
-              " onclick=\"delPhoto(" + i + ")\" value=\"删除\" /></div>";
-            ltrShowPhoto.Text += strJS;
-          }
-        }
-        tbPhotoUrls.Value = strPhotoUrls;
       }
-    }
-
-    // 从数据库里读取入库单凭证照片的数量，设置js变量的值
-    public int setPhotoAmount()
-    {
-      return intPhotoAmounts;
     }
 
     protected void btnEdit_Click(object sender, EventArgs e)
@@ -85,9 +62,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         HelperUtility.showAlert(strMsgError, "add.aspx");
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Value;
-      if (strPhotoUrls.EndsWith(","))
-        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
+      string strPhotoUrls = "";
       // 验证完毕，提交数据
       ModelCheckoutContract model = BllCheckoutContract.getById(intId);
       model.id_admin = intAdminId;

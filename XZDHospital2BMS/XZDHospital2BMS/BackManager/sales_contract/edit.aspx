@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/lib/datepicker.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
-  <link rel="stylesheet" href="/static/css/uploadfile.css" />
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -64,27 +63,6 @@
               </div>
 
               <div class="form-group">
-                <label for="tbPhotoUrls" class="col-sm-2 control-label">入库单照片：</label>
-                <div class="col-sm-8">
-                  <div class="wrapper-photos">
-                    <div class="wrapper-file-uploader">
-                      <div id="wrapper-file-select" class="form-inline">
-                        <input id="inputFile" type="file" class="form-control" />
-                        <input type="button" id="btnUpload" value="开始上传"
-                          class="btn btn-sm btn-success" />
-                      </div>
-                      <asp:Panel runat="server" ID="pnlFileShow">
-                        <asp:Literal runat="server" ID="ltrShowPhoto" />
-                      </asp:Panel>
-                      <div id="wrapper-file-uploaded">
-                        <input runat="server" id="tbPhotoUrls" type="hidden" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group">
                 <label for="tbComment" class="col-sm-2 control-label">备注：</label>
                 <div class="col-sm-8">
                   <asp:TextBox runat="server" ID="tbComment" TextMode="MultiLine" Rows="6"
@@ -113,45 +91,6 @@
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/datepicker.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/i18n/datepicker.zh.js"></script>
-  <script type="text/javascript" src="/static/js/upload-photo.js"></script>
-  <script type="text/javascript">
-    var i = "<% =setPhotoAmount() %>";
-    // 验证销售公司名称和入库单时间不能为空和格式
-    function checkNameTime() {
-      var tbCompanyName = document.getElementById("tbCompanyName");
-      var strName = tbCompanyName.value;
-      if (strName === "") {
-        alert("公司名不能为空！");
-        return false;
-      }
-      var tbTimeSign = document.getElementById("tbTimeSign");
-      var strTime = tbTimeSign.value;
-      if (strTime === "") {
-        alert("入库时间不能为空！");
-        return false;
-      }
-      // 验证时间格式是否正确：（验证通过返回时间戳格式,例如:（2017-01-01,2017,-,01,-,01),否则返回null）
-      var strTime = strTime.match(/^(\d{4})(-)(\d{2})(-)(\d{2})$/);
-      if (strTime == null) {
-        alert("请输入正确的时间格式，如：2019-01-01");
-        return false;
-      }
-      // 验证时间是否合法：(注意：此段必须放置在验证时间格式完成之后)
-      var b_d = new Date(strTime[1], strTime[3] - 1, strTime[5]);
-      var b_num = b_d.getFullYear() == strTime[1] &&
-        (b_d.getMonth() + 1) == strTime[3] &&
-        b_d.getDate() == strTime[5];
-      if (b_num == 0) {
-        alert("请输入正确的时间，如：2019-01-01");
-        return false;
-      }
-    }
-    // 销售公司名称下拉列表选择事件
-    function selectOnChang(obj) {
-      // var value = obj.options[obj.selectedIndex].value;
-      var text = obj.options[obj.selectedIndex].text;
-      $('#tbCompanyName').val(text);
-    }
-  </script>
+  <script type="text/javascript" src="/static/js/check-form/sales_contract.js"></script>
 </body>
 </html>
