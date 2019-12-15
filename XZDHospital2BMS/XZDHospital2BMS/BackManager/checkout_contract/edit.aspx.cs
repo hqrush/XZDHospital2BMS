@@ -12,8 +12,6 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
   public partial class edit : System.Web.UI.Page
   {
 
-    private int intPhotoAmounts = 0;
-
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
@@ -34,6 +32,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         tbDepartmentName.Value = model.name_department;
         tbSignName.Value = model.name_sign;
         tbComment.Text = model.comment;
+        BllDepartment.bindRPT(rptName);
       }
     }
 

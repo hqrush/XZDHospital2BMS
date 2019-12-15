@@ -54,6 +54,16 @@
                   <input runat="server" id="tbDepartmentName" type='text'
                     class="form-control" placeholder="请填写提出本次出库申请的部门/科室..." />
                 </div>
+                <div class="col-sm-5">
+                  <select id="selectDepartment" class="form-control"
+                    style="width: 150px;" onchange="selectOnChang(this)">
+                    <asp:Repeater ID="rptName" runat="server">
+                      <ItemTemplate>
+                        <option><%# GetDataItem()%></option>
+                      </ItemTemplate>
+                    </asp:Repeater>
+                  </select>
+                </div>
               </div>
 
               <div class="form-group">
@@ -62,12 +72,6 @@
                 <div class="col-sm-5">
                   <input runat="server" id="tbSignName" type='text'
                     class="form-control" placeholder="请填写提出本次出库申请人姓名..." />
-
-                  <asp:DropDownList runat="server" ID="ddlDepartment">
-                    <asp:ListItem Text="" Value="" />
-
-                  </asp:DropDownList>
-
                 </div>
               </div>
 
@@ -82,7 +86,7 @@
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
                   <asp:Button runat="server" ID="btnAdd" Text="确认提交"
-                    CssClass="btn btn-primary" OnClientClick="return checkNameTime();"
+                    CssClass="btn btn-primary" OnClientClick="return validForm();"
                     OnClick="btnAdd_Click" />
                 </div>
               </div>
@@ -97,6 +101,6 @@
   </form>
   <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/checkout_contract.js"></script>
+  <script type="text/javascript" src="/static/js/check-form/checkout_contract.js"></script>
 </body>
 </html>

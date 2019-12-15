@@ -213,25 +213,6 @@
                     <div class="panel-heading">
                       <div class="panel-title">
                         <label class="checkbox-inline">
-                          <input runat="server" type="checkbox" id="cbSysAdmin" value="SysAdmin">管理员管理</label>
-                      </div>
-                    </div>
-                    <div class="panel-body">
-                      <label class="checkbox-inline">
-                        <input runat="server" type="checkbox" id="cbSysAdmin_Add" value="SysAdmin_add">添加管理员</label>
-                      <label class="checkbox-inline">
-                        <input runat="server" type="checkbox" id="cbSysAdmin_Del" value="SysAdmin_del">删除管理员</label>
-                      <label class="checkbox-inline">
-                        <input runat="server" type="checkbox" id="cbSysAdmin_Update" value="SysAdmin_update">修改管理员</label>
-                      <label class="checkbox-inline">
-                        <input runat="server" type="checkbox" id="cbSysAdmin_Show" value="SysAdmin_show">查看管理员</label>
-                    </div>
-                  </div>
-
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <div class="panel-title">
-                        <label class="checkbox-inline">
                           <input runat="server" type="checkbox" id="cbSalesCompany" value="SalesCompany">医药销售公司管理</label>
                       </div>
                     </div>
@@ -244,6 +225,38 @@
                         <input runat="server" type="checkbox" id="cbSalesCompany_Update" value="SalesCompany_update">修改医药销售公司</label>
                       <label class="checkbox-inline">
                         <input runat="server" type="checkbox" id="cbSalesCompany_Show" value="SalesCompany_show">查看医药销售公司</label>
+                    </div>
+                  </div>
+
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <div class="panel-title">
+                        <label class="checkbox-inline">
+                          <input runat="server" type="checkbox" id="cbDepartment" value="Department">科室管理</label>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <label class="checkbox-inline">
+                        <input runat="server" type="checkbox" id="cbDepartment_Add" value="Department_add">管理科室名称</label>
+                    </div>
+                  </div>
+
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <div class="panel-title">
+                        <label class="checkbox-inline">
+                          <input runat="server" type="checkbox" id="cbSysAdmin" value="SysAdmin">管理员管理</label>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <label class="checkbox-inline">
+                        <input runat="server" type="checkbox" id="cbSysAdmin_Add" value="SysAdmin_add">添加管理员</label>
+                      <label class="checkbox-inline">
+                        <input runat="server" type="checkbox" id="cbSysAdmin_Del" value="SysAdmin_del">删除管理员</label>
+                      <label class="checkbox-inline">
+                        <input runat="server" type="checkbox" id="cbSysAdmin_Update" value="SysAdmin_update">修改管理员</label>
+                      <label class="checkbox-inline">
+                        <input runat="server" type="checkbox" id="cbSysAdmin_Show" value="SysAdmin_show">查看管理员</label>
                     </div>
                   </div>
 

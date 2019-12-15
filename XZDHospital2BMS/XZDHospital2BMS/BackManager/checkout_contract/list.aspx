@@ -39,7 +39,7 @@
               <Columns>
 
                 <asp:TemplateField HeaderText="申请单位">
-                  <ItemStyle Width="180px" />
+                  <ItemStyle Width="220px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblUnitName"
                       Text='<%# Eval("name_unit").ToString() %>' />
@@ -47,7 +47,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="申请部门/科室">
-                  <ItemStyle Width="120px" />
+                  <ItemStyle Width="130px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblDepartmentName"
                       Text='<%# Eval("name_department").ToString() %>' />
@@ -55,7 +55,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="申请人">
-                  <ItemStyle Width="80px" />
+                  <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblSignName"
                       Text='<%# Eval("name_sign").ToString() %>' />
@@ -63,17 +63,10 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="申请时间">
-                  <ItemStyle Width="90px" />
+                  <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblTimeCreate"
                       Text='<%# Eval("time_create").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="照片凭证">
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblPhotoUrls"
-                      Text='<%# Eval("photo_urls").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 

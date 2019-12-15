@@ -11,20 +11,20 @@ function checkNotNull() {
 // 添加到出库清单的ajax操作
 function addGoods(intCheckoutContractId, intGoodsId, lblInventory, tbAmount) {
   // Label控件转成span标签，取值不是用val()，而是用text()
-  var intInventory = $("#" + lblInventory + "").text();
-  var intAmount = $("#" + tbAmount + "").val();
-  if (!(intAmount > 0)) {
+  var dcmInventory = parseFloat($("#" + lblInventory + "").text());
+  var dcmAmount = parseFloat($("#" + tbAmount + "").val());
+  if (!(dcmAmount > 0)) {
     alert("提货数必须大于0！");
     return false;
   }
-  if (intAmount > intInventory) {
+  if (dcmAmount > dcmInventory) {
     alert("库存不足，提货数不能大于库存！");
     return false;
   }
   var formData = new FormData();
   formData.append("CheckoutContractId", intCheckoutContractId);
   formData.append("GoodsId", intGoodsId);
-  formData.append("Amount", intAmount);
+  formData.append("Amount", dcmAmount);
   $.ajax({
     url: "/Handler/AddCheckoutGoods.ashx",
     type: 'POST',
@@ -38,8 +38,7 @@ function addGoods(intCheckoutContractId, intGoodsId, lblInventory, tbAmount) {
       var code = result.StatusCode;
       var msg = result.Message;
       if (code === "200") {
-        intInventory = (intInventory - intAmount).toFixed(2);
-        $("#" + lblInventory + "").html(intInventory);
+        $("#" + lblInventory + "").html((dcmInventory - dcmAmount).toFixed(2));
         alert("已添加！");
         return true;
       } else if (code === "500") {

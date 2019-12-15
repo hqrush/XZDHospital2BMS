@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
+using System.Text;
+using System.Web;
 
 namespace Helper
 {
 
   public class HelperFile
   {
+
+    private static string strRootPath = HttpContext.Current.Request.PhysicalApplicationPath;
+
     public HelperFile()
     {
     }
@@ -16,7 +21,9 @@ namespace Helper
     /// <param name="strSourceFileFullPath">原文件完整路径</param>
     /// <param name="strTargetFileFullPath">目标文件完整路径</param>
     /// <param name="boolReWrite">是否覆盖</param>
-    public static void CopyFile(string strSourceFileFullPath, string strTargetFileFullPath, bool boolReWrite)
+    public static void CopyFile(string strSourceFileFullPath,
+      string strTargetFileFullPath,
+      bool boolReWrite)
     {
       string strTargetDir = strTargetFileFullPath.Substring(0, strTargetFileFullPath.LastIndexOf('\\'));
       CreateDirectory(strTargetDir);
@@ -100,6 +107,46 @@ namespace Helper
         }
       }
       return lngFreeSpace;
+    }
+
+    /// <summary>
+    /// 根据相对网站根目录的txt文件路径，读取此文件数据并存入 string 中
+    /// </summary>
+    /// <param name="strFileName">相对网站根目录的txt文件路径</param>
+    /// <returns>存放txt文件内容的string</returns>
+    public static string ReadTxt(string strFileName)
+    {
+      string strReturn = "";
+      Encoding objEncoding = Encoding.GetEncoding("utf-8");
+      string strFullFileName = strRootPath + strFileName;
+      using (FileStream objFS = new FileStream(strFullFileName, FileMode.OpenOrCreate, FileAccess.Read))
+      {
+        using (StreamReader objSR = new StreamReader(objFS, objEncoding))
+        {
+          objSR.BaseStream.Seek(0, SeekOrigin.Begin);
+          strReturn = objSR.ReadToEnd();
+        }
+      }
+      return strReturn;
+    }
+
+    /// <summary>
+    /// 根据相对网站根目录的txt文件路径，将string格式内容写入此文件中
+    /// </summary>
+    /// <param name="strContent">文本内容</param>
+    /// <param name="strFileName">相对网站根目录的txt文件路径</param>
+    public static void WriteTxt(string strContent, string strFileName)
+    {
+      Encoding objEncoding = Encoding.GetEncoding("utf-8");
+      string strFullFileName = strRootPath + strFileName;
+      using (FileStream objFS = new FileStream(strFullFileName, FileMode.OpenOrCreate))
+      {
+        using (StreamWriter objSW = new StreamWriter(objFS, objEncoding))
+        {
+          objSW.Write(strContent);
+          objSW.Flush();
+        }
+      }
     }
 
   }

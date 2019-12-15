@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BllDepartment.cs" />
     <Compile Include="BllMedicalRecord.cs" />
     <Compile Include="BllCheckoutContract.cs" />
     <Compile Include="BllCheckoutRecord.cs" />
@@ -55,6 +56,10 @@
     <ProjectReference Include="..\Dal\Dal.csproj">
       <Project>{FAF52B01-14E6-4462-9438-2CC72F43EADB}</Project>
       <Name>Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helper\Helper.csproj">
+      <Project>{A473357B-5635-4BDE-8E1F-E2F62C7CEAB4}</Project>
+      <Name>Helper</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{EC93A8E3-D0C6-4C18-ADBF-F3E215CA99DB}</Project>

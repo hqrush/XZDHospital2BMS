@@ -64,6 +64,7 @@
     <Content Include="BackManager\checkout_contract\list.aspx" />
     <Content Include="BackManager\checkout_record\add.aspx" />
     <Content Include="BackManager\checkout_record\list.aspx" />
+    <Content Include="BackManager\department\department_bak.txt" />
     <Content Include="BackManager\department\department.txt" />
     <Content Include="BackManager\department\list.aspx" />
     <Content Include="BackManager\inventory_contract\add.aspx" />

@@ -30,12 +30,13 @@
           <div class="wrapper-add col-sm-12">
 
             <div class="form-group">
-              <label for="tbCompanyName">公司名称：（可批量添加，一行为一条记录）</label>
+              <label for="tbCompanyName">科室名称：（可批量添加，一行为一条记录，注意楼层一定以5个“=”开头和结尾！）</label>
               <textarea runat="server" id="tbDepartmentName"
                 class="form-control" width="300" rows="20"></textarea><br />
-              <asp:Button runat="server" ID="btnSubmit" Text="确定提交"
+              <asp:Button runat="server" ID="btnSubmit" Text="提交"
                 CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
-              <input type="button" value="清空" class="btn btn-warning" />
+              <asp:Button runat="server" ID="btnReset" Text="重置"
+                CssClass="btn btn-primary" OnClick="btnReset_Click" />
             </div>
 
           </div>

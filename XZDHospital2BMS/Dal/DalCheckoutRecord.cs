@@ -191,10 +191,10 @@ WHERE id_contract = @id_contract";
     }
 
     /// <summary>
-    /// 得到某个某个货品的出库数
+    /// 得到某个货品的总出库数
     /// </summary>
     /// <param name="intGoodsId">出库货品id</param>
-    /// <returns>某个出库单下所有货品的总价</returns>
+    /// <returns>出库记录表中某个货品的总出库数</returns>
     public static decimal getAmountByGoodsId(int intGoodsId)
     {
       string strSQL = @"

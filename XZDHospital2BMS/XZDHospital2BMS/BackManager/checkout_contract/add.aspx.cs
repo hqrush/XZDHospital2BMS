@@ -15,8 +15,10 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       {
         int intAdminId = HelperUtility.hasPurviewPage("CheckoutContract_add");
         ViewState["AdminId"] = intAdminId;
+        BllDepartment.bindRPT(rptName);
       }
     }
+
 
     protected void btnAdd_Click(object sender, EventArgs e)
     {

@@ -88,18 +88,14 @@ namespace XZDHospital2BMS.BackManager.admin
           }
         }
       }
-      if (listPurviews != null && listPurviews.Count > 0)
+      if (listPurviews == null || listPurviews.Count <= 0) return "";
+      string strPurviews = "";
+      for (int i = 0; i < listPurviews.Count; i++)
       {
-        string strPurviews = "";
-        for (int i = 0; i < listPurviews.Count; i++)
-        {
-          strPurviews += listPurviews[i];
-          strPurviews += ",";
-        }
-        return strPurviews.Substring(0, strPurviews.Length - 1);
+        strPurviews += listPurviews[i];
+        strPurviews += ",";
       }
-      else
-        return "";
+      return strPurviews.Substring(0, strPurviews.Length - 1);
     }
 
   }

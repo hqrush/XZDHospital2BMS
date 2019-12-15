@@ -162,6 +162,8 @@ $(function () {
   var flagInventoryRecord = 0;
   var flagSysAdmin = 0;
   var flagSalesCompany = 0;
+  var flagDepartment = 0;
+
   //全选
   $("#cbSalesContract").on("click", function () {
     if (flagSalesContract === 0) {
@@ -241,6 +243,16 @@ $(function () {
     } else {
       $("input[id^='cbSalesCompany_']").prop("checked", false);
       flagSalesCompany = 0;
+    }
+  });
+  $("#cbDepartment").on("click", function () {
+    if (flagDepartment === 0) {
+      //把所有复选框选中
+      $("input[id^='cbDepartment_']").prop("checked", true);
+      flagDepartment = 1;
+    } else {
+      $("input[id^='cbDepartment_']").prop("checked", false);
+      flagDepartment = 0;
     }
   });
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,27 +14,28 @@ namespace XZDHospital2BMS.BackManager.department
   public partial class list : System.Web.UI.Page
   {
 
+    private string strFileName = "/BackManager/department/department.txt";
+
     protected void Page_Load(object sender, EventArgs e)
     {
-      tbDepartmentName.InnerText = ReadData("department.txt");
-    }
-
-    public string ReadData(string strFileName)
-    {
-      Encoding objEncoding = Encoding.GetEncoding("utf-8");
-      string strFilePath = Server.MapPath(strFileName);
-      FileStream objFS = new FileStream(strFilePath, FileMode.Open, FileAccess.Read);
-      StreamReader objSR = new StreamReader(objFS, objEncoding);
-      objSR.BaseStream.Seek(0, SeekOrigin.Begin);
-      string strReturn = objSR.ReadToEnd();
-      objSR.Close();
-      objFS.Close();
-      return strReturn;
+      if (!IsPostBack)
+      {
+        HelperUtility.hasPurviewPage("Department_add");
+        tbDepartmentName.InnerText = HelperFile.ReadTxt(strFileName);
+      }
     }
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
+      HelperUtility.hasPurviewPage("Department_add");
+      string strContent = tbDepartmentName.InnerText;
+      HelperFile.WriteTxt(strContent, strFileName);
+    }
 
+    protected void btnReset_Click(object sender, EventArgs e)
+    {
+      string strFileName = "/BackManager/department/department_bak.txt";
+      tbDepartmentName.InnerText = HelperFile.ReadTxt(strFileName);
     }
 
   }

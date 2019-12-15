@@ -19,20 +19,19 @@
   <![endif]-->
 </head>
 <body>
+  <form runat="server" class="form-horizontal" role="form">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">填写出库单信息</h3>
-          </div>
-          <div class="panel-body">
-
-            <form runat="server" class="form-horizontal" role="form">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">填写出库单信息</h3>
+            </div>
+            <div class="panel-body">
 
               <div class="form-group">
                 <label class="col-sm-2 control-label">
@@ -56,6 +55,16 @@
                   <input runat="server" id="tbDepartmentName" type='text'
                     class="form-control" placeholder="请填写提出本次出库申请的部门/科室..." />
                 </div>
+                <div class="col-sm-5">
+                  <select id="selectDepartment" class="form-control"
+                    style="width: 150px;" onchange="selectOnChang(this)">
+                    <asp:Repeater ID="rptName" runat="server">
+                      <ItemTemplate>
+                        <option><%# GetDataItem()%></option>
+                      </ItemTemplate>
+                    </asp:Repeater>
+                  </select>
+                </div>
               </div>
 
               <div class="form-group">
@@ -78,21 +87,21 @@
               <div class="form-group">
                 <div class="col-sm-offset-5 col-sm-7">
                   <asp:Button runat="server" ID="btnEdit" Text="确认提交"
-                    CssClass="btn btn-primary" OnClientClick="return checkNameTime();"
+                    CssClass="btn btn-primary" OnClientClick="return checkForm();"
                     OnClick="btnEdit_Click" />
                 </div>
               </div>
 
-            </form>
-
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/check-form/checkout_contract.js"></script>
 </body>
 </html>

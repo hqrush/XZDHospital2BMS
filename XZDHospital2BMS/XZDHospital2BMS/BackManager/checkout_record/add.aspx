@@ -70,8 +70,7 @@
                     <asp:TemplateField HeaderText="通用名称及剂型">
                       <ItemTemplate>
                         <asp:HyperLink runat="server" ID="hlProductName" Target="_blank"
-                          Text='<%# Eval("name_product").ToString() %>'
-                          NavigateUrl='show.aspx?id=<%# Eval("id").ToString() %>' />
+                          Text='<%# Eval("name_product").ToString() %>' />
                       </ItemTemplate>
                     </asp:TemplateField>
 
@@ -137,7 +136,7 @@
                     <asp:TemplateField HeaderText="操作">
                       <ItemStyle Width="40px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblId" Visible="false"
+                        <asp:Label runat="server" ID="lblGoodsId" Visible="false"
                           Text='<%# Eval("id").ToString() %>' />
                         <input type="button" runat="server" id="btnAddToList" value="添加到出库单"
                           class="btn btn-warning" />

@@ -393,51 +393,6 @@ namespace XZDHospital2BMS.BackManager.admin
     protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbInventoryRecord_Show;
 
     /// <summary>
-    /// cbSysAdmin 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin;
-
-    /// <summary>
-    /// cbSysAdmin_Add 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Add;
-
-    /// <summary>
-    /// cbSysAdmin_Del 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Del;
-
-    /// <summary>
-    /// cbSysAdmin_Update 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Update;
-
-    /// <summary>
-    /// cbSysAdmin_Show 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Show;
-
-    /// <summary>
     /// cbSalesCompany 控件。
     /// </summary>
     /// <remarks>
@@ -481,6 +436,69 @@ namespace XZDHospital2BMS.BackManager.admin
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSalesCompany_Show;
+
+    /// <summary>
+    /// cbDepartment 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbDepartment;
+
+    /// <summary>
+    /// cbDepartment_Add 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbDepartment_Add;
+
+    /// <summary>
+    /// cbSysAdmin 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin;
+
+    /// <summary>
+    /// cbSysAdmin_Add 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Add;
+
+    /// <summary>
+    /// cbSysAdmin_Del 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Del;
+
+    /// <summary>
+    /// cbSysAdmin_Update 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Update;
+
+    /// <summary>
+    /// cbSysAdmin_Show 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox cbSysAdmin_Show;
 
     /// <summary>
     /// btnAdd 控件。

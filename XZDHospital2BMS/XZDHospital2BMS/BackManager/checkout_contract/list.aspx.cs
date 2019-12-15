@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.checkout_contract
@@ -46,22 +44,6 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         Label lblAdminId = (Label)e.Row.FindControl("lblAdminId");
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = BllAdmin.getRealNameById(intAdminId);
-
-        Label lblPhotoUrls = (Label)e.Row.FindControl("lblPhotoUrls");
-        string strPhotoUrls = lblPhotoUrls.Text;
-        List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-        HyperLink hl;
-        for (int i = 0; i < listPhotoUrls.Count; i++)
-        {
-          hl = new HyperLink();
-          hl.ImageUrl = listPhotoUrls[i];
-          hl.ImageWidth = 60;
-          hl.ImageHeight = 60;
-          hl.NavigateUrl = listPhotoUrls[i];
-          hl.Target = "_blank";
-          lblPhotoUrls.Parent.Controls.Add(hl);
-        }
-        lblPhotoUrls.Visible = false;
       }
     }
 

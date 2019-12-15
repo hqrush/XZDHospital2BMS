@@ -57,22 +57,26 @@ namespace XZDHospital2BMS.BackManager.checkout_record
       {
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-        Label lblId = (Label)e.Row.FindControl("lblId");
-        int intGoodsId = Convert.ToInt32(lblId.Text);
-        // 库存量的显示及更新要用到的Label控件
+        Label lblGoodsId = (Label)e.Row.FindControl("lblGoodsId");
+        int intGoodsId = Convert.ToInt32(lblGoodsId.Text);
+        HyperLink hlProductName = (HyperLink)e.Row.FindControl("hlProductName");
+        hlProductName.NavigateUrl = "show.aspx?id=" + intGoodsId;
+        // 记录进货总量的Label控件
         Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
+        // 记录库存总量的Label控件
         Label lblInventory = (Label)e.Row.FindControl("lblInventory");
-        // 得到出库的货品总量
-        decimal intOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        // 得到某个货品的出库总量
+        decimal dcmOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
         // 得到入库的货品总量
         if ("".Equals(lblAmountIn.Text)) lblAmountIn.Text = "0";
-        decimal intIn = Convert.ToDecimal(lblAmountIn.Text);
+        decimal dcmIn = Convert.ToDecimal(lblAmountIn.Text);
         // 计算库存量
-        decimal intInventory = intIn - intOut;
-        lblInventory.Text = intInventory.ToString("N");
-        // 根据出库单id，货品id，出库数量添加一条出库货品表
-        // 先得到出库单id，货品id，输入出库数量的textbox控件id
+        decimal dcmInventory = dcmIn - dcmOut;
+        lblInventory.Text = dcmInventory.ToString("N");
+        // 根据出库单id，货品id，出库数量添加一条出库货品记录
+        // 先得到输入出库数量的textbox控件id
         TextBox tbCheckoutAmount = (TextBox)e.Row.FindControl("tbCheckoutAmount");
+        // 得到添加到出库单的按钮控件
         HtmlInputButton btnAddToList = (HtmlInputButton)e.Row.FindControl("btnAddToList");
         int intCheckoutContractId = Convert.ToInt32(ViewState["ContractId"]);
         if ("".Equals(tbCheckoutAmount.Text)) tbCheckoutAmount.Text = "0";
