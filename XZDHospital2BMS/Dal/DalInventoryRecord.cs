@@ -192,6 +192,38 @@ WHERE
       return aryReturn;
     }
 
+    // 新建某月盘点单后，将所有库存量大于0的货品加到盘点货品表里，盘点数默认为0
+    public static void setRecord(int intContractId)
+    {
+      int intGoodsId;
+      decimal dcmAmountIn, dcmAmountOut, dcmStock;
+      ModelInventoryRecord model;
+      // 首先找出所有库存量大于0的货品id
+      string strSQL = "SELECT id,amount FROM sales_goods";
+      DataTable objDT = HelperMySql.GetDataTable(strSQL);
+      if (objDT == null || objDT.Rows.Count <= 0) return;
+      for (int i = 0; i < objDT.Rows.Count; i++)
+      {
+        // 1、得到所有货品的id和amount（入库量）
+        intGoodsId = Convert.ToInt32(objDT.Rows[i]["id"]);
+        dcmAmountIn = Convert.ToDecimal(objDT.Rows[i]["amount"]);
+        // 2、得到该货品的出库量
+        dcmAmountOut = DalCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        // 3、计算 入库量-出库量 = 库存量
+        dcmStock = dcmAmountIn - dcmAmountOut;
+        // 4、如果库存量>0，则把这个货品存到盘点货品记录表里
+        if (dcmStock > 0)
+        {
+          model = new ModelInventoryRecord();
+          model.id_contract = intContractId;
+          model.id_goods = intGoodsId;
+          model.amount_real = 0;
+          model.amount_show = 0;
+          add(model);
+        }
+      }
+    }
+
   }
 
 }

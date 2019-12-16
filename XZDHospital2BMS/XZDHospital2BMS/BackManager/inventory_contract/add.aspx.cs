@@ -43,7 +43,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         return;
       }
       string strPhotoUrls = "";
-      // 验证完毕，提交数据
+      // 验证完毕，提交数据，盘点单表添加一条记录
       int intAdminId = Convert.ToInt32(ViewState["AdminId"]);
       ModelInventoryContract model = new ModelInventoryContract();
       model.id_admin = intAdminId;
@@ -52,9 +52,11 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       model.comment = strComment;
       model.time_start = Convert.ToDateTime(strTimeStart);
       model.time_end = Convert.ToDateTime(strTimeEnd);
-      int intId = BllInventoryContract.add(model);
-      if (intId > 0)
+      int intContractId = BllInventoryContract.add(model);
+      if (intContractId > 0)
       {
+        // 盘点单表添加完成后，在盘点物品表里添加所有库存量大于0的货品记录
+        BllInventoryRecord.setRecord(intContractId);
         string strUrl = "list.aspx";
         HelperUtility.showAlert("添加成功！", strUrl);
       }

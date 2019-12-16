@@ -47,6 +47,11 @@ namespace Bll
       return DalInventoryRecord.getPriceTotal(intContractId);
     }
 
+    public static void setRecord(int intContractId)
+    {
+      DalInventoryRecord.setRecord(intContractId);
+    }
+
   }
 
 }
