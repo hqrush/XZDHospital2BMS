@@ -257,6 +257,51 @@ ON
       return HelperMySql.GetDataTable(strSql, aryParams);
     }
 
+    public static DataTable getInventoryDTByName(string strProductName, string strFactoryName)
+    {
+      string strSql, strSqlHead, strSqlWhere;
+      strSqlHead = @"
+SELECT
+  goods.id,
+  goods.id_contract,
+  contract.time_sign,
+  name_product,
+  name_factory,
+  type,
+  price_unit,
+  validity_period,
+  amount
+FROM sales_goods goods
+INNER JOIN sales_contract contract
+ON
+  goods.id_contract = contract.id
+";
+      MySqlParameter[] aryParams;
+      if (!"".Equals(strProductName) && "".Equals(strFactoryName))
+      {
+        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%')";
+        aryParams = new MySqlParameter[1];
+        aryParams[0] = new MySqlParameter("@ProductName", strProductName);
+      }
+      else if ("".Equals(strProductName) && !"".Equals(strFactoryName))
+      {
+        strSqlWhere = " WHERE name_factory LIKE CONCAT('%', @FactoryName, '%')";
+        aryParams = new MySqlParameter[1];
+        aryParams[0] = new MySqlParameter("@FactoryName", strFactoryName);
+      }
+      else if (!"".Equals(strProductName) && !"".Equals(strFactoryName))
+      {
+        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%') AND " +
+            "name_factory LIKE CONCAT('%', @FactoryName, '%')";
+        aryParams = new MySqlParameter[2];
+        aryParams[0] = new MySqlParameter("@ProductName", strProductName);
+        aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
+      }
+      else return null;
+      strSql = strSqlHead + strSqlWhere;
+      return HelperMySql.GetDataTable(strSql, aryParams);
+    }
+
     #endregion
 
   }

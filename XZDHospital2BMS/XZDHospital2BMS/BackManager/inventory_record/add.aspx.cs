@@ -42,7 +42,9 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         HelperUtility.showAlert("货品名称和厂家名称不能都为空！", "add.aspx" + strUrlBack);
         return;
       }
-      LoadData(strNameProduct, strNameFactory);
+      ViewState["NameProduct"] = strNameProduct;
+      ViewState["NameFactory"] = strNameFactory;
+      LoadData();
     }
 
     protected void btnShowList_Click(object sender, EventArgs e)
@@ -62,53 +64,47 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         int intGoodsId = Convert.ToInt32(lblGoodsId.Text);
         HyperLink hlProductName = (HyperLink)e.Row.FindControl("hlProductName");
         hlProductName.NavigateUrl = "/BackManager/sales_goods/show.aspx?id=" + intGoodsId;
-        // 库存量的显示及更新要用到的Label控件
+        // 显示入库量、出库量、库存量要用到的Label控件
         Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
         Label lblAmountOut = (Label)e.Row.FindControl("lblAmountOut");
         Label lblStock = (Label)e.Row.FindControl("lblStock");
         // 得到入库的货品总量
-        if ("".Equals(lblAmountIn.Text)) lblAmountIn.Text = "0";
         decimal intIn = Convert.ToDecimal(lblAmountIn.Text);
         // 得到出库的货品总量
         decimal intOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        lblAmountOut.Text = intOut.ToString("N");
         // 计算并显示库存量
         lblStock.Text = (intIn - intOut).ToString("N");
-        // 根据盘点单id，货品id，盘点数量添加一条盘点货品记录
-        // 先得到输入盘点数量的textbox控件id
-        TextBox tbInventoryAmount = (TextBox)e.Row.FindControl("tbInventoryAmount");
-        HtmlInputButton btnAddToList = (HtmlInputButton)e.Row.FindControl("btnAddToList");
-        if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
-        int intInventoryContractId = Convert.ToInt32(ViewState["ContractId"]);
-        string strClickHandler = "addGoods(" +
-          intInventoryContractId + "," +
-          intGoodsId + ",\"" +
-          tbInventoryAmount.ClientID + "\")";
-        // 将上述值绑定到按钮事件上
-        btnAddToList.Attributes.Add("onclick", strClickHandler);
       }
     }
 
-    public void OP_Command(object sender, CommandEventArgs e)
+    protected void gvShow_RowEditing(object sender, GridViewEditEventArgs e)
     {
-      int intId = Convert.ToInt32(e.CommandArgument);
-      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
-      if (e.CommandName == "edit")
-      {
-        if (HelperUtility.hasPurviewOP("InventoryRecord_update"))
-        {
-          string strUrl = "edit.aspx" + strUrlBack;
-          strUrl += "&page=" + ViewState["page"] + "&id=" + intId.ToString();
-          Response.Redirect(strUrl);
-        }
-        else
-          HelperUtility.showAlert("没有操作权限", "list.aspx" + strUrlBack + "&page=" + ViewState["page"]);
-      }
-      // LoadData();
+      gvShow.EditIndex = e.NewEditIndex;
+      LoadData();
     }
 
-    public void LoadData(string strNameProduct, string strNameFactory)
+    protected void gvShow_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-      DataTable objDT = BllSalesGoods.getDTByName(strNameProduct, strNameFactory);
+      string strId = gvShow.DataKeys[e.RowIndex].Values[0].ToString();
+      TextBox tbInventoryAmount = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmount");
+      if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
+      decimal dcmInventoryAmount = Convert.ToDecimal(tbInventoryAmount.Text);
+      gvShow.EditIndex = -1;
+      LoadData();
+    }
+
+    protected void gvShow_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+      gvShow.EditIndex = -1;
+      LoadData();
+    }
+
+    public void LoadData()
+    {
+      string strNameProduct = ViewState["NameProduct"].ToString();
+      string strNameFactory = ViewState["NameFactory"].ToString();
+      DataTable objDT = BllSalesGoods.getInventoryDTByName(strNameProduct, strNameFactory);
       if (objDT == null || objDT.Rows.Count <= 0)
       {
         pnlInfo.Visible = true;

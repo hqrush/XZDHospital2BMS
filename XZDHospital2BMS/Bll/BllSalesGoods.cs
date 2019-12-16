@@ -52,6 +52,11 @@ namespace Bll
       return DalSalesGoods.getDTByName(strProductName, strFactoryName);
     }
 
+    public static DataTable getInventoryDTByName(string strProductName, string strFactoryName)
+    {
+      return DalSalesGoods.getInventoryDTByName(strProductName, strFactoryName);
+    }
+
   }
 
 }

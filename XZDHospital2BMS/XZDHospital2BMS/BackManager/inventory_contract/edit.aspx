@@ -34,6 +34,24 @@
             <div class="panel-body">
 
               <div class="form-group">
+                <label for="tbTimeStart" class="col-sm-2 control-label">
+                  <strong class="red">*</strong>开始时间：</label>
+                <div class="col-sm-4">
+                  <input runat="server" id="tbTimeStart" type='text'
+                    class="form-control datepicker-here" data-language='zh' data-position="right top" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="tbTimeEnd" class="col-sm-2 control-label">
+                  <strong class="red">*</strong>结束时间：</label>
+                <div class="col-sm-4">
+                  <input runat="server" id="tbTimeEnd" type='text'
+                    class="form-control datepicker-here" data-language='zh' data-position="right top" />
+                </div>
+              </div>
+
+              <div class="form-group">
                 <label for="tbNameSign" class="col-sm-2 control-label">
                   <strong class="red">*</strong>签名：</label>
                 <div class="col-sm-8">
@@ -70,15 +88,6 @@
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/datepicker.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/i18n/datepicker.zh.js"></script>
-  <script type="text/javascript">
-    function validForm() {
-      var tbNameSign = document.getElementById("tbNameSign");
-      var strName = tbNameSign.value;
-      if (strName === "") {
-        alert("公司名不能为空！");
-        return false;
-      }
-    }
-  </script>
+  <script type="text/javascript" src="/static/js/check-form/inventory_contract.js"></script>
 </body>
 </html>

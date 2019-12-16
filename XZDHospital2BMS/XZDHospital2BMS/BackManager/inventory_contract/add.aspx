@@ -40,6 +40,9 @@
                   <input runat="server" id="tbTimeStart" type='text'
                     class="form-control datepicker-here" data-language='zh' data-position="right top" />
                 </div>
+              </div>
+
+              <div class="form-group">
                 <label for="tbTimeEnd" class="col-sm-2 control-label">
                   <strong class="red">*</strong>结束时间：</label>
                 <div class="col-sm-4">

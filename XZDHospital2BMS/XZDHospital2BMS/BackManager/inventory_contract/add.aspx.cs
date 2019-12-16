@@ -26,6 +26,13 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         HelperUtility.showAlert("没有操作权限", strUrl);
       }
       string strMsgError = "";
+
+      string strTimeStart = tbTimeStart.Value.Trim();
+      if ("".Equals(strTimeStart)) strMsgError += "开始时间不能为空！";
+      if (!HelperUtility.isDateType(strTimeStart)) strMsgError += "开始时间格式不正确！";
+      string strTimeEnd = tbTimeEnd.Value.Trim();
+      if ("".Equals(strTimeEnd)) strMsgError += "结束时间不能为空！";
+      if (!HelperUtility.isDateType(strTimeEnd)) strMsgError += "结束时间格式不正确！";
       string strNameSign = tbNameSign.Text.Trim();
       if ("".Equals(strNameSign)) strMsgError += "公司名不能为空！";
       string strComment = tbComment.Text.Trim();
@@ -43,6 +50,8 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       model.name_sign = strNameSign;
       model.photo_urls = strPhotoUrls;
       model.comment = strComment;
+      model.time_start = Convert.ToDateTime(strTimeStart);
+      model.time_end = Convert.ToDateTime(strTimeEnd);
       int intId = BllInventoryContract.add(model);
       if (intId > 0)
       {

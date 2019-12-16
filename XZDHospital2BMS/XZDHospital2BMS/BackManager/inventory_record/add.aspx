@@ -62,13 +62,17 @@
               <div class="wrapper-gvshow table-responsive">
 
                 <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
-                  OnRowDataBound="gvShow_RowDataBound" CssClass="table table-condensed">
+                  OnRowDataBound="gvShow_RowDataBound" OnRowEditing="gvShow_RowEditing"
+                  OnRowUpdating="gvShow_RowUpdating" OnRowCancelingEdit="gvShow_RowCancelingEdit"
+                  CssClass="table table-condensed">
                   <RowStyle BackColor="#e6eaee" />
                   <AlternatingRowStyle BackColor="#f5f5f5" />
                   <Columns>
 
                     <asp:TemplateField HeaderText="名称及剂型">
                       <ItemTemplate>
+                        <asp:Label runat="server" ID="lblGoodsId" Visible="false"
+                          Text='<%# Eval("id").ToString() %>' />
                         <asp:HyperLink runat="server" ID="hlProductName" Target="_blank"
                           Text='<%# Eval("name_product").ToString() %>' />
                       </ItemTemplate>
@@ -125,42 +129,42 @@
                     <asp:TemplateField HeaderText="出库量">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblAmountOut" />
+                        <asp:Label runat="server" ID="lblAmountOut" Text="0" />
                       </ItemTemplate>
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="库存量">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblStock" />
+                        <asp:Label runat="server" ID="lblStock" Text="0" />
                       </ItemTemplate>
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="盘点数">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblInventory" />
+                        <asp:Label runat="server" ID="lblInventory" Text="0" />
                       </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="盘点数">
-                      <ItemStyle Width="70px" />
-                      <ItemTemplate>
-                        <asp:TextBox runat="server" ID="tbInventoryAmount"
+                      <EditItemTemplate>
+                        <asp:TextBox runat="server" ID="tbInventoryAmount" Text="0"
                           onkeyup="if(isNaN(value))execCommand('undo')"
                           onafterpaste="if(isNaN(value))execCommand('undo')"
-                          CssClass="form-control" Width="60" />
-                      </ItemTemplate>
+                          CssClass="form-control" Width="60" MaxLength="10" />
+                      </EditItemTemplate>
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="操作">
                       <ItemStyle Width="40px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblGoodsId" Visible="false"
-                          Text='<%# Eval("id").ToString() %>' />
-                        <input type="button" runat="server" id="btnAddToList" value="添加"
-                          class="btn btn-warning" />
+                        <asp:Button runat="server" ID="btnEdit" CommandName="Edit"
+                          CssClass="btn btn-warning btn-xs" Text="编辑" />
                       </ItemTemplate>
+                      <EditItemTemplate>
+                        <asp:LinkButton runat="server" ID="lbtnUpdate" Text="更新"
+                          CssClass="btn btn-info btn-xs" CommandName="Update" />
+                        <asp:LinkButton runat="server" ID="lbtnCancel" Text="取消"
+                          CssClass="btn btn-warning btn-xs" CommandName="Cancel" />
+                      </EditItemTemplate>
                     </asp:TemplateField>
 
                   </Columns>

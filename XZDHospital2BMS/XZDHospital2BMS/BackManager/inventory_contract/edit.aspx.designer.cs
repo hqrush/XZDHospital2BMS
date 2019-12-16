@@ -24,6 +24,24 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
     protected global::XZDHospital2BMS.BackManager.WUCHeader wucHeader;
 
     /// <summary>
+    /// tbTimeStart 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputText tbTimeStart;
+
+    /// <summary>
+    /// tbTimeEnd 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.HtmlControls.HtmlInputText tbTimeEnd;
+
+    /// <summary>
     /// tbNameSign 控件。
     /// </summary>
     /// <remarks>

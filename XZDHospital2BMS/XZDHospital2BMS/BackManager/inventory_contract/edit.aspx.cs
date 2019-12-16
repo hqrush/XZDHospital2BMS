@@ -25,6 +25,8 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         ModelInventoryContract model = BllInventoryContract.getById(intId);
         tbNameSign.Text = model.name_sign;
         tbComment.Text = model.comment;
+        tbTimeStart.Value = model.time_start.ToString("yyyy-MM-dd");
+        tbTimeEnd.Value = model.time_end.ToString("yyyy-MM-dd");
       }
     }
 
@@ -38,6 +40,12 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       string strThisPageUrl = "edit.aspx?id=" + intId + "&page=" + intPage;
       string strMsgError = "";
       // 验证输入
+      string strTimeStart = tbTimeStart.Value.Trim();
+      if ("".Equals(strTimeStart)) strMsgError += "开始时间不能为空！";
+      if (!HelperUtility.isDateType(strTimeStart)) strMsgError += "开始时间格式不正确！";
+      string strTimeEnd = tbTimeEnd.Value.Trim();
+      if ("".Equals(strTimeEnd)) strMsgError += "结束时间不能为空！";
+      if (!HelperUtility.isDateType(strTimeEnd)) strMsgError += "结束时间格式不正确！";
       string strNameSign = tbNameSign.Text.Trim();
       if ("".Equals(strNameSign)) strMsgError += "公司名不能为空！";
       string strComment = tbComment.Text.Trim();
@@ -51,6 +59,8 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       ModelInventoryContract model = BllInventoryContract.getById(intId);
       model.name_sign = strNameSign;
       model.comment = strComment;
+      model.time_start = Convert.ToDateTime(strTimeStart);
+      model.time_end = Convert.ToDateTime(strTimeEnd);
       // 更新数据库记录
       BllInventoryContract.update(model);
       // 跳转回列表页

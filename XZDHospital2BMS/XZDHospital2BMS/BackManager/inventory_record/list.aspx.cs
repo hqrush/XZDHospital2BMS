@@ -1,11 +1,7 @@
 ﻿using Bll;
 using Helper;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.inventory_record
@@ -27,8 +23,6 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         ViewState["ContractId"] = intContractId;
         ViewState["ContractPage"] = HelperUtility.getQueryInt("cpage");
         LoadData();
-        // 设置其他控件值，以货币形式显示 2.5.ToString("C")
-        lblPriceTotal.Text = BllInventoryRecord.getPriceTotal(intContractId).ToString("C");
         hlBackContract.NavigateUrl = "../inventory_contract/list.aspx?page=" + ViewState["ContractPage"];
         hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
       }
@@ -67,7 +61,10 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       gvShow.DataSource = objDT;
       gvShow.DataBind();
       // 设置其他控件值，以货币形式显示 2.5.ToString("C")
-      lblPriceTotal.Text = BllInventoryRecord.getPriceTotal(intContractId).ToString("C");
+      decimal[] getPriceTotal = BllInventoryRecord.getPriceTotal(intContractId);
+      decimal dcmPriceTotalReal = getPriceTotal[0];
+      decimal dcmPriceTotalShow = getPriceTotal[1];
+      lblPriceTotal.Text = dcmPriceTotalReal.ToString("C");
     }
 
   }

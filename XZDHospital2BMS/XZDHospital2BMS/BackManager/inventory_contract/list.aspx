@@ -42,15 +42,31 @@
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblTimeCreate"
-                      Text='<%# Eval("time_create") %>' />
+                      Text='<%# Eval("time_create","{0:yyyy-MM-dd}") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="填写管理员">
-                  <ItemStyle Width="120px" />
+                <asp:TemplateField HeaderText="填报人">
+                  <ItemStyle Width="90px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAdminId"
                       Text='<%# Eval("id_admin").ToString() %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="开始时间">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblTimeStart"
+                      Text='<%# Eval("time_start","{0:yyyy-MM-dd}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="结束时间">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblTimeEnd"
+                      Text='<%# Eval("time_end","{0:yyyy-MM-dd}") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -62,7 +78,7 @@
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="备注">
-                  <ItemStyle Width="400px" />
+                  <ItemStyle Width="200px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblComment"
                       Text='<%# Eval("comment").ToString() %>' />
