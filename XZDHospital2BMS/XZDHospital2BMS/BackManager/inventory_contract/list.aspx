@@ -42,15 +42,7 @@
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblTimeCreate"
-                      Text='<%# Eval("time_create", "{0:yyyy-MM-dd}") %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="负责人签名">
-                  <ItemStyle Width="120px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblNameSign"
-                      Text='<%# Eval("name_sign").ToString() %>' />
+                      Text='<%# Eval("time_create") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -62,15 +54,15 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="照片凭证">
-                  <ItemStyle Width="240px" />
+                <asp:TemplateField HeaderText="负责人签名">
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblPhotoUrls"
-                      Text='<%# Eval("photo_urls").ToString() %>' />
+                    <asp:Label runat="server" ID="lblNameSign"
+                      Text='<%# Eval("name_sign").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="备注">
+                  <ItemStyle Width="400px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblComment"
                       Text='<%# Eval("comment").ToString() %>' />

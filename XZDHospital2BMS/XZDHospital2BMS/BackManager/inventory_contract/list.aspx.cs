@@ -1,9 +1,7 @@
 ﻿using Bll;
 using Helper;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.inventory_contract
@@ -35,27 +33,13 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         Label lblPhotoUrls = (Label)e.Row.FindControl("lblPhotoUrls");
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = (BllAdmin.getById(intAdminId)).real_name;
-        string strPhotoUrls = lblPhotoUrls.Text;
-        List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-        HyperLink hl;
-        for (int i = 0; i < listPhotoUrls.Count; i++)
-        {
-          hl = new HyperLink();
-          hl.ImageUrl = listPhotoUrls[i];
-          hl.ImageWidth = 60;
-          hl.ImageHeight = 60;
-          hl.NavigateUrl = listPhotoUrls[i];
-          hl.Target = "_blank";
-          lblPhotoUrls.Parent.Controls.Add(hl);
-        }
-        lblPhotoUrls.Visible = false;
       }
     }
 
     public void OP_Command(object sender, CommandEventArgs e)
     {
       int intId = Convert.ToInt32(e.CommandArgument);
-      string strUrl = "";
+      string strUrl;
       if (e.CommandName == "edit")
       {
         if (HelperUtility.hasPurviewOP("InventoryContract_update"))
@@ -66,7 +50,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       else if (e.CommandName == "del")
       {
         if (HelperUtility.hasPurviewOP("InventoryContract_del"))
-          BllSalesContract.deleteById(intId);
+          BllInventoryContract.deleteById(intId);
         else
           HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
       }
@@ -75,7 +59,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         if (HelperUtility.hasPurviewOP("InventoryRecord_show"))
         {
           // 跳到添加货品清单页面，传过去合同cid和合同分页的页面值以便添加完成后返回此页
-          strUrl = "../inventory_contract/list.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
+          strUrl = "../inventory_record/list.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
           Response.Redirect(strUrl);
         }
         else

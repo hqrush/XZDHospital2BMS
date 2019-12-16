@@ -45,7 +45,7 @@ INSERT INTO inventory_record (
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
-    public static int update(ModelInventoryRecord model)
+    public static void update(ModelInventoryRecord model)
     {
       string strSQL = @"
 UPDATE inventory_record
@@ -63,7 +63,7 @@ WHERE
       aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
       aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
       aryParams[4] = new MySqlParameter("@id", model.id);
-      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelInventoryRecord getById(int intId)
@@ -78,8 +78,8 @@ WHERE
         model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
         model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_contract"]);
         model.id_goods = Convert.ToInt32(objDT.Rows[0]["id_goods"]);
-        model.amount_real = Convert.ToInt32(objDT.Rows[0]["amount_real"]);
-        model.amount_show = Convert.ToInt32(objDT.Rows[0]["amount_show"]);
+        model.amount_real = Convert.ToDecimal(objDT.Rows[0]["amount_real"]);
+        model.amount_show = Convert.ToDecimal(objDT.Rows[0]["amount_show"]);
         return model;
       }
       else return null;
@@ -115,7 +115,7 @@ WHERE
     }
 
     /// <summary>
-    /// 分页查询
+    /// 分页查询某个盘点单下所有盘点记录
     /// </summary>
     public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
@@ -140,7 +140,7 @@ LIMIT @PageSize
     }
 
     /// <summary>
-    /// 得到记录总数
+    /// 得到某个盘点单下所有盘点记录的总数
     /// </summary>
     public static int getRecordsAmount(int intContractId)
     {
@@ -152,49 +152,44 @@ LIMIT @PageSize
     }
 
     /// <summary>
-    /// 得到某个盘点单下所有货品的总价
+    /// 得到某个盘点单下所有货品的总价数组，第一个数字是真实盘点数，第二个数字是显示数
     /// </summary>
     /// <param name="intContractId">盘点单id</param>
     /// <returns>某个盘点单下所有货品的总价</returns>
-    public static decimal getPriceTotal(int intContractId)
+    public static decimal[] getPriceTotal(int intContractId)
     {
+      decimal[] aryReturn = { 0, 0 };
       string strSQL = @"
-SELECT id_goods, amount_real
-FROM inventory_record
-WHERE id_contract = @id_contract";
+SELECT
+  record.amount_real,
+  record.amount_show,
+  goods.price_unit
+FROM inventory_record record
+INNER JOIN sales_goods goods
+ON
+  record.id_goods = goods.id
+WHERE
+  record.id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT == null || objDT.Rows.Count <= 0) return 0;
-      int intGoodsId;
-      decimal dcmAmount;
+      if (objDT == null || objDT.Rows.Count <= 0) return aryReturn;
+
+      decimal dcmAmountReal, dcmAmountShow;
       decimal dcmPriceUnit;
-      decimal dcmPriceTotal = 0;
+      decimal dcmPriceTotalReal = 0;
+      decimal dcmPriceTotalShow = 0;
       for (int i = 0; i < objDT.Rows.Count; i++)
       {
-        intGoodsId = Convert.ToInt32(objDT.Rows[i]["id_goods"]);
-        dcmAmount = Convert.ToDecimal(objDT.Rows[i]["amount_real"]);
-        dcmPriceUnit = DalSalesGoods.getById(intGoodsId).price_unit;
-        dcmPriceTotal += dcmPriceUnit * dcmAmount;
+        dcmAmountReal = Convert.ToDecimal(objDT.Rows[i]["amount_real"]);
+        dcmAmountShow = Convert.ToDecimal(objDT.Rows[i]["amount_show"]);
+        dcmPriceUnit = Convert.ToDecimal(objDT.Rows[i]["price_unit"]);
+        dcmPriceTotalReal += dcmPriceUnit * dcmAmountReal;
+        dcmPriceTotalShow += dcmPriceUnit * dcmAmountShow;
       }
-      return dcmPriceTotal;
-    }
-
-    /// <summary>
-    /// 得到某个某个货品的盘点数
-    /// </summary>
-    /// <param name="intGoodsId">货品id</param>
-    /// <returns>某个盘点单下所有货品的总数量</returns>
-    public static decimal getAmountByGoodsId(int intGoodsId)
-    {
-      string strSQL = @"
-SELECT SUM(amount_real)
-FROM inventory_record
-WHERE id_goods = @id_goods";
-      MySqlParameter[] aryParams = new MySqlParameter[1];
-      aryParams[0] = new MySqlParameter("@id_goods", intGoodsId);
-      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
-      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
+      aryReturn[0] = dcmPriceTotalReal;
+      aryReturn[1] = dcmPriceTotalShow;
+      return aryReturn;
     }
 
   }

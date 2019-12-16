@@ -57,29 +57,31 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       {
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-        Label lblId = (Label)e.Row.FindControl("lblId");
-        int intGoodsId = Convert.ToInt32(lblId.Text);
+
+        Label lblGoodsId = (Label)e.Row.FindControl("lblGoodsId");
+        int intGoodsId = Convert.ToInt32(lblGoodsId.Text);
+        HyperLink hlProductName = (HyperLink)e.Row.FindControl("hlProductName");
+        hlProductName.NavigateUrl = "/BackManager/sales_goods/show.aspx?id=" + intGoodsId;
         // 库存量的显示及更新要用到的Label控件
         Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
-        Label lblInventory = (Label)e.Row.FindControl("lblInventory");
-        // 得到出库的货品总量
-        decimal intOut = BllInventoryRecord.getAmountByGoodsId(intGoodsId);
+        Label lblAmountOut = (Label)e.Row.FindControl("lblAmountOut");
+        Label lblStock = (Label)e.Row.FindControl("lblStock");
         // 得到入库的货品总量
         if ("".Equals(lblAmountIn.Text)) lblAmountIn.Text = "0";
         decimal intIn = Convert.ToDecimal(lblAmountIn.Text);
-        // 计算库存量
-        decimal intInventory = intIn - intOut;
-        lblInventory.Text = intInventory.ToString("N");
-        // 根据出库单id，货品id，出库数量添加一条出库货品表
-        // 先得到出库单id，货品id，输入出库数量的textbox控件id
+        // 得到出库的货品总量
+        decimal intOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        // 计算并显示库存量
+        lblStock.Text = (intIn - intOut).ToString("N");
+        // 根据盘点单id，货品id，盘点数量添加一条盘点货品记录
+        // 先得到输入盘点数量的textbox控件id
         TextBox tbInventoryAmount = (TextBox)e.Row.FindControl("tbInventoryAmount");
         HtmlInputButton btnAddToList = (HtmlInputButton)e.Row.FindControl("btnAddToList");
-        int intInventoryContractId = Convert.ToInt32(ViewState["ContractId"]);
         if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
+        int intInventoryContractId = Convert.ToInt32(ViewState["ContractId"]);
         string strClickHandler = "addGoods(" +
           intInventoryContractId + "," +
           intGoodsId + ",\"" +
-          lblInventory.ClientID + "\",\"" +
           tbInventoryAmount.ClientID + "\")";
         // 将上述值绑定到按钮事件上
         btnAddToList.Attributes.Add("onclick", strClickHandler);

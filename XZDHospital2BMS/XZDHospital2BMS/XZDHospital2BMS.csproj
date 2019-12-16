@@ -85,6 +85,7 @@
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
     <Content Include="static\css\lib\bootstrap-select.min.css" />
+    <Content Include="static\js\check-form\inventory_contract.js" />
     <Content Include="static\js\check-form\inventory_record.js" />
     <Content Include="static\js\check-form\checkout_record.js" />
     <Content Include="static\js\check-form\medical_record.js" />

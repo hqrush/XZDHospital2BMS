@@ -17,9 +17,9 @@ namespace Bll
       DalInventoryRecord.deleteById(intId);
     }
 
-    public static int update(ModelInventoryRecord model)
+    public static void update(ModelInventoryRecord model)
     {
-      return DalInventoryRecord.update(model);
+      DalInventoryRecord.update(model);
     }
 
     public static ModelInventoryRecord getById(int intId)
@@ -42,14 +42,9 @@ namespace Bll
       return DalInventoryRecord.getRecordsAmount(intContractId);
     }
 
-    public static decimal getPriceTotal(int intContractId)
+    public static decimal[] getPriceTotal(int intContractId)
     {
       return DalInventoryRecord.getPriceTotal(intContractId);
-    }
-
-    public static decimal getAmountByGoodsId(int intGoodsId)
-    {
-      return DalInventoryRecord.getAmountByGoodsId(intGoodsId);
     }
 
   }

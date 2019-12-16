@@ -35,9 +35,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         HelperUtility.showAlert(strMsgError, "add.aspx");
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Value;
-      if (strPhotoUrls.EndsWith(","))
-        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
+      string strPhotoUrls = "";
       // 验证完毕，提交数据
       int intAdminId = Convert.ToInt32(ViewState["AdminId"]);
       ModelInventoryContract model = new ModelInventoryContract();

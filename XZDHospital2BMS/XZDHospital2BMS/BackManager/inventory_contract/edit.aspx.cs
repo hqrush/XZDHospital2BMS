@@ -2,17 +2,12 @@
 using Helper;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.inventory_contract
 {
 
   public partial class edit : System.Web.UI.Page
   {
-
-    private int intPhotoAmounts = 0;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -30,30 +25,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         ModelInventoryContract model = BllInventoryContract.getById(intId);
         tbNameSign.Text = model.name_sign;
         tbComment.Text = model.comment;
-        string strPhotoUrls = model.photo_urls;
-        if (!"".Equals(strPhotoUrls))
-        {
-          string strImgUrl, strJS;
-          List<string> listPhotoUrls = strPhotoUrls.Split(',').ToList();
-          intPhotoAmounts = listPhotoUrls.Count;
-          for (int i = 0; i < intPhotoAmounts; i++)
-          {
-            strImgUrl = listPhotoUrls[i];
-            strJS = "<div id=\"img-" + i + "\" class=\"wrapper-photo-show\">";
-            strJS += "<img width=\"100\" height=\"100\" src=\"" + strImgUrl + "\" /><br />";
-            strJS += "<input type=\"button\" id=\"btnDelPhoto\" class=\"btn btn-sm btn-warning\"" +
-              " onclick=\"delPhoto(" + i + ")\" value=\"删除\" /></div>";
-            ltrShowPhoto.Text += strJS;
-          }
-        }
-        tbPhotoUrls.Value = strPhotoUrls;
       }
-    }
-
-    // 从数据库里读取入库单凭证照片的数量，设置js变量的值
-    public int setPhotoAmount()
-    {
-      return intPhotoAmounts;
     }
 
     protected void btnEdit_Click(object sender, EventArgs e)
@@ -75,13 +47,9 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         HelperUtility.showAlert(strMsgError, strThisPageUrl);
         return;
       }
-      string strPhotoUrls = tbPhotoUrls.Value;
-      if (strPhotoUrls.EndsWith(","))
-        strPhotoUrls = strPhotoUrls.Substring(0, strPhotoUrls.Length - 1);
       // 验证完毕，提交数据
       ModelInventoryContract model = BllInventoryContract.getById(intId);
       model.name_sign = strNameSign;
-      model.photo_urls = strPhotoUrls;
       model.comment = strComment;
       // 更新数据库记录
       BllInventoryContract.update(model);

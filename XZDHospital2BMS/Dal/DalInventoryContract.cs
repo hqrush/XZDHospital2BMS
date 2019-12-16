@@ -17,37 +17,44 @@ INSERT INTO inventory_contract (
   name_sign,
   time_create,
   photo_urls,
-  comment
+  comment,
+  time_start,
+  time_end
 ) VALUES (
   @id_admin,
   @name_sign,
   @time_create,
   @photo_urls,
-  @comment
+  @comment,
+  @time_start,
+  @time_end
 )";
-      MySqlParameter[] aryParams = new MySqlParameter[5];
+      MySqlParameter[] aryParams = new MySqlParameter[7];
       aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[1] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[2] = new MySqlParameter("@time_create", model.time_create);
       aryParams[3] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[4] = new MySqlParameter("@comment", model.comment);
+      aryParams[5] = new MySqlParameter("@time_start", model.time_start);
+      aryParams[6] = new MySqlParameter("@time_end", model.time_end);
       if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM inventory_contract";
-        return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+        object objReturn = HelperMySql.ExecuteScalar(strSQL);
+        return objReturn == null ? 0 : Convert.ToInt32(objReturn);
       }
       else return 0;
     }
 
     public static void deleteById(int intId)
     {
-      string strSQL = @"DELETE FROM inventory_contract WHERE id=@id";
+      string strSQL = @"DELETE FROM inventory_contract WHERE id = @id";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
-    public static int update(ModelInventoryContract model)
+    public static void update(ModelInventoryContract model)
     {
       string strSQL = @"
 UPDATE inventory_contract
@@ -56,18 +63,22 @@ SET
   name_sign = @name_sign,
   time_create = @time_create,
   photo_urls = @photo_urls,
-  comment = @comment
+  comment = @comment,
+  time_start = @time_start,
+  time_end = @time_end
 WHERE
   id = @id
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[6];
+      MySqlParameter[] aryParams = new MySqlParameter[8];
       aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[1] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[2] = new MySqlParameter("@time_create", model.time_create);
       aryParams[3] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[4] = new MySqlParameter("@comment", model.comment);
-      aryParams[5] = new MySqlParameter("@id", model.id);
-      return (int)HelperMySql.ExecuteScalar(strSQL, aryParams);
+      aryParams[5] = new MySqlParameter("@time_start", model.time_start);
+      aryParams[6] = new MySqlParameter("@time_end", model.time_end);
+      aryParams[7] = new MySqlParameter("@id", model.id);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
     public static ModelInventoryContract getById(int intId)
@@ -76,18 +87,17 @@ WHERE
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT != null && objDT.Rows.Count > 0)
-      {
-        ModelInventoryContract model = new ModelInventoryContract();
-        model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
-        model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
-        model.name_sign = Convert.ToString(objDT.Rows[0]["name_sign"]);
-        model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
-        model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
-        model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
-        return model;
-      }
-      else return null;
+      if (objDT == null || objDT.Rows.Count <= 0) return null;
+      ModelInventoryContract model = new ModelInventoryContract();
+      model.id = Convert.ToInt32(objDT.Rows[0]["id"]);
+      model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
+      model.name_sign = Convert.ToString(objDT.Rows[0]["name_sign"]);
+      model.time_create = Convert.ToDateTime(objDT.Rows[0]["time_create"]);
+      model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
+      model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
+      model.time_start = Convert.ToDateTime(objDT.Rows[0]["time_start"]);
+      model.time_end = Convert.ToDateTime(objDT.Rows[0]["time_end"]);
+      return model;
     }
 
     public static DataTable getAll()
@@ -125,7 +135,8 @@ LIMIT @PageSize
     public static int getRecordsAmount()
     {
       string strSQL = @"SELECT COUNT(*) FROM inventory_contract";
-      return Convert.ToInt32(HelperMySql.ExecuteScalar(strSQL));
+      object objReturn = HelperMySql.ExecuteScalar(strSQL);
+      return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
   }

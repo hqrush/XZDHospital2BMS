@@ -18,19 +18,19 @@
   <![endif]-->
 </head>
 <body>
+  <form runat="server" class="form-horizontal" role="form">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">查询货品</h3>
-          </div>
-          <div class="panel-body">
-            <form runat="server" class="form-horizontal" role="form">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">查询货品</h3>
+            </div>
+            <div class="panel-body">
 
               <div class="form-group">
                 <label for="tbProductName" class="col-sm-2 control-label">
@@ -67,11 +67,10 @@
                   <AlternatingRowStyle BackColor="#f5f5f5" />
                   <Columns>
 
-                    <asp:TemplateField HeaderText="通用名称及剂型">
+                    <asp:TemplateField HeaderText="名称及剂型">
                       <ItemTemplate>
                         <asp:HyperLink runat="server" ID="hlProductName" Target="_blank"
-                          Text='<%# Eval("name_product").ToString() %>'
-                          NavigateUrl='show.aspx?id=<%# Eval("id").ToString() %>' />
+                          Text='<%# Eval("name_product").ToString() %>' />
                       </ItemTemplate>
                     </asp:TemplateField>
 
@@ -108,18 +107,38 @@
                     </asp:TemplateField>
 
                     <asp:TemplateField HeaderText="有效期至">
-                      <ItemStyle Width="110px" />
+                      <ItemStyle Width="100px" />
                       <ItemTemplate>
                         <asp:Label runat="server" ID="lblValidityPeriod"
                           Text='<%# Eval("validity_period", "{0:yyyy-MM-dd}") %>' />
                       </ItemTemplate>
                     </asp:TemplateField>
 
+                    <asp:TemplateField HeaderText="入库量">
+                      <ItemStyle Width="70px" />
+                      <ItemTemplate>
+                        <asp:Label runat="server" ID="lblAmountIn"
+                          Text='<%# Eval("amount", "{0:f2}") %>' />
+                      </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="出库量">
+                      <ItemStyle Width="70px" />
+                      <ItemTemplate>
+                        <asp:Label runat="server" ID="lblAmountOut" />
+                      </ItemTemplate>
+                    </asp:TemplateField>
+
                     <asp:TemplateField HeaderText="库存量">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblAmountIn" Visible="false"
-                          Text='<%# Eval("amount", "{0:f2}") %>' />
+                        <asp:Label runat="server" ID="lblStock" />
+                      </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="盘点数">
+                      <ItemStyle Width="70px" />
+                      <ItemTemplate>
                         <asp:Label runat="server" ID="lblInventory" />
                       </ItemTemplate>
                     </asp:TemplateField>
@@ -137,9 +156,9 @@
                     <asp:TemplateField HeaderText="操作">
                       <ItemStyle Width="40px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblId" Visible="false"
+                        <asp:Label runat="server" ID="lblGoodsId" Visible="false"
                           Text='<%# Eval("id").ToString() %>' />
-                        <input type="button" runat="server" id="btnAddToList" value="添加到盘点单"
+                        <input type="button" runat="server" id="btnAddToList" value="添加"
                           class="btn btn-warning" />
                       </ItemTemplate>
                     </asp:TemplateField>
@@ -150,14 +169,14 @@
 
               </div>
 
-            </form>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
   <script type="text/javascript" src="/static/js/check-form/inventory_record.js"></script>

@@ -13,6 +13,8 @@ namespace Model
     private DateTime _time_create = DateTime.Now;
     private string _photo_urls = "";
     private string _comment = "";
+    private DateTime _time_start = DateTime.Now;
+    private DateTime _time_end = DateTime.Now;
 
     public ModelInventoryContract() { }
 
@@ -61,7 +63,6 @@ namespace Model
       {
         return _time_create;
       }
-
       set
       {
         _time_create = value;
@@ -91,6 +92,30 @@ namespace Model
       set
       {
         _comment = value;
+      }
+    }
+
+    public DateTime time_start
+    {
+      get
+      {
+        return _time_start;
+      }
+      set
+      {
+        _time_start = value;
+      }
+    }
+
+    public DateTime time_end
+    {
+      get
+      {
+        return _time_end;
+      }
+      set
+      {
+        _time_end = value;
       }
     }
 

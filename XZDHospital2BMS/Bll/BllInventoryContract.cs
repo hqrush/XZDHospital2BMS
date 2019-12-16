@@ -17,9 +17,9 @@ namespace Bll
       DalInventoryContract.deleteById(intId);
     }
 
-    public static int update(ModelInventoryContract model)
+    public static void update(ModelInventoryContract model)
     {
-      return DalInventoryContract.update(model);
+      DalInventoryContract.update(model);
     }
 
     public static ModelInventoryContract getById(int intId)
