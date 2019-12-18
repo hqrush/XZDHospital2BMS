@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Web;
 using Aspose.Cells;
 
 namespace Helper
@@ -8,6 +9,8 @@ namespace Helper
 
   public class HelperExcel
   {
+
+    private static string strRootPath = HttpContext.Current.Request.PhysicalApplicationPath;
 
     public HelperExcel() { }
 
@@ -89,6 +92,18 @@ namespace Helper
       if (objCells.MaxDataRow > 0)
         return objCells.ExportDataTableAsString(0, 0, objCells.MaxDataRow + 1, objCells.MaxDataColumn + 1, false);
       else return null;
+    }
+
+    public static void ExportExcel(DataTable objDT, string strExcelTemplateFileName, string strExcelOutFileName)
+    {
+      string strExcelTemplateFullFileName = strRootPath + strExcelTemplateFileName;
+      string strExcelOutFullFileName = strRootPath + strExcelOutFileName;
+      Workbook objWB = new Workbook(strExcelTemplateFullFileName);
+      WorkbookDesigner objDesigner = new WorkbookDesigner();
+      objDesigner.Workbook = objWB;
+      objDesigner.SetDataSource(objDT);
+      objDesigner.Process();
+      objDesigner.Workbook.Save(strExcelOutFullFileName);
     }
 
   }

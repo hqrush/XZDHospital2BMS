@@ -90,12 +90,12 @@
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnGoodsList" CssClass="btn btn-info btn-xs" Text="查看"
                       OnCommand="OP_Command" CommandName="ShowGoodsList" CommandArgument='<%# Eval("id") %>' />
-                    <asp:Button runat="server" ID="btnGoodsAdd" CssClass="btn btn-info btn-xs" Text="添加"
-                      OnCommand="OP_Command" CommandName="AddGoods" CommandArgument='<%# Eval("id") %>' />
+                    <%--<asp:Button runat="server" ID="btnGoodsAdd" CssClass="btn btn-info btn-xs" Text="添加"
+                      OnCommand="OP_Command" CommandName="AddGoods" CommandArgument='<%# Eval("id") %>' />--%>
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="盘点单操作">
+                <%--<asp:TemplateField HeaderText="盘点单操作">
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs" Text="编辑"
@@ -104,8 +104,7 @@
                       OnClientClick="return confirm('确定要删除？');"
                       OnCommand="OP_Command" CommandName="del" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
-                </asp:TemplateField>
-
+                </asp:TemplateField>--%>
               </Columns>
 
             </asp:GridView>

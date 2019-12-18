@@ -15,3 +15,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Bll.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Dal.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Bll.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Dal.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Excel\Template\inventory.xlsx

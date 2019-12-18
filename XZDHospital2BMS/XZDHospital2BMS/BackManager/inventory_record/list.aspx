@@ -30,34 +30,34 @@
             <div class="wrapper-btn col-sm-6">
               <asp:HyperLink runat="server" ID="hlBackContract"
                 Target="_self" Text="返回盘点单" CssClass="btn btn-sm btn-success" />
-              <asp:HyperLink runat="server" ID="hlAddNew"
-                Target="_self" Text="添加盘点货品" CssClass="btn btn-sm btn-success" />
-              <button type="button" id="btnExportExcel" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-print" />导出Excel表格
-              </button>
-              <button type="button" id="btnPrint" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-print" />打印清单
-              </button>
+              <%--<asp:HyperLink runat="server" ID="hlAddNew"
+                Target="_self" Text="添加盘点货品" CssClass="btn btn-sm btn-success" />--%>
+              <asp:Button runat="server" ID="btnExportExcel" Text="导出Excel表格"
+                CssClass="btn btn-sm btn-info" OnClick="btnExportExcel_Click" />
             </div>
             <div class="wrapper-info col-sm-6">
-              <p>总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" /></p>
+              <p>
+                库存总金额：<asp:Label runat="server" ID="lblPriceTotalStock" CssClass="red" />
+                盘点总金额：<asp:Label runat="server" ID="lblPriceTotalInventory" CssClass="red" />
+              </p>
             </div>
           </div>
 
           <div class="wrapper-gvshow table-responsive">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
-              OnRowDataBound="gvShow_RowDataBound" CssClass="table table-condensed">
+              OnRowDataBound="gvShow_RowDataBound" OnRowEditing="gvShow_RowEditing"
+              OnRowUpdating="gvShow_RowUpdating" OnRowCancelingEdit="gvShow_RowCancelingEdit"
+              CssClass="table table-condensed">
               <RowStyle BackColor="#e6eaee" />
               <AlternatingRowStyle BackColor="#f5f5f5" />
               <Columns>
 
                 <asp:TemplateField HeaderText="通用名称及剂型">
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblGoodsId"
-                      Text='<%# Eval("id_goods").ToString() %>' Visible="false" />
-                    <asp:HyperLink runat="server" ID="hlProductName" Target="_blank"
-                      Text='<%# Eval("name_product").ToString() %>' />
+                    <asp:Label runat="server" ID="lblId" Text='<%# Eval("id").ToString() %>' Visible="false" />
+                    <asp:Label runat="server" ID="lblGoodsId" Text='<%# Eval("id_goods").ToString() %>' Visible="false" />
+                    <asp:HyperLink runat="server" ID="hlProductName" Target="_blank" Text='<%# Eval("name_product").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -123,16 +123,27 @@
                     <asp:Label runat="server" ID="lblAmountReal"
                       Text='<%# Eval("amount_real", "{0:f2}") %>' />
                   </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:TextBox runat="server" ID="tbInventoryAmount"
+                      Text='<%# Eval("amount_real", "{0:f2}") %>'
+                      onkeyup="if(isNaN(value))execCommand('undo')"
+                      onafterpaste="if(isNaN(value))execCommand('undo')"
+                      CssClass="form-control" Width="60" MaxLength="12" />
+                  </EditItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="操作">
                   <ItemStyle Width="50px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblId" Text='<%# Eval("id").ToString() %>' Visible="false" />
-                    <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs" Text="删除"
-                      OnClientClick="return confirm('确定要删除？');"
-                      OnCommand="OP_Command" CommandName="del" CommandArgument='<%# Eval("id") %>' />
+                    <asp:Button runat="server" ID="btnEdit" CommandName="Edit"
+                      CssClass="btn btn-warning btn-xs" Text="修改" />
                   </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:LinkButton runat="server" ID="lbtnUpdate" Text="更新"
+                      CssClass="btn btn-info btn-xs" CommandName="Update" />
+                    <asp:LinkButton runat="server" ID="lbtnCancel" Text="取消"
+                      CssClass="btn btn-warning btn-xs" CommandName="Cancel" />
+                  </EditItemTemplate>
                 </asp:TemplateField>
 
               </Columns>

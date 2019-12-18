@@ -149,7 +149,7 @@
                         <asp:TextBox runat="server" ID="tbInventoryAmount" Text="0"
                           onkeyup="if(isNaN(value))execCommand('undo')"
                           onafterpaste="if(isNaN(value))execCommand('undo')"
-                          CssClass="form-control" Width="60" MaxLength="10" />
+                          CssClass="form-control" Width="60" MaxLength="12" />
                       </EditItemTemplate>
                     </asp:TemplateField>
 

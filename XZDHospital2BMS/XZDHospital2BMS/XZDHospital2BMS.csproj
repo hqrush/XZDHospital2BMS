@@ -109,6 +109,9 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\webuploader\icons.psd" />
     <Content Include="static\image\webuploader\progress.psd" />
+    <Content Include="Excel\Template\inventory.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -396,6 +399,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Excel\Export\" />
     <Folder Include="UploadFile\temp\" />
   </ItemGroup>
   <PropertyGroup>

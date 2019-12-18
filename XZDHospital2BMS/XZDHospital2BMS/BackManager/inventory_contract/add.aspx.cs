@@ -37,6 +37,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       string strTimeEnd = tbTimeEnd.Value.Trim();
       if ("".Equals(strTimeEnd)) strMsgError += "结束时间不能为空！";
       if (!HelperUtility.isDateType(strTimeEnd)) strMsgError += "结束时间格式不正确！";
+      if (Convert.ToDateTime(strTimeEnd) <= Convert.ToDateTime(strTimeStart)) strMsgError += "结束时间不能早于开始时间！";
       string strNameSign = tbNameSign.Text.Trim();
       if ("".Equals(strNameSign)) strMsgError += "公司名不能为空！";
       string strComment = tbComment.Text.Trim();

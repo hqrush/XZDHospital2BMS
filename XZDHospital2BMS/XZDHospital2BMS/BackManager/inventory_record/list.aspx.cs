@@ -1,5 +1,6 @@
 ﻿using Bll;
 using Helper;
+using Model;
 using System;
 using System.Data;
 using System.Web.UI.WebControls;
@@ -24,12 +25,10 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         ViewState["ContractPage"] = HelperUtility.getQueryInt("cpage");
         LoadDataPage();
         hlBackContract.NavigateUrl = "../inventory_contract/list.aspx?page=" + ViewState["ContractPage"];
-        hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
-        // 设置其他控件值，以货币形式显示 2.5.ToString("C")
-        decimal[] getPriceTotal = BllInventoryRecord.getPriceTotal(intContractId);
-        decimal dcmPriceTotalReal = getPriceTotal[0];
-        decimal dcmPriceTotalShow = getPriceTotal[1];
-        lblPriceTotal.Text = dcmPriceTotalReal.ToString("C");
+        // hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
+        // 设置显示库存总金额的Label控件值，以货币形式显示 2.5.ToString("C")
+        decimal dcmPriceTotalStock = BllInventoryRecord.getPriceTotalStock(intContractId);
+        lblPriceTotalStock.Text = dcmPriceTotalStock.ToString("C");
       }
     }
 
@@ -59,6 +58,30 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       LoadDataPage();
     }
 
+    protected void gvShow_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+      gvShow.EditIndex = e.NewEditIndex;
+      LoadDataPage();
+    }
+
+    protected void gvShow_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+      // string strId = gvShow.DataKeys[e.RowIndex].Values[0].ToString();
+      string strId = gvShow.DataKeys[e.RowIndex].Values["id"].ToString();
+      TextBox tbInventoryAmount = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmount");
+      if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
+      decimal dcmInventoryAmount = Convert.ToDecimal(tbInventoryAmount.Text);
+      BllInventoryRecord.updateRealById(dcmInventoryAmount, Convert.ToInt32(strId));
+      gvShow.EditIndex = -1;
+      LoadDataPage();
+    }
+
+    protected void gvShow_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    {
+      gvShow.EditIndex = -1;
+      LoadDataPage();
+    }
+
     private int intCurrentPage = 1; //当前页
     private int intPageSize = 20; //每页记录数
     private int intPageCount = 0; //总页数
@@ -66,7 +89,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
 
     public void LoadDataPage()
     {
-      int intContractId = (int)ViewState["ContractId"];
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
       DataTable objDT;
       if ("".Equals(lblCurentPage.Text.Trim())) lblCurentPage.Text = "1";
       intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
@@ -115,6 +138,11 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       lblCurentPage.Text = intCurrentPage.ToString();
       tbPageNum.Text = intCurrentPage.ToString();
       ViewState["page"] = intCurrentPage;
+      // 设置显示盘点总金额的Label控件值，以货币形式显示 2.5.ToString("C")
+      decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
+      decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
+      decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
+      lblPriceTotalInventory.Text = dcmPriceTotalReal.ToString("C");
     }
 
     protected void lbtnFirst_Click(object sender, EventArgs e)
@@ -141,6 +169,38 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     {
       lblCurentPage.Text = tbPageNum.Text;
       LoadDataPage();
+    }
+
+    // 导出Excel文件
+    protected void btnExportExcel_Click(object sender, EventArgs e)
+    {
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      ModelInventoryContract model = BllInventoryContract.getById(intContractId);
+      string strFileName = "Inventory[" +
+        model.time_start.ToString("yyMMdd") +
+        "-" +
+        model.time_end.ToString("yyMMdd") +
+        "].xlsx";
+      DataTable objDT = BllInventoryRecord.getAll(intContractId);
+      objDT.TableName = "TableInventory";
+      DataRow objDR;
+      objDT.Columns.Add(new DataColumn("id_row", typeof(int)));
+      objDT.Columns.Add(new DataColumn("temp1", typeof(string)));
+      objDT.Columns.Add(new DataColumn("temp2", typeof(string)));
+      for (int i = 0; i < objDT.Rows.Count; i++)
+      {
+        objDR = objDT.Rows[i];
+        objDR["id_row"] = i + 1;
+        objDR["temp1"] = Convert.ToDateTime(objDR["time_sign"]).ToString("yyyy-MM-dd");
+        objDR["temp2"] = Convert.ToDateTime(objDR["validity_period"]).ToString("yyyy-MM-dd");
+      }
+      objDT.Columns.Remove(objDT.Columns["time_sign"]);
+      objDT.Columns.Remove(objDT.Columns["validity_period"]);
+      objDT.Columns["temp1"].ColumnName = "time_sign";
+      objDT.Columns["temp2"].ColumnName = "validity_period";
+      string strExcelTemplateFileName = "/Excel/Template/Inventory.xlsx";
+      string strExcelOutFileName = "/Excel/Export/" + strFileName;
+      HelperExcel.ExportExcel(objDT, strExcelTemplateFileName, strExcelOutFileName);
     }
 
   }

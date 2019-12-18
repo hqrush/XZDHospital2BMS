@@ -22,6 +22,16 @@ namespace Bll
       DalInventoryRecord.update(model);
     }
 
+    public static void updateRealById(decimal dcmAmountReal, int intId)
+    {
+      DalInventoryRecord.updateRealById(dcmAmountReal, intId);
+    }
+
+    public static void updateShowById(decimal dcmAmountShow, int intId)
+    {
+      DalInventoryRecord.updateShowById(dcmAmountShow, intId);
+    }
+
     public static ModelInventoryRecord getById(int intId)
     {
       return DalInventoryRecord.getById(intId);
@@ -42,9 +52,14 @@ namespace Bll
       return DalInventoryRecord.getRecordsAmount(intContractId);
     }
 
-    public static decimal[] getPriceTotal(int intContractId)
+    public static decimal getPriceTotalStock(int intContractId)
     {
-      return DalInventoryRecord.getPriceTotal(intContractId);
+      return DalInventoryRecord.getPriceTotalStock(intContractId);
+    }
+
+    public static decimal[] getPriceTotalInventory(int intContractId)
+    {
+      return DalInventoryRecord.getPriceTotalInventory(intContractId);
     }
 
     public static void setRecord(int intContractId)

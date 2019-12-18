@@ -66,6 +66,36 @@ WHERE
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    public static void updateRealById(decimal dcmAmountReal, int intId)
+    {
+      string strSQL = @"
+UPDATE inventory_record
+SET
+  amount_real = @amount_real
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@amount_real", dcmAmountReal);
+      aryParams[1] = new MySqlParameter("@id", intId);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
+    public static void updateShowById(decimal dcmAmountShow, int intId)
+    {
+      string strSQL = @"
+UPDATE inventory_record
+SET
+  amount_show = @amount_show
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@amount_show", dcmAmountShow);
+      aryParams[1] = new MySqlParameter("@id", intId);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
     public static ModelInventoryRecord getById(int intId)
     {
       string strSQL = @"SELECT * FROM inventory_record WHERE id = @id";
@@ -144,7 +174,7 @@ WHERE record.id <=
   ORDER BY id DESC
   LIMIT " + (intPage - 1) * intPageSize + @" , 1
 ) AND record.id_contract = @id_contract
-ORDER BY contract.time_sign ASC, goods.name_product ASC
+ORDER BY id DESC
 LIMIT @PageSize
 ";
       MySqlParameter[] aryParams = new MySqlParameter[2];
@@ -166,11 +196,43 @@ LIMIT @PageSize
     }
 
     /// <summary>
-    /// 得到某个盘点单下所有货品的总价数组，第一个数字是真实盘点数，第二个数字是显示数
+    /// 得到某个盘点单下所有货品的库存总价
     /// </summary>
     /// <param name="intContractId">盘点单id</param>
-    /// <returns>某个盘点单下所有货品的总价</returns>
-    public static decimal[] getPriceTotal(int intContractId)
+    /// <returns>某个盘点单下所有货品的库存总价</returns>
+    public static decimal getPriceTotalStock(int intContractId)
+    {
+      string strSQL = @"
+SELECT
+  goods.price_unit,
+  goods.amount_stock
+FROM inventory_record record
+INNER JOIN sales_goods goods
+ON record.id_goods = goods.id
+WHERE record.id_contract = @id_contract";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      if (objDT == null || objDT.Rows.Count <= 0) return 0;
+
+      decimal dcmPriceUnit;
+      decimal dcmAmountStock;
+      decimal dcmPriceTotal = 0;
+      for (int i = 0; i < objDT.Rows.Count; i++)
+      {
+        dcmPriceUnit = Convert.ToDecimal(objDT.Rows[i]["price_unit"]);
+        dcmAmountStock = Convert.ToDecimal(objDT.Rows[i]["amount_stock"]);
+        dcmPriceTotal += dcmPriceUnit * dcmAmountStock;
+      }
+      return dcmPriceTotal;
+    }
+
+    /// <summary>
+    /// 得到某个盘点单下所有货品的盘点总价数组，第一个数字是真实盘点数，第二个数字是显示数
+    /// </summary>
+    /// <param name="intContractId">盘点单id</param>
+    /// <returns>某个盘点单下所有货品的盘点总价</returns>
+    public static decimal[] getPriceTotalInventory(int intContractId)
     {
       decimal[] aryReturn = { 0, 0 };
       string strSQL = @"
@@ -180,10 +242,8 @@ SELECT
   goods.price_unit
 FROM inventory_record record
 INNER JOIN sales_goods goods
-ON
-  record.id_goods = goods.id
-WHERE
-  record.id_contract = @id_contract";
+ON record.id_goods = goods.id
+WHERE record.id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
@@ -217,6 +277,7 @@ WHERE
 SELECT id, amount_stock
 FROM sales_goods
 WHERE amount_stock > 0
+ORDER BY time_add DESC
 ";
       DataTable objDT = HelperMySql.GetDataTable(strSQL);
       if (objDT == null || objDT.Rows.Count <= 0) return;

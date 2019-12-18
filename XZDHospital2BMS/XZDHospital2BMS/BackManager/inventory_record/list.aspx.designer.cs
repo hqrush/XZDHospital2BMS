@@ -42,22 +42,31 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     protected global::System.Web.UI.WebControls.HyperLink hlBackContract;
 
     /// <summary>
-    /// hlAddNew 控件。
+    /// btnExportExcel 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.HyperLink hlAddNew;
+    protected global::System.Web.UI.WebControls.Button btnExportExcel;
 
     /// <summary>
-    /// lblPriceTotal 控件。
+    /// lblPriceTotalStock 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label lblPriceTotal;
+    protected global::System.Web.UI.WebControls.Label lblPriceTotalStock;
+
+    /// <summary>
+    /// lblPriceTotalInventory 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblPriceTotalInventory;
 
     /// <summary>
     /// gvShow 控件。
