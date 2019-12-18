@@ -1,5 +1,6 @@
 ﻿using Dal;
 using Model;
+using System;
 using System.Data;
 
 namespace Bll
@@ -40,6 +41,20 @@ namespace Bll
     public static int getRecordsAmount()
     {
       return DalInventoryContract.getRecordsAmount();
+    }
+
+    public static ModelInventoryContract getLatestContract()
+    {
+      ModelInventoryContract model;
+      int intId = DalInventoryContract.getLatestContractId();
+      if (intId > 0)
+        model = getById(intId);
+      else
+      {
+        model = new ModelInventoryContract();
+        model.time_end = Convert.ToDateTime("2019-01-01 00:00:00");
+      }
+      return model;
     }
 
   }

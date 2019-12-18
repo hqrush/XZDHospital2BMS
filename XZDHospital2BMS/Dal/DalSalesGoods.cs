@@ -6,6 +6,7 @@ using Helper;
 
 namespace Dal
 {
+
   public class DalSalesGoods
   {
 
@@ -27,7 +28,8 @@ INSERT INTO sales_goods (
   comment,
   photo_urls,
   id_admin,
-  time_add
+  time_add,
+  amount_stock
 ) VALUES (
   @id_contract,
   @name_product,
@@ -43,9 +45,10 @@ INSERT INTO sales_goods (
   @comment,
   @photo_urls,
   @id_admin,
-  @time_add
+  @time_add,
+  @amount_stock
 )";
-      MySqlParameter[] aryParams = new MySqlParameter[15];
+      MySqlParameter[] aryParams = new MySqlParameter[16];
       aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
       aryParams[1] = new MySqlParameter("@name_product", model.name_product);
       aryParams[2] = new MySqlParameter("@type", model.type);
@@ -61,6 +64,7 @@ INSERT INTO sales_goods (
       aryParams[12] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[13] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[14] = new MySqlParameter("@time_add", model.time_add);
+      aryParams[15] = new MySqlParameter("@amount_stock", model.amount_stock);
       if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM sales_goods";
@@ -97,11 +101,12 @@ SET
   comment = @comment,
   photo_urls = @photo_urls,
   id_admin = @id_admin,
-  time_add = @time_add
+  time_add = @time_add,
+  amount_stock = @amount_stock
 WHERE
   id = @id
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[16];
+      MySqlParameter[] aryParams = new MySqlParameter[17];
       aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
       aryParams[1] = new MySqlParameter("@name_product", model.name_product);
       aryParams[2] = new MySqlParameter("@type", model.type);
@@ -117,7 +122,23 @@ WHERE
       aryParams[12] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[13] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[14] = new MySqlParameter("@time_add", model.time_add);
-      aryParams[15] = new MySqlParameter("@id", model.id);
+      aryParams[15] = new MySqlParameter("@amount_stock", model.amount_stock);
+      aryParams[16] = new MySqlParameter("@id", model.id);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
+    public static int updateAmountStock(decimal dcmAmountOut, int intId)
+    {
+      string strSQL = @"
+UPDATE sales_goods
+SET
+  amount_stock = amount_stock - @amountOut
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@amountOut", dcmAmountOut);
+      aryParams[1] = new MySqlParameter("@id", intId);
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
@@ -145,6 +166,7 @@ WHERE
       model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
       model.id_admin = Convert.ToInt32(objDT.Rows[0]["id_admin"]);
       model.time_add = Convert.ToDateTime(objDT.Rows[0]["time_add"]);
+      model.amount_stock = Convert.ToDecimal(objDT.Rows[0]["amount_stock"]);
       return model;
     }
 
@@ -225,7 +247,8 @@ SELECT
   type,
   price_unit,
   validity_period,
-  amount
+  amount,
+  amount_stock
 FROM sales_goods goods
 INNER JOIN sales_contract contract
 ON
@@ -270,7 +293,8 @@ SELECT
   type,
   price_unit,
   validity_period,
-  amount
+  amount,
+  amount_stock
 FROM sales_goods goods
 INNER JOIN sales_contract contract
 ON

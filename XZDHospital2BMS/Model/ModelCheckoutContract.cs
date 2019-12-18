@@ -15,6 +15,7 @@ namespace Model
     private string _name_sign = "";
     private string _photo_urls = "";
     private string _comment = "";
+    private int _flag = 0;
 
     public ModelCheckoutContract() { }
 
@@ -24,7 +25,6 @@ namespace Model
       {
         return _id;
       }
-
       set
       {
         _id = value;
@@ -37,7 +37,6 @@ namespace Model
       {
         return _id_admin;
       }
-
       set
       {
         _id_admin = value;
@@ -50,7 +49,6 @@ namespace Model
       {
         return _time_create;
       }
-
       set
       {
         _time_create = value;
@@ -63,7 +61,6 @@ namespace Model
       {
         return _name_unit;
       }
-
       set
       {
         _name_unit = value;
@@ -76,7 +73,6 @@ namespace Model
       {
         return _name_department;
       }
-
       set
       {
         _name_department = value;
@@ -89,7 +85,6 @@ namespace Model
       {
         return _name_sign;
       }
-
       set
       {
         _name_sign = value;
@@ -102,7 +97,6 @@ namespace Model
       {
         return _photo_urls;
       }
-
       set
       {
         _photo_urls = value;
@@ -115,10 +109,21 @@ namespace Model
       {
         return _comment;
       }
-
       set
       {
         _comment = value;
+      }
+    }
+
+    public int flag
+    {
+      get
+      {
+        return _flag;
+      }
+      set
+      {
+        _flag = value;
       }
     }
 

@@ -10,6 +10,7 @@ namespace XZDHospital2BMS.Handler
   public class AddCheckoutGoods : IHttpHandler
   {
 
+    // 添加出库货品记录，并更新货品的库存量
     public void ProcessRequest(HttpContext context)
     {
       context.Response.ContentType = "application/json";
@@ -47,6 +48,8 @@ namespace XZDHospital2BMS.Handler
       int intId = BllCheckoutRecord.add(model);
       if (intId > 0)
       {
+        // 出库货品表里添加完了一条记录后，更新此货品的库存量
+        BllSalesGoods.updateAmountStock(dcmAmount, intGoodsId);
         context.Response.Write(HelperUtility.setReturnJson("200", "", intId.ToString()));
         return;
       }

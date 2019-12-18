@@ -112,6 +112,8 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       model.approval_number = strApprovalNumber;
       model.comment = strComment;
       model.photo_urls = strPhotoUrls;
+      model.amount_stock = dcmAmount;
+
       BllSalesGoods.update(model);
 
       strUrl = "list.aspx" +

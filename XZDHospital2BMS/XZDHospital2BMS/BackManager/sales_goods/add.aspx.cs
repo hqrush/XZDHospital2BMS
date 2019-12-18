@@ -77,6 +77,7 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       model.photo_urls = strPhotoUrls;
       model.id_admin = intAdminId;
       model.time_add = dateTimeAdd;
+      model.amount_stock = dcmAmount;
 
       int intId = BllSalesGoods.add(model);
       if (intId > 0)

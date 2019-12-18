@@ -33,18 +33,24 @@
             </div>
             <div class="panel-body">
 
+              <div class="alert alert-info" role="alert">
+                <p>
+                  <span class="red">注意：</span>最近一次盘点日期为<asp:Label runat="server" ID="lblTimeLast" />
+                  即为本次盘点的开始日期。
+                </p>
+              </div>
+
               <div class="form-group">
                 <label for="tbTimeStart" class="col-sm-2 control-label">
-                  <strong class="red">*</strong>开始时间：</label>
+                  <strong class="red">*</strong>开始日期：</label>
                 <div class="col-sm-4">
-                  <input runat="server" id="tbTimeStart" type='text'
-                    class="form-control datepicker-here" data-language='zh' data-position="right top" />
+                  <input runat="server" id="tbTimeStart" type='text' class="form-control" disabled />
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="tbTimeEnd" class="col-sm-2 control-label">
-                  <strong class="red">*</strong>结束时间：</label>
+                  <strong class="red">*</strong>结束日期：</label>
                 <div class="col-sm-4">
                   <input runat="server" id="tbTimeEnd" type='text'
                     class="form-control datepicker-here" data-language='zh' data-position="right top" />

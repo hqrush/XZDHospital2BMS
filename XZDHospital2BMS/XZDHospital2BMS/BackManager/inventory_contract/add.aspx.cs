@@ -15,6 +15,10 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       {
         int intAdminId = HelperUtility.hasPurviewPage("InventoryContract_add");
         ViewState["AdminId"] = intAdminId;
+        // 得到上次盘点的结束时间
+        ModelInventoryContract model = BllInventoryContract.getLatestContract();
+        lblTimeLast.Text = model.time_end.ToString("yyyy-MM-dd");
+        tbTimeStart.Value = model.time_end.ToString("yyyy-MM-dd");
       }
     }
 

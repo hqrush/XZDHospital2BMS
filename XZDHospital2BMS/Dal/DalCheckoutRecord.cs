@@ -110,12 +110,10 @@ SELECT
   goods.validity_period,
   goods.type
 FROM checkout_record record
-INNER JOIN sales_contract contract
-ON
-  record.id_contract = contract.id
 INNER JOIN sales_goods goods
-ON
-  record.id_goods = goods.id
+ON record.id_goods = goods.id
+INNER JOIN sales_contract contract
+ON goods.id_contract = contract.id
 WHERE
   record.id_contract = @id_contract
 ";
@@ -203,6 +201,31 @@ FROM checkout_record
 WHERE id_goods = @id_goods";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_goods", intGoodsId);
+      object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
+      return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
+    }
+
+    /// <summary>
+    /// 得到某个货品的某个时间点之后的总出库数
+    /// </summary>
+    /// <param name="intGoodsId">出库货品id</param>
+    /// <param name="timeStart">某个时间点之后</param>
+    /// <returns>出库记录表中某个货品某个时间点之后的总出库数</returns>
+    public static decimal getAmountByGoodsIdAndTime(int intGoodsId, DateTime timeStart)
+    {
+      string strSQL = @"
+SELECT SUM(amount)
+FROM checkout_record record
+INNER JOIN checkout_contract contract
+ON
+  record.id_contract = contract.id
+WHERE
+  record.id_goods = @id_goods AND
+  contract.time_create > @time_create
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@id_goods", intGoodsId);
+      aryParams[1] = new MySqlParameter("@time_create", timeStart);
       object objTotal = HelperMySql.ExecuteScalar(strSQL, aryParams);
       return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
     }

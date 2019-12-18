@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-  <title>欢迎使用信州区第二人民医院后台管理系统 出库货品列表</title>
+  <title>出库货品列表</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
@@ -74,28 +74,6 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="数量">
-                  <ItemStyle Width="100px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblAmount"
-                      Text='<%# Eval("amount", "{0:f2}") %>' />
-                  </ItemTemplate>
-                  <EditItemTemplate>
-                    <asp:TextBox runat="server" ID="tbAmount" Width="70px" MaxLength="8"
-                      onkeyup="if(isNaN(value))execCommand('undo')"
-                      onafterpaste="if(isNaN(value))execCommand('undo')"
-                      Text='<%# Eval("amount", "{0:f2}") %>' />
-                  </EditItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="单价">
-                  <ItemStyle Width="100px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblPriceUnit"
-                      Text='<%# Eval("price_unit", "{0:f2}") %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
                 <asp:TemplateField HeaderText="批号/序列号">
                   <ItemStyle Width="130px" />
                   <ItemTemplate>
@@ -118,6 +96,28 @@
                     <asp:Label runat="server" ID="lblValidityPeriod"
                       Text='<%# Eval("validity_period", "{0:yyyy-MM-dd}") %>' />
                   </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="单价">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblPriceUnit"
+                      Text='<%# Eval("price_unit", "{0:f2}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="出库数量">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblAmount"
+                      Text='<%# Eval("amount", "{0:f2}") %>' />
+                  </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:TextBox runat="server" ID="tbAmount" Width="70px" MaxLength="8"
+                      onkeyup="if(isNaN(value))execCommand('undo')"
+                      onafterpaste="if(isNaN(value))execCommand('undo')"
+                      Text='<%# Eval("amount", "{0:f2}") %>' />
+                  </EditItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="操作">

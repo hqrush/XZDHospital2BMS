@@ -17,7 +17,7 @@ namespace XZDHospital2BMS.BackManager.checkout_record
       {
         int intAdminId = HelperUtility.hasPurviewPage("CheckoutRecord_show");
         ViewState["AdminId"] = intAdminId;
-        // 本页只能从list.aspx的编辑页转过来
+        // 本页只能从出库单表list.aspx的编辑页转过来
         // 因此要得到要显示哪个出库单的cid值和页面的cpage值用于返回
         int intContractId = HelperUtility.getQueryInt("cid");
         if (intContractId == 0) HelperUtility.showAlert("", "/BackManager/login.aspx");

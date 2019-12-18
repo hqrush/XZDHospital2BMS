@@ -20,7 +20,16 @@ namespace XZDHospital2BMS.BackManager
         if (listPurviewsSession.Contains("SUPERADMIN"))
         {
           ltrSuperAdmin.Visible = true;
-          ltrSuperAdmin.Text = "<li><a href='/BackManager/inventory_contract/list2.aspx'>管理盘点单2</a></li>";
+          string strCode = @"
+<li class='dropdown'>
+  <a class='dropdown-toggle' data-toggle='dropdown' href='#'>特殊管理<span class='caret'></span></a>
+  <ul class='dropdown-menu'>
+    <li><a href='/BackManager/checkout_contract/list.aspx'>管理出库单</a></li>
+    <li><a href='/BackManager/inventory_contract/list.aspx'>管理盘点单</a></li>
+  </ul>
+</li>
+";
+          ltrSuperAdmin.Text = strCode;
         }
         if (
           listPurviewsSession.Contains("SUPERADMIN") ||
@@ -32,7 +41,6 @@ namespace XZDHospital2BMS.BackManager
           ltrAdmin.Visible = true;
           ltrAdmin.Text = "<li><a href='/BackManager/admin/list.aspx'>管理管理员</a></li>";
         }
-
       }
     }
 

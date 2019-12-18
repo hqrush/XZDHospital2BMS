@@ -21,6 +21,7 @@ namespace Model
     private string _photo_urls = "";
     private int _id_admin = 0;
     private DateTime _time_add = DateTime.Now;
+    private decimal _amount_stock = 0;
 
     public ModelSalesGoods() { }
 
@@ -229,6 +230,18 @@ namespace Model
       set
       {
         _time_add = value;
+      }
+    }
+
+    public decimal amount_stock
+    {
+      get
+      {
+        return _amount_stock;
+      }
+      set
+      {
+        _amount_stock = value;
       }
     }
 

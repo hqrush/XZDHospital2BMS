@@ -19,7 +19,8 @@ INSERT INTO checkout_contract (
   name_department,
   name_sign,
   photo_urls,
-  comment
+  comment,
+  flag
 ) VALUES (
   @id_admin,
   @time_create,
@@ -27,9 +28,10 @@ INSERT INTO checkout_contract (
   @name_department,
   @name_sign,
   @photo_urls,
-  @comment
+  @comment,
+  @flag
 )";
-      MySqlParameter[] aryParams = new MySqlParameter[7];
+      MySqlParameter[] aryParams = new MySqlParameter[8];
       aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[1] = new MySqlParameter("@time_create", model.time_create);
       aryParams[2] = new MySqlParameter("@name_unit", model.name_unit);
@@ -37,6 +39,7 @@ INSERT INTO checkout_contract (
       aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[6] = new MySqlParameter("@comment", model.comment);
+      aryParams[7] = new MySqlParameter("@flag", model.flag);
       if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM checkout_contract";
@@ -65,11 +68,12 @@ SET
   name_department = @name_department,
   name_sign = @name_sign,
   photo_urls = @photo_urls,
-  comment = @comment
+  comment = @comment,
+  flag = @flag
 WHERE
   id = @id
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[8];
+      MySqlParameter[] aryParams = new MySqlParameter[9];
       aryParams[0] = new MySqlParameter("@id_admin", model.id_admin);
       aryParams[1] = new MySqlParameter("@time_create", model.time_create);
       aryParams[2] = new MySqlParameter("@name_unit", model.name_unit);
@@ -77,7 +81,8 @@ WHERE
       aryParams[4] = new MySqlParameter("@name_sign", model.name_sign);
       aryParams[5] = new MySqlParameter("@photo_urls", model.photo_urls);
       aryParams[6] = new MySqlParameter("@comment", model.comment);
-      aryParams[7] = new MySqlParameter("@id", model.id);
+      aryParams[7] = new MySqlParameter("@flag", model.flag);
+      aryParams[8] = new MySqlParameter("@id", model.id);
       return (int)HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
@@ -98,6 +103,7 @@ WHERE
         model.name_sign = Convert.ToString(objDT.Rows[0]["name_sign"]);
         model.photo_urls = Convert.ToString(objDT.Rows[0]["photo_urls"]);
         model.comment = Convert.ToString(objDT.Rows[0]["comment"]);
+        model.flag = Convert.ToInt16(objDT.Rows[0]["flag"]);
         return model;
       }
       else return null;

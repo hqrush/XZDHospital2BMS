@@ -69,6 +69,14 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
+                <asp:TemplateField HeaderText="入库时间">
+                  <ItemStyle Width="100px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblSignTime"
+                      Text='<%# Eval("time_sign", "{0:yyyy-MM-dd}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:TemplateField HeaderText="规格">
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
@@ -77,43 +85,43 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="盘点数量">
-                  <ItemStyle Width="100px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblAmountReal"
-                      Text='<%# Eval("amount_real", "{0:f2}") %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="单价">
-                  <ItemStyle Width="100px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblPriceUnit"
-                      Text='<%# Eval("price_unit", "{0:f2}") %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
                 <asp:TemplateField HeaderText="批号/序列号">
-                  <ItemStyle Width="130px" />
+                  <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblBatchNumber"
                       Text='<%# Eval("batch_number").ToString() %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="入库时间">
-                  <ItemStyle Width="110px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblSignTime"
-                      Text='<%# Eval("time_sign", "{0:yyyy-MM-dd}") %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
                 <asp:TemplateField HeaderText="有效期至">
-                  <ItemStyle Width="110px" />
+                  <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblValidityPeriod"
                       Text='<%# Eval("validity_period", "{0:yyyy-MM-dd}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="单价">
+                  <ItemStyle Width="80px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblPriceUnit"
+                      Text='<%# Eval("price_unit", "{0:f2}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="库存">
+                  <ItemStyle Width="80px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblAmountStock"
+                      Text='<%# Eval("amount_stock", "{0:f2}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="盘点数量">
+                  <ItemStyle Width="80px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblAmountReal"
+                      Text='<%# Eval("amount_real", "{0:f2}") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -131,6 +139,20 @@
 
             </asp:GridView>
 
+          </div>
+
+          <div class="wrapper-pager">
+            <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+                当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
+                总页数：<asp:Label ID="lblPageCount" runat="server" />
+            </span>
+            <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+            <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+            <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
+            <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
+              Text="跳转至" OnClick="btnJumpTo_Click" />
           </div>
 
         </div>

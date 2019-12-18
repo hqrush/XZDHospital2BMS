@@ -98,16 +98,15 @@ SELECT
   goods.price_unit,
   goods.batch_number,
   goods.validity_period,
-  goods.type
+  goods.type,
+  goods.amount_stock
 FROM inventory_record record
-INNER JOIN sales_contract contract
-ON
-  record.id_contract = contract.id
 INNER JOIN sales_goods goods
-ON
-  record.id_goods = goods.id
-WHERE
-  record.id_contract = @id_contract
+ON record.id_goods = goods.id
+INNER JOIN sales_contract contract
+ON goods.id_contract = contract.id
+WHERE record.id_contract = @id_contract
+ORDER BY contract.time_sign ASC, goods.name_product ASC
 ";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
@@ -120,17 +119,32 @@ WHERE
     public static DataTable getPage(int intContractId, int intPage, int intPageSize)
     {
       string strSQL = @"
-SELECT *
-FROM inventory_record
-WHERE id <=
+SELECT
+  record.id,
+  record.id_goods,
+  record.amount_real,
+  contract.time_sign,
+  goods.name_product,
+  goods.name_factory,
+  goods.price_unit,
+  goods.batch_number,
+  goods.validity_period,
+  goods.type,
+  goods.amount_stock
+FROM inventory_record record
+INNER JOIN sales_goods goods
+ON record.id_goods = goods.id
+INNER JOIN sales_contract contract
+ON goods.id_contract = contract.id
+WHERE record.id <=
 (
   SELECT id
   FROM inventory_record
   WHERE id_contract = @id_contract
   ORDER BY id DESC
   LIMIT " + (intPage - 1) * intPageSize + @" , 1
-) AND id_contract = @id_contract
-ORDER BY id DESC
+) AND record.id_contract = @id_contract
+ORDER BY contract.time_sign ASC, goods.name_product ASC
 LIMIT @PageSize
 ";
       MySqlParameter[] aryParams = new MySqlParameter[2];
@@ -192,27 +206,25 @@ WHERE
       return aryReturn;
     }
 
-    // 新建某月盘点单后，将所有库存量大于0的货品加到盘点货品表里，盘点数默认为0
+    // 新建某盘点单时，将所有库存量大于0的货品加到盘点货品表里，盘点数默认为0
     public static void setRecord(int intContractId)
     {
       int intGoodsId;
-      decimal dcmAmountIn, dcmAmountOut, dcmStock;
+      decimal dcmAmountStock;
       ModelInventoryRecord model;
-      // 首先找出所有库存量大于0的货品id
-      string strSQL = "SELECT id,amount FROM sales_goods";
+      // 找出所有库存量大于0的货品id
+      string strSQL = @"
+SELECT id, amount_stock
+FROM sales_goods
+WHERE amount_stock > 0
+";
       DataTable objDT = HelperMySql.GetDataTable(strSQL);
       if (objDT == null || objDT.Rows.Count <= 0) return;
       for (int i = 0; i < objDT.Rows.Count; i++)
       {
-        // 1、得到所有货品的id和amount（入库量）
         intGoodsId = Convert.ToInt32(objDT.Rows[i]["id"]);
-        dcmAmountIn = Convert.ToDecimal(objDT.Rows[i]["amount"]);
-        // 2、得到该货品的出库量
-        dcmAmountOut = DalCheckoutRecord.getAmountByGoodsId(intGoodsId);
-        // 3、计算 入库量-出库量 = 库存量
-        dcmStock = dcmAmountIn - dcmAmountOut;
-        // 4、如果库存量>0，则把这个货品存到盘点货品记录表里
-        if (dcmStock > 0)
+        dcmAmountStock = Convert.ToDecimal(objDT.Rows[i]["amount_stock"]);
+        if (dcmAmountStock > 0)
         {
           model = new ModelInventoryRecord();
           model.id_contract = intContractId;

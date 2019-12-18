@@ -139,6 +139,27 @@ LIMIT @PageSize
       return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
+    /// <summary>
+    /// 查询盘点单表里是否有记录，如果没有则返回0，有则返回最近一次盘点单的id
+    /// 添加盘点单的时候，会将所有库存量大于0的货品存到盘点货品表里
+    /// 这个时候要判断，如果是第一次加就把所有货品加过去，如果不是第一次，是第2，3。。。次
+    /// 就把前一次的盘点单里的货品记录再判断一次库存量是否大于0
+    /// 这个函数的作用是用在添加盘点单的时候看看是不是第一次
+    /// </summary>
+    /// <returns></returns>
+    public static int getLatestContractId()
+    {
+      string strSQL = @"
+SELECT id
+FROM inventory_contract
+ORDER BY id DESC
+LIMIT 1
+";
+      DataTable objDT = HelperMySql.GetDataTable(strSQL);
+      if (objDT == null || objDT.Rows.Count <= 0) return 0;
+      else return Convert.ToInt32(objDT.Rows[0]["id"]);
+    }
+
   }
 
 }
