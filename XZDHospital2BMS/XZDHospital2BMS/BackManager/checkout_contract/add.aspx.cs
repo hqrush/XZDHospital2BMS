@@ -16,6 +16,8 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         int intAdminId = HelperUtility.hasPurviewPage("CheckoutContract_add");
         ViewState["AdminId"] = intAdminId;
         BllDepartment.bindRPT(rptName);
+        if (HelperUtility.hasPurviewPage("SUPERADMIN") > 0)
+          cbFlag.Visible = true;
       }
     }
 
@@ -55,6 +57,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       model.name_sign = strSignName;
       model.photo_urls = strPhotoUrls;
       model.comment = strComment;
+      if (cbFlag.Checked) model.flag = 1; else model.flag = 0;
       int intId = BllCheckoutContract.add(model);
       if (intId > 0)
       {

@@ -30,7 +30,6 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
         // 将销售公司id转换成名称，将adminid转换成管理员姓名，显示缩略图
         Label lblAdminId = (Label)e.Row.FindControl("lblAdminId");
-        Label lblPhotoUrls = (Label)e.Row.FindControl("lblPhotoUrls");
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = (BllAdmin.getById(intAdminId)).real_name;
       }
@@ -60,17 +59,6 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         {
           // 跳到添加货品清单页面，传过去合同cid和合同分页的页面值以便添加完成后返回此页
           strUrl = "../inventory_record/list.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
-          Response.Redirect(strUrl);
-        }
-        else
-          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
-      }
-      else if (e.CommandName == "AddGoods")
-      {
-        if (HelperUtility.hasPurviewOP("InventoryRecord_add"))
-        {
-          // 跳到添加货品清单页面，传过去合同cid和合同分页的页面值以便添加完成后返回此页
-          strUrl = "../inventory_record/add.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
           Response.Redirect(strUrl);
         }
         else

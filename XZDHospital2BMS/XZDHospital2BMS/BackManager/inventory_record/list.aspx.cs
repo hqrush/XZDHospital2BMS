@@ -29,6 +29,12 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         // 设置显示库存总金额的Label控件值，以货币形式显示 2.5.ToString("C")
         decimal dcmPriceTotalStock = BllInventoryRecord.getPriceTotalStock(intContractId);
         lblPriceTotalStock.Text = dcmPriceTotalStock.ToString("C");
+
+        // 判断是否显示修改数列
+        if (Session["Purviews"].ToString().Contains("SUPERADMIN"))
+          gvShow.Columns[9].Visible = true;
+        else
+          gvShow.Columns[9].Visible = false;
       }
     }
 
@@ -66,12 +72,29 @@ namespace XZDHospital2BMS.BackManager.inventory_record
 
     protected void gvShow_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
+      int intId, intGoodsId;
       // string strId = gvShow.DataKeys[e.RowIndex].Values[0].ToString();
-      string strId = gvShow.DataKeys[e.RowIndex].Values["id"].ToString();
-      TextBox tbInventoryAmount = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmount");
-      if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
-      decimal dcmInventoryAmount = Convert.ToDecimal(tbInventoryAmount.Text);
-      BllInventoryRecord.updateRealById(dcmInventoryAmount, Convert.ToInt32(strId));
+      intId = Convert.ToInt32(gvShow.DataKeys[e.RowIndex].Values["id"].ToString());
+      Label lblGoodsId = (Label)gvShow.Rows[e.RowIndex].FindControl("lblGoodsId");
+      if (lblGoodsId != null) intGoodsId = Convert.ToInt32(lblGoodsId.Text);
+      else intGoodsId = 0;
+      // 更新盘点数
+      TextBox tbInventoryAmountReal = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountReal");
+      if ("".Equals(tbInventoryAmountReal.Text)) tbInventoryAmountReal.Text = "0";
+      decimal dcmInventoryAmountReal = Convert.ToDecimal(tbInventoryAmountReal.Text);
+      BllInventoryRecord.updateRealById(dcmInventoryAmountReal, intId);
+      // 因为已盘点，因此更新货品的库存量为盘点量
+      BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountReal, intGoodsId);
+      // 更新修改数
+      TextBox tbInventoryAmountShow = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountShow");
+      if (tbInventoryAmountShow != null)
+      {
+        if ("".Equals(tbInventoryAmountShow.Text)) tbInventoryAmountShow.Text = "0";
+        decimal dcmInventoryAmountShow = Convert.ToDecimal(tbInventoryAmountShow.Text);
+        BllInventoryRecord.updateShowById(dcmInventoryAmountShow, intId);
+        // 因为已盘点，因此更新货品的库存量为盘点修改量
+        BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountShow, intGoodsId);
+      }
       gvShow.EditIndex = -1;
       LoadDataPage();
     }
@@ -175,32 +198,9 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     protected void btnExportExcel_Click(object sender, EventArgs e)
     {
       int intContractId = Convert.ToInt32(ViewState["ContractId"]);
-      ModelInventoryContract model = BllInventoryContract.getById(intContractId);
-      string strFileName = "Inventory[" +
-        model.time_start.ToString("yyMMdd") +
-        "-" +
-        model.time_end.ToString("yyMMdd") +
-        "].xlsx";
-      DataTable objDT = BllInventoryRecord.getAll(intContractId);
-      objDT.TableName = "TableInventory";
-      DataRow objDR;
-      objDT.Columns.Add(new DataColumn("id_row", typeof(int)));
-      objDT.Columns.Add(new DataColumn("temp1", typeof(string)));
-      objDT.Columns.Add(new DataColumn("temp2", typeof(string)));
-      for (int i = 0; i < objDT.Rows.Count; i++)
-      {
-        objDR = objDT.Rows[i];
-        objDR["id_row"] = i + 1;
-        objDR["temp1"] = Convert.ToDateTime(objDR["time_sign"]).ToString("yyyy-MM-dd");
-        objDR["temp2"] = Convert.ToDateTime(objDR["validity_period"]).ToString("yyyy-MM-dd");
-      }
-      objDT.Columns.Remove(objDT.Columns["time_sign"]);
-      objDT.Columns.Remove(objDT.Columns["validity_period"]);
-      objDT.Columns["temp1"].ColumnName = "time_sign";
-      objDT.Columns["temp2"].ColumnName = "validity_period";
-      string strExcelTemplateFileName = "/Excel/Template/Inventory.xlsx";
-      string strExcelOutFileName = "/Excel/Export/" + strFileName;
-      HelperExcel.ExportExcel(objDT, strExcelTemplateFileName, strExcelOutFileName);
+      string strExcelPath = BllInventoryContract.setExcel(intContractId);
+      hlDownloadExcel.NavigateUrl = strExcelPath;
+      hlDownloadExcel.Visible = true;
     }
 
   }

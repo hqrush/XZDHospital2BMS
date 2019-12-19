@@ -94,7 +94,15 @@ namespace Helper
       else return null;
     }
 
-    public static void ExportExcel(DataTable objDT, string strExcelTemplateFileName, string strExcelOutFileName)
+    /// <summary>
+    /// 根据Excel模板生成excel文件
+    /// </summary>
+    /// <param name="objDT">DataTable格式数据源</param>
+    /// <param name="strExcelTemplateFileName">Excel模板文件，包括相对网站根目录的路径</param>
+    /// <param name="strExcelOutFileName">导出的Excel文件，包括相对网站根目录的路径</param>
+    public static void ExportExcelByTemplate(DataTable objDT,
+      string strExcelTemplateFileName,
+      string strExcelOutFileName)
     {
       string strExcelTemplateFullFileName = strRootPath + strExcelTemplateFileName;
       string strExcelOutFullFileName = strRootPath + strExcelOutFileName;

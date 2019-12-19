@@ -20,7 +20,13 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         int intCurrentPage = HelperUtility.getQueryInt("page");
         if (intCurrentPage <= 0) intCurrentPage = 1;
         lblCurentPage.Text = intCurrentPage.ToString();
+        // 读取数据
         LoadDataPage();
+        // 判断是否显示第一列
+        if (Session["Purviews"].ToString().Contains("SUPERADMIN"))
+          gvShow.Columns[0].Visible = true;
+        else
+          gvShow.Columns[0].Visible = false;
       }
     }
 
@@ -31,6 +37,12 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
 
+        Label lblFlag = (Label)e.Row.FindControl("lblFlag");
+        if (lblFlag != null)
+        {
+          if (lblFlag.Text == "True") lblFlag.Text = "<span class='red'>*</span>";
+          else lblFlag.Text = "";
+        }
         Label lblUnitName = (Label)e.Row.FindControl("lblUnitName");
         List<string> listUnitName = lblUnitName.Text.Split(',').ToList();
         lblUnitName.Text = "";

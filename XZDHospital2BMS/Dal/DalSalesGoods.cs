@@ -142,6 +142,21 @@ WHERE
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    public static int updateAmountStockByInventory(decimal dcmAmountInventoryShow, int intId)
+    {
+      string strSQL = @"
+UPDATE sales_goods
+SET
+  amount_stock = @AmountInventoryShow
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@AmountInventoryShow", dcmAmountInventoryShow);
+      aryParams[1] = new MySqlParameter("@id", intId);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
     public static ModelSalesGoods getById(int intId)
     {
       string strSQL = @"SELECT * FROM sales_goods WHERE id = @id";

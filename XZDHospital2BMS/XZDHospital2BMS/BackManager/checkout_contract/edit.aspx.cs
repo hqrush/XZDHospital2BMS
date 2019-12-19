@@ -24,6 +24,8 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         ViewState["id"] = intId;
         int intPage = HelperUtility.getQueryInt("page");
         ViewState["page"] = intPage;
+        if (HelperUtility.hasPurviewPage("SUPERADMIN") > 0)
+          cbFlag.Visible = true;
         // 根据入库单id查询得到入库单model
         ModelCheckoutContract model = BllCheckoutContract.getById(intId);
         List<string> listUnitName = model.name_unit.Split(',').ToList();
@@ -32,6 +34,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         tbDepartmentName.Value = model.name_department;
         tbSignName.Value = model.name_sign;
         tbComment.Text = model.comment;
+        if (model.flag > 0) cbFlag.Checked = true;
         BllDepartment.bindRPT(rptName);
       }
     }
@@ -70,6 +73,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       model.name_sign = strSignName;
       model.photo_urls = strPhotoUrls;
       model.comment = strComment;
+      if (cbFlag.Checked) model.flag = 1; else model.flag = 0;
       // 更新数据库记录
       BllCheckoutContract.update(model);
       // 跳转回列表页

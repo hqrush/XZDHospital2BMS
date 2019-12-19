@@ -28,7 +28,9 @@
 
           <div class="panel panel-primary">
             <div class="panel-heading">
-              <h3 class="panel-title">填写出库单信息</h3>
+              <h3 class="panel-title">填写出库单信息
+                <asp:CheckBox runat="server" ID="cbFlag" Text="标志" Visible="false" />
+              </h3>
             </div>
             <div class="panel-body">
 

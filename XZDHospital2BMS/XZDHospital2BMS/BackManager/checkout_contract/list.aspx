@@ -38,6 +38,14 @@
               <AlternatingRowStyle BackColor="#f5f5f5" />
               <Columns>
 
+                <asp:TemplateField HeaderText="标记">
+                  <ItemStyle Width="40px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblFlag"
+                      Text='<%# Eval("flag").ToString() %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:TemplateField HeaderText="申请单位">
                   <ItemStyle Width="220px" />
                   <ItemTemplate>
@@ -66,7 +74,7 @@
                   <ItemStyle Width="100px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblTimeCreate"
-                      Text='<%# Eval("time_create").ToString() %>' />
+                      Text='<%# Eval("time_create", "{0:yyyy-MM-dd}") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 

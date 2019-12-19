@@ -51,10 +51,12 @@ namespace Helper
       List<string> listPurviewsNeed = new List<string>(strPurviewsNeed.Split(','));
       for (int i = 0; i < listPurviewsNeed.Count; i++)
       {
+        // 遍历登录后得到的权限和某页面或操作所需要的权限是否想等
         if (listPurviewsSession.Contains(listPurviewsNeed[i]))
           return intAdminId;
       }
-      // 如果上面的验证循环没有返回，执行到这里了，说明没有权限匹配，所以返回0
+      // 如果上面的验证循环没有返回，执行到这里了，说明没有权限匹配，那么跳转到登录页重新登录
+      HttpContext.Current.Response.Redirect(PAGE_LOGIN);
       return 0;
     }
 

@@ -34,6 +34,8 @@
                 Target="_self" Text="添加盘点货品" CssClass="btn btn-sm btn-success" />--%>
               <asp:Button runat="server" ID="btnExportExcel" Text="导出Excel表格"
                 CssClass="btn btn-sm btn-info" OnClick="btnExportExcel_Click" />
+              <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"
+                CssClass="btn btn-sm btn-info" Visible="false" />
             </div>
             <div class="wrapper-info col-sm-6">
               <p>
@@ -117,14 +119,14 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="盘点数量">
+                <asp:TemplateField HeaderText="盘点数">
                   <ItemStyle Width="80px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAmountReal"
                       Text='<%# Eval("amount_real", "{0:f2}") %>' />
                   </ItemTemplate>
                   <EditItemTemplate>
-                    <asp:TextBox runat="server" ID="tbInventoryAmount"
+                    <asp:TextBox runat="server" ID="tbInventoryAmountReal"
                       Text='<%# Eval("amount_real", "{0:f2}") %>'
                       onkeyup="if(isNaN(value))execCommand('undo')"
                       onafterpaste="if(isNaN(value))execCommand('undo')"
@@ -132,8 +134,23 @@
                   </EditItemTemplate>
                 </asp:TemplateField>
 
+                <asp:TemplateField HeaderText="修改数">
+                  <ItemStyle Width="80px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblAmountShow"
+                      Text='<%# Eval("amount_show", "{0:f2}") %>' />
+                  </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:TextBox runat="server" ID="tbInventoryAmountShow"
+                      Text='<%# Eval("amount_show", "{0:f2}") %>'
+                      onkeyup="if(isNaN(value))execCommand('undo')"
+                      onafterpaste="if(isNaN(value))execCommand('undo')"
+                      CssClass="form-control" Width="60" MaxLength="12" />
+                  </EditItemTemplate>
+                </asp:TemplateField>
+
                 <asp:TemplateField HeaderText="操作">
-                  <ItemStyle Width="50px" />
+                  <ItemStyle Width="80px" />
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnEdit" CommandName="Edit"
                       CssClass="btn btn-warning btn-xs" Text="修改" />

@@ -66,12 +66,14 @@ WHERE
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    // 修改盘点记录的盘点数，修改真实记录时同时修改现实值
     public static void updateRealById(decimal dcmAmountReal, int intId)
     {
       string strSQL = @"
 UPDATE inventory_record
 SET
-  amount_real = @amount_real
+  amount_real = @amount_real,
+  amount_show = @amount_real
 WHERE
   id = @id
 ";
@@ -122,6 +124,7 @@ SELECT
   record.id,
   record.id_goods,
   record.amount_real,
+  record.amount_show,
   contract.time_sign,
   goods.name_product,
   goods.name_factory,
@@ -153,6 +156,7 @@ SELECT
   record.id,
   record.id_goods,
   record.amount_real,
+  record.amount_show,
   contract.time_sign,
   goods.name_product,
   goods.name_factory,
