@@ -199,6 +199,39 @@ LIMIT @PageSize
       return objReturn == null ? 0 : Convert.ToInt32(objReturn);
     }
 
+    // 根据查询条件得到盘点记录
+    public static DataTable getByQuery(int intContractId, string strProductName)
+    {
+      string strSQL = @"
+SELECT
+  record.id,
+  record.id_goods,
+  record.amount_real,
+  record.amount_show,
+  contract.time_sign,
+  goods.name_product,
+  goods.name_factory,
+  goods.price_unit,
+  goods.batch_number,
+  goods.validity_period,
+  goods.type,
+  goods.amount_stock
+FROM inventory_record record
+INNER JOIN sales_goods goods
+ON record.id_goods = goods.id
+INNER JOIN sales_contract contract
+ON goods.id_contract = contract.id
+WHERE
+  record.id_contract = @id_contract AND
+  goods.name_product LIKE CONCAT('%', @name_product, '%')
+ORDER BY contract.time_sign ASC, goods.name_product ASC
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      aryParams[1] = new MySqlParameter("@name_product", strProductName);
+      return HelperMySql.GetDataTable(strSQL, aryParams);
+    }
+
     /// <summary>
     /// 得到某个盘点单下所有货品的库存总价
     /// </summary>

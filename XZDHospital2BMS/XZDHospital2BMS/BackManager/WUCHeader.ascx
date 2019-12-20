@@ -28,7 +28,6 @@
                 <li><a href="/BackManager/inventory_contract/list.aspx">管理盘点单</a></li>
               </ul>
             </li>
-            <asp:Literal runat="server" ID="ltrSuperAdmin" Visible="false" />
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">系统设置<span class="caret"></span></a>
               <ul class="dropdown-menu">

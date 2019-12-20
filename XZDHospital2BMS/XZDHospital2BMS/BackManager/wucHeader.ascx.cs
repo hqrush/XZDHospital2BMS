@@ -17,20 +17,6 @@ namespace XZDHospital2BMS.BackManager
       {
         string strPurviewsSession = Session["Purviews"].ToString();
         List<string> listPurviewsSession = new List<string>(strPurviewsSession.Split(','));
-        if (listPurviewsSession.Contains("SUPERADMIN"))
-        {
-          ltrSuperAdmin.Visible = true;
-          string strCode = @"
-<li class='dropdown'>
-  <a class='dropdown-toggle' data-toggle='dropdown' href='#'>特殊管理<span class='caret'></span></a>
-  <ul class='dropdown-menu'>
-    <li><a href='/BackManager/checkout_contract/list.aspx'>管理出库单</a></li>
-    <li><a href='/BackManager/inventory_contract/list.aspx'>管理盘点单</a></li>
-  </ul>
-</li>
-";
-          ltrSuperAdmin.Text = strCode;
-        }
         if (
           listPurviewsSession.Contains("SUPERADMIN") ||
           listPurviewsSession.Contains("SysAdmin_add") ||

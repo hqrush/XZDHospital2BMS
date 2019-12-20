@@ -11,6 +11,8 @@ namespace XZDHospital2BMS.BackManager.inventory_record
   public partial class list : System.Web.UI.Page
   {
 
+    private string strOPFlag;
+
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
@@ -18,7 +20,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         int intAdminId = HelperUtility.hasPurviewPage("InventoryRecord_show");
         ViewState["AdminId"] = intAdminId;
         // 本页只能从list.aspx的编辑页转过来
-        // 因此要得到要显示哪个出库单的cid值和页面的cpage值用于返回
+        // 因此要得到要显示哪个盘点单的cid值和页面的cpage值用于返回
         int intContractId = HelperUtility.getQueryInt("cid");
         if (intContractId == 0) HelperUtility.showAlert("", "/BackManager/login.aspx");
         ViewState["ContractId"] = intContractId;
@@ -32,9 +34,16 @@ namespace XZDHospital2BMS.BackManager.inventory_record
 
         // 判断是否显示修改数列
         if (Session["Purviews"].ToString().Contains("SUPERADMIN"))
+        {
           gvShow.Columns[9].Visible = true;
+          lblPriceTotalInventoryShow.Visible = true;
+        }
         else
+        {
           gvShow.Columns[9].Visible = false;
+          lblPriceTotalInventoryShow.Visible = false;
+        }
+        strOPFlag = "";
       }
     }
 
@@ -110,6 +119,32 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     private int intPageCount = 0; //总页数
     private int intRecordCount = 0; //总记录数
 
+    protected void lbtnFirst_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = "1";
+      LoadDataPage();
+    }
+    protected void lbtnPrev_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = Convert.ToString(Convert.ToInt32(lblCurentPage.Text) - 1);
+      LoadDataPage();
+    }
+    protected void lbtnNext_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = Convert.ToString(Convert.ToInt32(lblCurentPage.Text) + 1);
+      LoadDataPage();
+    }
+    protected void lbtnLast_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = lblPageCount.Text;
+      LoadDataPage();
+    }
+    protected void btnJumpTo_Click(object sender, EventArgs e)
+    {
+      lblCurentPage.Text = tbPageNum.Text;
+      LoadDataPage();
+    }
+
     public void LoadDataPage()
     {
       int intContractId = Convert.ToInt32(ViewState["ContractId"]);
@@ -165,33 +200,29 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
       decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
       decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
-      lblPriceTotalInventory.Text = dcmPriceTotalReal.ToString("C");
+      lblPriceTotalInventoryReal.Text = dcmPriceTotalReal.ToString("C");
+      lblPriceTotalInventoryShow.Text = "修改：<span class='red'>" +
+        dcmPriceTotalShow.ToString("C") + "</span>";
     }
 
-    protected void lbtnFirst_Click(object sender, EventArgs e)
+    public void LoadDataQuery(int intContractId, string strProductName)
     {
+      DataTable objDT = BllInventoryRecord.getByQuery(intContractId, strProductName);
+      gvShow.DataSource = objDT;
+      gvShow.DataBind();
+      lbtnFirst.Enabled = false;
+      lbtnPrev.Enabled = false;
+      lbtnNext.Enabled = false;
+      lbtnLast.Enabled = false;
+      ViewState["page"] = "1";
       lblCurentPage.Text = "1";
-      LoadDataPage();
-    }
-    protected void lbtnPrev_Click(object sender, EventArgs e)
-    {
-      lblCurentPage.Text = Convert.ToString(Convert.ToInt32(lblCurentPage.Text) - 1);
-      LoadDataPage();
-    }
-    protected void lbtnNext_Click(object sender, EventArgs e)
-    {
-      lblCurentPage.Text = Convert.ToString(Convert.ToInt32(lblCurentPage.Text) + 1);
-      LoadDataPage();
-    }
-    protected void lbtnLast_Click(object sender, EventArgs e)
-    {
-      lblCurentPage.Text = lblPageCount.Text;
-      LoadDataPage();
-    }
-    protected void btnJumpTo_Click(object sender, EventArgs e)
-    {
-      lblCurentPage.Text = tbPageNum.Text;
-      LoadDataPage();
+      // 设置显示盘点总金额的Label控件值，以货币形式显示 2.5.ToString("C")
+      decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
+      decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
+      decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
+      lblPriceTotalInventoryReal.Text = dcmPriceTotalReal.ToString("C");
+      lblPriceTotalInventoryShow.Text = "修改：<span class='red'>" +
+        dcmPriceTotalShow.ToString("C") + "</span>";
     }
 
     // 导出Excel文件
@@ -201,6 +232,26 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       string strExcelPath = BllInventoryContract.setExcel(intContractId);
       hlDownloadExcel.NavigateUrl = strExcelPath;
       hlDownloadExcel.Visible = true;
+    }
+
+    protected void btnQuery_Click(object sender, EventArgs e)
+    {
+      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
+      string strProductName = tbProductName.Value.Trim();
+      if ("".Equals(strProductName))
+      {
+        HelperUtility.showAlert("货品名称不能为空！", "list.aspx" + strUrlBack);
+        return;
+      }
+      ViewState["NameProduct"] = strProductName;
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      LoadDataQuery(intContractId, strProductName);
+    }
+
+    protected void btnShowList_Click(object sender, EventArgs e)
+    {
+      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
+      Response.Redirect("list.aspx" + strUrlBack);
     }
 
   }

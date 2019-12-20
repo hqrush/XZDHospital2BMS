@@ -27,22 +27,36 @@
         <div class="col-lg-12">
 
           <div class="wrapper-op form-group">
-            <div class="wrapper-btn col-sm-6">
+
+            <div class="wrapper-btn col-sm-4">
               <asp:HyperLink runat="server" ID="hlBackContract"
-                Target="_self" Text="返回盘点单" CssClass="btn btn-sm btn-success" />
+                Target="_self" Text="返回盘点单" CssClass="btn btn-xs btn-success" />
               <%--<asp:HyperLink runat="server" ID="hlAddNew"
                 Target="_self" Text="添加盘点货品" CssClass="btn btn-sm btn-success" />--%>
               <asp:Button runat="server" ID="btnExportExcel" Text="导出Excel表格"
-                CssClass="btn btn-sm btn-info" OnClick="btnExportExcel_Click" />
+                CssClass="btn btn-xs btn-info" OnClick="btnExportExcel_Click" />
               <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"
-                CssClass="btn btn-sm btn-info" Visible="false" />
+                CssClass="btn btn-xs btn-info" Visible="false" />
             </div>
-            <div class="wrapper-info col-sm-6">
-              <p>
-                库存总金额：<asp:Label runat="server" ID="lblPriceTotalStock" CssClass="red" />
-                盘点总金额：<asp:Label runat="server" ID="lblPriceTotalInventory" CssClass="red" />
-              </p>
+
+            <div class="wrapper-query col-sm-8">
+
+              <div class="form-group">
+                <label for="tbProductName" class="col-sm-4 control-label">货品名称：</label>
+                <div class="col-sm-4">
+                  <input runat="server" id="tbProductName" type="text"
+                    class="form-control" placeholder="输入货品通用名称及剂型...">
+                </div>
+                <div class="col-sm-4">
+                  <asp:Button runat="server" ID="btnQuery" class="btn btn-success btn-sm"
+                    Text="查询" OnClientClick="return checkNotNull();" OnClick="btnQuery_Click" />
+                  <asp:Button runat="server" ID="btnShowList" Text="查看所有"
+                    CssClass="btn btn-success btn-sm" OnClick="btnShowList_Click" />
+                </div>
+              </div>
+
             </div>
+
           </div>
 
           <div class="wrapper-gvshow table-responsive">
@@ -169,18 +183,30 @@
 
           </div>
 
-          <div class="wrapper-pager">
-            <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+          <div class="wrapper-info">
+
+            <div class="wrapper-pager col-sm-7">
+              <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
                 当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
                 总页数：<asp:Label ID="lblPageCount" runat="server" />
-            </span>
-            <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
-            <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
-            <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
-            <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
-            <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
-            <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
-              Text="跳转至" OnClick="btnJumpTo_Click" />
+              </span>
+              <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+              <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
+              <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
+                Text="跳转至" OnClick="btnJumpTo_Click" />
+            </div>
+
+            <div class="wrapper-price col-sm-5">
+              <p>
+                库存：<asp:Label runat="server" ID="lblPriceTotalStock" CssClass="red" />
+                盘点：<asp:Label runat="server" ID="lblPriceTotalInventoryReal" CssClass="red" />
+                <asp:Label runat="server" ID="lblPriceTotalInventoryShow" Visible="false" />
+              </p>
+            </div>
+
           </div>
 
         </div>

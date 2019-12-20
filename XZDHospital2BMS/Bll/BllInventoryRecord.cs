@@ -52,6 +52,11 @@ namespace Bll
       return DalInventoryRecord.getRecordsAmount(intContractId);
     }
 
+    public static DataTable getByQuery(int intContractId, string strProductName)
+    {
+      return DalInventoryRecord.getByQuery(intContractId, strProductName);
+    }
+
     public static decimal getPriceTotalStock(int intContractId)
     {
       return DalInventoryRecord.getPriceTotalStock(intContractId);
