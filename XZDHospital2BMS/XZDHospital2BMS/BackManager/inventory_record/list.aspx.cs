@@ -89,20 +89,33 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       else intGoodsId = 0;
       // 更新盘点数
       TextBox tbInventoryAmountReal = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountReal");
+      if (null == tbInventoryAmountReal) return;
       if ("".Equals(tbInventoryAmountReal.Text)) tbInventoryAmountReal.Text = "0";
       decimal dcmInventoryAmountReal = Convert.ToDecimal(tbInventoryAmountReal.Text);
-      BllInventoryRecord.updateRealById(dcmInventoryAmountReal, intId);
-      // 因为已盘点，因此更新货品的库存量为盘点量
-      BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountReal, intGoodsId);
-      // 更新修改数
-      TextBox tbInventoryAmountShow = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountShow");
-      if (tbInventoryAmountShow != null)
+      // 只有盘点数大于0的时候才去更新货品的盘点数和修改数
+      if (dcmInventoryAmountReal > 0)
       {
-        if ("".Equals(tbInventoryAmountShow.Text)) tbInventoryAmountShow.Text = "0";
-        decimal dcmInventoryAmountShow = Convert.ToDecimal(tbInventoryAmountShow.Text);
+        // 更新盘点表里的盘点数，同时更新盘点表里的修改数也是盘点数
+        BllInventoryRecord.updateRealById(dcmInventoryAmountReal, intId);
+        // 是否要同时更新库存量？这里有疑问，暂时不更新库存量
+        // 因为库存量是实时计算的，是真实的反映
+        // 更新货品的库存量为盘点量
+        // BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountReal, intGoodsId);
+      }
+      // 更新盘点修改数
+      TextBox tbInventoryAmountShow = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountShow");
+      if (null == tbInventoryAmountShow) return;
+      if ("".Equals(tbInventoryAmountShow.Text)) tbInventoryAmountShow.Text = "0";
+      decimal dcmInventoryAmountShow = Convert.ToDecimal(tbInventoryAmountShow.Text);
+      // 只有修改数大于0的时候才去更新货品的盘点数和修改数
+      if (dcmInventoryAmountShow > 0)
+      {
+        // 更新盘点表里的修改数，但是不更新盘点表里的盘点数
+        // 因为盘点数一般是真实的数据
         BllInventoryRecord.updateShowById(dcmInventoryAmountShow, intId);
-        // 因为已盘点，因此更新货品的库存量为盘点修改量
-        BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountShow, intGoodsId);
+        // 同样的，因为库存量是实时计算的，是真实的反映，所以暂时不更新库存量
+        // 更新货品的盘点量的盘点修改量
+        // BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountShow, intGoodsId);
       }
       gvShow.EditIndex = -1;
       LoadDataPage();

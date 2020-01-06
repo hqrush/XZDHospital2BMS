@@ -36,13 +36,14 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       {
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
-
+        // 设置标志
         Label lblFlag = (Label)e.Row.FindControl("lblFlag");
         if (lblFlag != null)
         {
           if (lblFlag.Text == "True") lblFlag.Text = "<span class='red'>*</span>";
           else lblFlag.Text = "";
         }
+        // 设置申请单位，有两个单位，所以要做下显示处理
         Label lblUnitName = (Label)e.Row.FindControl("lblUnitName");
         List<string> listUnitName = lblUnitName.Text.Split(',').ToList();
         lblUnitName.Text = "";
@@ -52,10 +53,17 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
           lblUnitName.Text = listUnitName[0] + "<br />" + listUnitName[1];
         if ("".Equals(listUnitName[0]) && !"".Equals(listUnitName[1]))
           lblUnitName.Text = listUnitName[1];
-
+        // 根据管理员Id显示管理员姓名
         Label lblAdminId = (Label)e.Row.FindControl("lblAdminId");
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = BllAdmin.getRealNameById(intAdminId);
+        // 根据出库单id显示此出库单下所有货品总数
+        Label lblId = (Label)e.Row.FindControl("lblId");
+        Label lblAmount = (Label)e.Row.FindControl("lblAmount");
+        int intContractId = Convert.ToInt32(lblId.Text);
+        // 
+        lblAmount.Text = BllAdmin.getRealNameById(intAdminId);
+        
       }
     }
 

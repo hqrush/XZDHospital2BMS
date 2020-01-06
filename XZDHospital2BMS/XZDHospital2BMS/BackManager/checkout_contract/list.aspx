@@ -85,8 +85,17 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
+                <asp:TemplateField HeaderText="货品数">
+                  <ItemStyle Width="60px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblId" Visible="false"
+                      Text='<%# Eval("id").ToString() %>' />
+                    <asp:Label runat="server" ID="lblAmount" Text="0" />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
                 <asp:TemplateField HeaderText="添加人">
-                  <ItemStyle Width="80px" />
+                  <ItemStyle Width="70px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAdminId"
                       Text='<%# Eval("id_admin").ToString() %>' />

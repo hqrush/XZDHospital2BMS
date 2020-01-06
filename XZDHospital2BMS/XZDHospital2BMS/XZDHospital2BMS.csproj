@@ -106,12 +106,13 @@
     <Content Include="Handler\UploadHandler.ashx" />
     <Content Include="Handler\AddCheckoutGoods.ashx" />
     <Content Include="Handler\AddInventoryRecord.ashx" />
+    <Content Include="Excel\Template\01入库单.xlsx" />
+    <Content Include="Excel\Template\02出库单.xlsx" />
+    <Content Include="Excel\Template\03盘点单.xlsx" />
+    <Content Include="Excel\Template\03盘点单1.xlsx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\webuploader\icons.psd" />
     <Content Include="static\image\webuploader\progress.psd" />
-    <Content Include="Excel\Template\inventory.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
