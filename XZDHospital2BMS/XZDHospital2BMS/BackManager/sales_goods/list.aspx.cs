@@ -1,11 +1,10 @@
 ﻿using Bll;
 using Helper;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.IO;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.sales_goods
@@ -161,6 +160,16 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     {
       lblCurentPage.Text = tbPageNum.Text;
       LoadDataPage();
+    }
+
+    // 导出入库单货品清单以便打印的Excel文件
+    protected void btnExportExcel_Click(object sender, EventArgs e)
+    {
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      string[] aryExcel = BllSalesContract.setExcel(intContractId);
+      // 设置压缩文件的下载链接
+      hlDownloadExcel.NavigateUrl = HelperExcel.SetExcelZip(aryExcel);
+      hlDownloadExcel.Visible = true;
     }
 
   }

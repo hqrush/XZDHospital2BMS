@@ -103,6 +103,16 @@ namespace XZDHospital2BMS.BackManager.checkout_record
       lblPriceTotal.Text = BllCheckoutRecord.getPriceTotal(intContractId).ToString("C");
     }
 
+    // 导出出库单货品清单以便打印的Excel文件
+    protected void btnExportExcel_Click(object sender, EventArgs e)
+    {
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      string[] aryExcel = BllCheckoutContract.setExcel(intContractId);
+      // 设置压缩文件的下载链接
+      hlDownloadExcel.NavigateUrl = HelperExcel.SetExcelZip(aryExcel);
+      hlDownloadExcel.Visible = true;
+    }
+
   }
 
 }

@@ -1,4 +1,5 @@
-﻿using Dal;
+﻿using Aspose.Cells;
+using Dal;
 using Helper;
 using Model;
 using System;
@@ -88,7 +89,9 @@ namespace Bll
       string strExcelTemplateFileName = "/Excel/Template/Inventory.xlsx";
       string strExcelOutFileName = "/Excel/Export/" + strFileName;
       // 根据以上参数生成excel文件，并输出生成的excel文件路径
-      HelperExcel.ExportExcelByTemplate(objDT, strExcelTemplateFileName, strExcelOutFileName);
+      WorkbookDesigner objDesigner = new WorkbookDesigner();
+      objDesigner.SetDataSource(objDT);
+      HelperExcel.ExportExcelByTemplate(objDesigner, strExcelTemplateFileName, strExcelOutFileName);
       return strExcelOutFileName;
     }
 

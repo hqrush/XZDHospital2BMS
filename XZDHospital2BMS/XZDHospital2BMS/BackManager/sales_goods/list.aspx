@@ -32,9 +32,10 @@
                 Target="_self" Text="返回入库单列表" CssClass="btn btn-sm btn-success" />
               <asp:HyperLink runat="server" ID="hlAddNew"
                 Target="_self" Text="添加新货品" CssClass="btn btn-sm btn-warning" />
-              <button type="button" class="btn btn-info btn-sm">
-                <span class="glyphicon glyphicon-print"></span>打印货品清单
-              </button>
+              <asp:Button runat="server" ID="btnExportExcel" Text="导出Excel表格"
+                CssClass="btn btn-sm btn-info" OnClick="btnExportExcel_Click" />
+              <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"
+                CssClass="btn btn-sm btn-info" Visible="false" />
             </div>
             <div class="wrapper-info col-sm-6">
               <p>总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" /></p>

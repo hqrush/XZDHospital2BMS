@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Web;
 using Aspose.Cells;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 
 namespace Helper
 {
@@ -100,18 +104,61 @@ namespace Helper
     /// <param name="objDT">DataTable格式数据源</param>
     /// <param name="strExcelTemplateFileName">Excel模板文件，包括相对网站根目录的路径</param>
     /// <param name="strExcelOutFileName">导出的Excel文件，包括相对网站根目录的路径</param>
-    public static void ExportExcelByTemplate(DataTable objDT,
+    public static void ExportExcelByTemplate(WorkbookDesigner objDesigner,
       string strExcelTemplateFileName,
       string strExcelOutFileName)
     {
       string strExcelTemplateFullFileName = strRootPath + strExcelTemplateFileName;
       string strExcelOutFullFileName = strRootPath + strExcelOutFileName;
       Workbook objWB = new Workbook(strExcelTemplateFullFileName);
-      WorkbookDesigner objDesigner = new WorkbookDesigner();
       objDesigner.Workbook = objWB;
-      objDesigner.SetDataSource(objDT);
       objDesigner.Process();
       objDesigner.Workbook.Save(strExcelOutFullFileName);
+    }
+
+    public static string SetExcelZip(string[] aryExcel)
+    {
+      if (aryExcel.Length == 0) return "";
+      // strRootPath = "F:\\WorkSpaceVS\\XZDHospital2BMS\\XZDHospital2BMS\\XZDHospital2BMS\\"
+      // aryExcel[0] = "/Excel/Export/入库单[浙江美达制药191226]-1.xlsx"
+      string strZipFileName = aryExcel[0].Substring(aryExcel[0].LastIndexOf('/') + 1);
+      strZipFileName = strZipFileName.Substring(0, strZipFileName.LastIndexOf('-')) + ".zip";
+      // 多文件压缩
+      ZipFile objZip;
+      string strFullZipPath = strRootPath + @"Excel\Export\";
+      using (objZip = ZipFile.Create(strFullZipPath + strZipFileName))
+      {
+        objZip.BeginUpdate();
+        objZip.NameTransform = new MyNameTransfom();
+        for (int i = 0; i < aryExcel.Length; i++)
+        {
+          objZip.Add(strRootPath + aryExcel[i]);
+        }
+        objZip.CommitUpdate();
+      }
+      // 删除xlsx文件
+      for (int i = 0; i < aryExcel.Length; i++)
+      {
+        if (File.Exists(strRootPath + aryExcel[i]))
+          File.Delete(strRootPath + aryExcel[i]);
+      }
+      return "/Excel/Export/" + strZipFileName;
+    }
+
+  }
+
+
+  public class MyNameTransfom : INameTransform
+  {
+
+    public string TransformDirectory(string name)
+    {
+      return null;
+    }
+
+    public string TransformFile(string name)
+    {
+      return Path.GetFileName(name);
     }
 
   }

@@ -414,6 +414,49 @@ namespace Helper
       return model.ToString();
     }
 
+    /// <summary>
+    /// 分解数据表
+    /// </summary>
+    /// <param name="objDTO">需要分解的表</param>
+    /// <param name="intPageSize">每个表包含的数据量</param>
+    /// <returns></returns>
+    public static DataSet splitDataTable(DataTable objDTO, int intPageSize)
+    {
+      // 计算得到所需创建的表数量
+      // totalPage = (totalRecord + pageSize - 1) / pageSize;
+      int intTableAmount = (objDTO.Rows.Count + intPageSize - 1) / intPageSize;
+      DataSet objDS = new DataSet();
+      //如果只需要创建1个表，直接将原始表存入DataSet
+      if (intTableAmount == 1) objDS.Tables.Add(objDTO);
+      else if (intTableAmount > 1)
+      {
+        DataTable[] aryDT = new DataTable[intTableAmount];
+        // 先循环每个新表，将原表的数据列存到新表里
+        for (int c = 0; c < intTableAmount; c++)
+        {
+          aryDT[c] = new DataTable();
+          foreach (DataColumn dc in objDTO.Columns)
+          {
+            aryDT[c].Columns.Add(dc.ColumnName, dc.DataType);
+          }
+        }
+        // 再循环每个新表，导入每行数据
+        for (int i = 0; i < intTableAmount; i++)
+        {
+          for (int j = i * intPageSize; j < ((i + 1) * intPageSize); j++)
+          {
+            if (j < objDTO.Rows.Count)
+              aryDT[i].ImportRow(objDTO.Rows[j]);
+          }
+        }
+
+        // 将所有新表加到DataSet里输出
+        foreach (DataTable dt in aryDT)
+          objDS.Tables.Add(dt);
+      }
+      return objDS;
+    }
+
   }
 
 }
