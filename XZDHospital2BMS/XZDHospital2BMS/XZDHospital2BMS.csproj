@@ -112,7 +112,6 @@
     <Content Include="Excel\Template\01入库单.xlsx" />
     <Content Include="Excel\Template\02出库单.xlsx" />
     <Content Include="Excel\Template\03盘点单.xlsx" />
-    <Content Include="Excel\Template\03盘点单1.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\webuploader\icons.psd" />

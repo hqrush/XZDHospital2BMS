@@ -242,8 +242,9 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     protected void btnExportExcel_Click(object sender, EventArgs e)
     {
       int intContractId = Convert.ToInt32(ViewState["ContractId"]);
-      string strExcelPath = BllInventoryContract.setExcel(intContractId);
-      hlDownloadExcel.NavigateUrl = strExcelPath;
+      string[] aryExcel = BllInventoryContract.setExcel(intContractId);
+      // 设置压缩文件的下载链接
+      hlDownloadExcel.NavigateUrl = HelperExcel.SetExcelZip(aryExcel);
       hlDownloadExcel.Visible = true;
     }
 

@@ -89,12 +89,14 @@ namespace XZDHospital2BMS.BackManager.admin
         }
       }
       if (listPurviews == null || listPurviews.Count <= 0) return "";
-      string strPurviews = "";
+      // 所有管理员开始都加个HOME权限，可以访问HOME首页
+      string strPurviews = "HOME,";
       for (int i = 0; i < listPurviews.Count; i++)
       {
         strPurviews += listPurviews[i];
         strPurviews += ",";
       }
+      // 去除最后的","符号
       return strPurviews.Substring(0, strPurviews.Length - 1);
     }
 

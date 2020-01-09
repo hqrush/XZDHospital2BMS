@@ -94,7 +94,7 @@ WHERE
       else return null;
     }
 
-    // 得到所有记录是无意义的，应该是得到某个出库单下所有的出库货品的记录
+    // 得到某个出库单下所有的出库货品的记录
     public static DataTable getAll(int intContractId)
     {
       string strSQL = @"
@@ -105,6 +105,7 @@ SELECT
   contract.time_sign,
   goods.name_product,
   goods.name_factory,
+  goods.unit,
   goods.price_unit,
   goods.batch_number,
   goods.validity_period,

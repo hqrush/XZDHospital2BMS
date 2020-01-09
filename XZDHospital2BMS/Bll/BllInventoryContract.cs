@@ -59,7 +59,7 @@ namespace Bll
       return model;
     }
 
-    public static string setExcel(int intContractId)
+    public static string[] setExcel(int intContractId)
     {
       // 根据盘点单ID得到此盘点单下所有的盘点记录，转成DataTable作为Excel文件的数据源
       DataTable objDT = BllInventoryRecord.getAll(intContractId);
@@ -81,18 +81,25 @@ namespace Bll
       objDT.Columns["temp2"].ColumnName = "validity_period";
       // 得到此盘点单的信息，设置要输出的Excel文件的文件名
       ModelInventoryContract model = BllInventoryContract.getById(intContractId);
-      string strFileName = "Inventory[" +
+      string strDateShow = "盘点单 " +
+        model.time_start.ToString("yyyy年MM月dd日") +
+        " 至 " +
+        model.time_end.ToString("yyyy年MM月dd日");
+      string strFileName = "盘点单[" +
         model.time_start.ToString("yyMMdd") +
         "-" +
         model.time_end.ToString("yyMMdd") +
-        "].xlsx";
-      string strExcelTemplateFileName = "/Excel/Template/Inventory.xlsx";
+        "]-1.xlsx";
+      string strExcelTemplateFileName = "/Excel/Template/03盘点单.xlsx";
       string strExcelOutFileName = "/Excel/Export/" + strFileName;
       // 根据以上参数生成excel文件，并输出生成的excel文件路径
       WorkbookDesigner objDesigner = new WorkbookDesigner();
+      objDesigner.SetDataSource("DateShow", strDateShow);
       objDesigner.SetDataSource(objDT);
       HelperExcel.ExportExcelByTemplate(objDesigner, strExcelTemplateFileName, strExcelOutFileName);
-      return strExcelOutFileName;
+      string[] aryReturn = new string[1];
+      aryReturn[0] = strExcelOutFileName;
+      return aryReturn;
     }
 
   }

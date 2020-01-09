@@ -1,7 +1,7 @@
-﻿using Helper;
+﻿using Bll;
+using Helper;
+using Model;
 using System;
-using System.Diagnostics;
-using System.Web.Services;
 
 namespace XZDHospital2BMS.BackManager
 {
@@ -12,17 +12,10 @@ namespace XZDHospital2BMS.BackManager
     {
       if (!IsPostBack)
       {
-        //Debug.WriteLine("用Debug.WriteLine输出到控制台测试");
-        //int intAdminId = HelperUtility.hasPurviewPage("");
-        //lblAdminId.Text = intAdminId.ToString();
-        //Response.Write(Session["Purviews"]);
+        int intAdminId = HelperUtility.hasPurviewPage("HOME");
+        ModelAdmin model = BllAdmin.getById(intAdminId);
+        lblAdminName.Text = model.real_name;
       }
-    }
-
-    [WebMethod]
-    public static string SayHello()
-    {
-      return "Hello Ajax!";
     }
 
   }

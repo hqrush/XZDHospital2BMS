@@ -36,6 +36,10 @@ namespace Helper
     /// <returns>返回登录用户的AdminId</returns>
     public static int hasPurviewPage(string strPurviewsNeed)
     {
+      // 判断权限需求是否为空
+      if (strPurviewsNeed == null || "".Equals(strPurviewsNeed))
+        HttpContext.Current.Response.Redirect(PAGE_LOGIN);
+      // 判断是否登录
       int intAdminId = checkIsLogin();
       // 下面开始验证权限
       if (HttpContext.Current.Session["Purviews"] == null)
@@ -45,7 +49,7 @@ namespace Helper
         HttpContext.Current.Response.Redirect(PAGE_LOGIN);
       List<string> listPurviewsSession = new List<string>(strPurviewsSession.Split(','));
       // 如果是 SUPERADMIN 或者该页面不需要权限即可访问，就直接结束验证
-      if (listPurviewsSession.Contains("SUPERADMIN") || "".Equals(strPurviewsNeed))
+      if (listPurviewsSession.Contains("SUPERADMIN"))
         return intAdminId;
       // 验证 session 里的用户所拥有的权限是否包含该页面所需要的权限
       List<string> listPurviewsNeed = new List<string>(strPurviewsNeed.Split(','));
@@ -426,7 +430,7 @@ namespace Helper
       // totalPage = (totalRecord + pageSize - 1) / pageSize;
       int intTableAmount = (objDTO.Rows.Count + intPageSize - 1) / intPageSize;
       DataSet objDS = new DataSet();
-      //如果只需要创建1个表，直接将原始表存入DataSet
+      // 如果只需要创建1个表，直接将原始表存入DataSet
       if (intTableAmount == 1) objDS.Tables.Add(objDTO);
       else if (intTableAmount > 1)
       {
@@ -449,7 +453,6 @@ namespace Helper
               aryDT[i].ImportRow(objDTO.Rows[j]);
           }
         }
-
         // 将所有新表加到DataSet里输出
         foreach (DataTable dt in aryDT)
           objDS.Tables.Add(dt);

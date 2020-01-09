@@ -19,49 +19,24 @@
      <![endif]-->
 </head>
 <body>
+  <form runat="server">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div>
-          <h4>
-            <asp:Label runat="server" ID="lblAdminId" /></h4>
-          <form runat="server">
-            <asp:Button runat="server" ID="btnNetButtonTest" CssClass="btn btn-warning" Text="net按钮点击调研ajax请求" />
-            <button id="btnButtonTest" class="btn btn-danger">html button 按钮点击调用ajax请求</button>
-            <input id="btnInputTest" type="button" class="btn btn-primary" value="html input 按钮点击调用ajax请求" />
-          </form>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div>
+            欢迎您<asp:Label runat="server" ID="lblAdminName" />使用本系统！
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
 
+  </form>
   <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script src="/static/js/lib/bootstrap.min.js"></script>
-  <script>
-    $(function () {
-      $("#btnInputTest").click(function () {
-        $.ajax({
-          //要用post方式   
-          type: "Post",
-          //方法所在页面和方法名   
-          url: "home.aspx/SayHello",
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data) {
-            //返回的数据用data.d获取内容   
-            alert(data.d);
-          },
-          error: function (err) {
-            alert(err);
-          }
-        });
-        //禁用按钮的提交   
-        return false;
-      });
-    });
-  </script>
 </body>
 </html>
