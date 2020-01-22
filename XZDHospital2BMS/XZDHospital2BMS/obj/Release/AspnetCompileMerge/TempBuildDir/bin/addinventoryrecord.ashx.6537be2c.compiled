@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Handler/AddInventoryRecord.ashx" hash="ffffffffdf645429" filehash="3b4c66f05d83" flags="130000" assembly="XZDHospital2BMS" type="XZDHospital2BMS.Handler.AddInventoryRecord">
+    <filedeps>
+        <filedep name="/Handler/AddInventoryRecord.ashx" />
+    </filedeps>
+</preserve>

@@ -10,8 +10,8 @@
   <title>管理员表单</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -267,9 +267,9 @@
     </div>
   </div>
 
-  <script src="/static/js/jquery-1.12.4.min.js"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/static/js/check-form-admin.js"></script>
+  <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="/static/js/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/check-form/admin.js"></script>
 
 </body>
 </html>

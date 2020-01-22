@@ -10,8 +10,8 @@
   <title>医药器械销售公司列表</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -19,26 +19,35 @@
      <![endif]-->
 </head>
 <body>
+  <form id="formShow" runat="server">
 
-  <wuc:wucHeader runat="server" ID="wucHeader" />
+    <wuc:wucHeader runat="server" ID="wucHeader" />
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <form id="formShow" runat="server">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
 
-          <div runat="server" id="divAlert" class="alert alert-info" role="alert">
-            <h4>暂无数据！</h4>
+          <div class="wrapper-add col-sm-5">
+
+            <div class="form-group">
+              <label for="tbCompanyName">公司名称：（可批量添加，一行为一条记录）</label>
+              <textarea runat="server" id="tbCompanyName"
+                class="form-control" width="150" rows="30"></textarea><br />
+              <asp:Button runat="server" ID="btnAdd" Text="确定添加"
+                CssClass="btn btn-primary" OnClick="btnAdd_Click" />
+              <input type="button" value="清空" class="btn btn-warning" />
+            </div>
+
           </div>
 
-          <div class="wrapper-gvshow table-responsive">
+          <div class="wrapper-gvshow col-sm-7">
 
             <asp:GridView ID="gvShow" runat="server" AutoGenerateColumns="False" DataKeyNames="id"
               OnRowDataBound="gvShow_RowDataBound" OnRowEditing="gvShow_RowEditing"
-              OnRowDeleting="gvShow_RowDeleting" OnRowUpdating="gvShow_RowUpdating"
-              OnRowCancelingEdit="gvShow_RowCancelingEdit"
+              OnRowUpdating="gvShow_RowUpdating" OnRowCancelingEdit="gvShow_RowCancelingEdit"
               CssClass="table table-condensed">
-
+              <RowStyle BackColor="#e6eaee" />
+              <AlternatingRowStyle BackColor="#f5f5f5" />
               <Columns>
 
                 <asp:TemplateField HeaderText="公司名称">
@@ -47,6 +56,10 @@
                     <asp:Label runat="server" ID="lblName"
                       Text='<%# Eval("name").ToString() %>' />
                   </ItemTemplate>
+                  <EditItemTemplate>
+                    <asp:TextBox runat="server" ID="tbName" Width="120px" MaxLength="20"
+                      CssClass="form-control" Text='<%# Eval("name").ToString() %>' />
+                  </EditItemTemplate>
                 </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="添加人">
@@ -54,7 +67,6 @@
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAdminId"
                       Text='<%# Eval("id_admin").ToString() %>' />
-                    <asp:Label runat="server" ID="lblRealName" />
                   </ItemTemplate>
                 </asp:TemplateField>
 
@@ -66,23 +78,18 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="删除">
-                  <ItemStyle Width="40px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblIsDeleted"
-                      Text='<%# Eval("is_deleted").ToString() %>' />
-                  </ItemTemplate>
-                </asp:TemplateField>
-
                 <asp:TemplateField>
-                  <ItemStyle Width="30px" />
+                  <ItemStyle Width="80px" />
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnEdit" CssClass="btn btn-info btn-xs"
-                      CommandName="Edit" Text="编辑" />
+                      CommandName="edit" Text="编辑" />
+                    <asp:Button runat="server" ID="btnDel" CssClass="btn btn-warning btn-xs" Text="删除"
+                      OnClientClick="return confirm('确定要删除？');"
+                      OnCommand="OP_Command" CommandName="Delete" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
                   <EditItemTemplate>
-                    <asp:LinkButton runat="server" ID="lbtnUpdate" Text="更新" CommandName="Update" />
-                    <asp:LinkButton runat="server" ID="lbtnCancel" Text="取消" CommandName="Cancel" />
+                    <asp:Button runat="server" ID="btnUpdate" Text="更新" CommandName="Update" />
+                    <asp:Button runat="server" ID="btnCancel" Text="取消" CommandName="Cancel" />
                   </EditItemTemplate>
                 </asp:TemplateField>
 
@@ -90,14 +97,28 @@
 
             </asp:GridView>
 
+            <div class="wrapper-pager">
+              <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
+                当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
+                总页数：<asp:Label ID="lblPageCount" runat="server" />
+              </span>
+              <asp:LinkButton ID="lbtnFirst" runat="server" OnClick="lbtnFirst_Click">首页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnPrev" runat="server" OnClick="lbtnPrev_Click">上一页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnNext" runat="server" OnClick="lbtnNext_Click">下一页</asp:LinkButton>
+              <asp:LinkButton ID="lbtnLast" runat="server" OnClick="lbtnLast_Click">尾页</asp:LinkButton>
+              <asp:TextBox runat="server" ID="tbPageNum" TextMode="Number" Width="40" />
+              <asp:Button runat="server" ID="btnJumpTo" CssClass="btn btn-xs btn-info"
+                Text="跳转至" OnClick="btnJumpTo_Click" />
+            </div>
+
           </div>
 
-        </form>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script src="/static/js/jquery-1.12.4.min.js"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
+  </form>
+  <script src="/static/js/lib/jquery-1.12.4.min.js"></script>
+  <script src="/static/js/lib/bootstrap.min.js"></script>
 </body>
 </html>

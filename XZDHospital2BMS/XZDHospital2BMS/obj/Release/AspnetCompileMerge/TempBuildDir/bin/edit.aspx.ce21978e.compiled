@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/BackManager/checkout_contract/edit.aspx" hash="fffffffb856575dd" filehash="630d6e9be955fd42" flags="110000" assembly="App_Web_vj2dyvx5" type="ASP.backmanager_checkout_contract_edit_aspx">
+    <filedeps>
+        <filedep name="/BackManager/checkout_contract/edit.aspx" />
+        <filedep name="/BackManager/WUCHeader.ascx" />
+    </filedeps>
+</preserve>

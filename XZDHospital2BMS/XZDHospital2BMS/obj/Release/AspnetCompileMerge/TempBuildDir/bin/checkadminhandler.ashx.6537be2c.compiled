@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Handler/CheckAdminHandler.ashx" hash="ffffffffdf645429" filehash="fffff5a8e488d510" flags="130000" assembly="XZDHospital2BMS" type="XZDHospital2BMS.Handler.CheckAdminHandler">
+    <filedeps>
+        <filedep name="/Handler/CheckAdminHandler.ashx" />
+    </filedeps>
+</preserve>

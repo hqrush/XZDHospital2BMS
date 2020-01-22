@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Handler/AddCheckoutGoods.ashx" hash="ffffffffdf645429" filehash="fffffd9a462e9033" flags="130000" assembly="XZDHospital2BMS" type="XZDHospital2BMS.Handler.AddCheckoutGoods">
+    <filedeps>
+        <filedep name="/Handler/AddCheckoutGoods.ashx" />
+    </filedeps>
+</preserve>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Handler/LogoutHandler.ashx" hash="ffffffffdf645429" filehash="3312d388b361" flags="130000" assembly="XZDHospital2BMS" type="XZDHospital2BMS.Handler.LogoutHandler">
+    <filedeps>
+        <filedep name="/Handler/LogoutHandler.ashx" />
+    </filedeps>
+</preserve>

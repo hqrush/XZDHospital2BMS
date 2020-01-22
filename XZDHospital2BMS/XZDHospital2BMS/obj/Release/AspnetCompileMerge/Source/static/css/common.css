@@ -1,4 +1,8 @@
-﻿.wrapper-login {
+﻿.red {
+  color: red;
+}
+
+.wrapper-login {
   width: 600px;
   margin: 160px auto 0 auto;
 }
@@ -14,6 +18,24 @@
     margin: 0;
   }
 
+.wrapper-add {
+  margin-bottom: 20px;
+}
+
+.wrapper-op .wrapper-info {
+}
+
+  .wrapper-op .wrapper-info p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: right;
+  }
+
+.wrapper-gvshow .table tbody tr td {
+  vertical-align: middle !important;
+}
+
 .wrapper-gvshow th,
 .wrapper-gvshow td {
   text-align: center;
@@ -22,7 +44,7 @@
 .wrapper-gvshow .table tbody tr th {
   height: 40px;
   line-height: 40px;
-  font-size: 16px;
+  font-size: 14px;
   background: #00589b;
   color: #FFF;
 }

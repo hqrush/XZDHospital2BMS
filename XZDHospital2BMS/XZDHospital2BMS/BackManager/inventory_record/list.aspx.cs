@@ -11,8 +11,6 @@ namespace XZDHospital2BMS.BackManager.inventory_record
   public partial class list : System.Web.UI.Page
   {
 
-    private string strOPFlag;
-
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
@@ -43,7 +41,6 @@ namespace XZDHospital2BMS.BackManager.inventory_record
           gvShow.Columns[9].Visible = false;
           lblPriceTotalInventoryShow.Visible = false;
         }
-        strOPFlag = "";
       }
     }
 

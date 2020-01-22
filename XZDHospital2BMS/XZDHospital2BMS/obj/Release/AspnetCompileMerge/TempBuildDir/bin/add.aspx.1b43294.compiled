@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/BackManager/checkout_record/add.aspx" hash="fffffffb856575dd" filehash="22dff467cc7df1b7" flags="110000" assembly="App_Web_feh32eik" type="ASP.backmanager_checkout_record_add_aspx">
+    <filedeps>
+        <filedep name="/BackManager/checkout_record/add.aspx" />
+        <filedep name="/BackManager/WUCHeader.ascx" />
+    </filedeps>
+</preserve>

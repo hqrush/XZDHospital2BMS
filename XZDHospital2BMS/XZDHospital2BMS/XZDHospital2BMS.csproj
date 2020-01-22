@@ -87,6 +87,7 @@
     <Content Include="BackManager\WUCFileUploader.ascx" />
     <Content Include="BackManager\sales_company\list.aspx" />
     <Content Include="BackManager\sales_contract\add.aspx" />
+    <Content Include="static\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="static\css\lib\bootstrap-select.min.css" />
     <Content Include="static\js\check-form\inventory_contract.js" />
     <Content Include="static\js\check-form\inventory_record.js" />
@@ -100,10 +101,6 @@
     <Content Include="static\js\lib\i18n\bootstrap-select.zh.min.js" />
     <Content Include="static\css\uploadfile.css" />
     <Content Include="static\css\lib\webuploader.css" />
-    <Content Include="static\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="static\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="static\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="static\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Handler\CheckAdminHandler.ashx" />
     <Content Include="Handler\LogoutHandler.ashx" />
     <Content Include="Handler\UploadHandler.ashx" />
@@ -116,6 +113,10 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="static\image\webuploader\icons.psd" />
     <Content Include="static\image\webuploader\progress.psd" />
+    <Content Include="static\css\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="static\css\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="static\css\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="static\css\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -132,7 +133,6 @@
     <Content Include="static\css\lib\bootstrap-theme.min.css" />
     <Content Include="static\css\lib\bootstrap.min.css" />
     <Content Include="static\css\common.css" />
-    <Content Include="static\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="static\image\allow.png" />
     <Content Include="static\image\bgHeader.png" />
     <Content Include="static\image\CalendarImage\calendar.gif" />

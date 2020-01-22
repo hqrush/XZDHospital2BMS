@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="3" virtualPath="/BackManager/inventory_contract/add.aspx" hash="fffffffb856575dd" filehash="15e24ef8538ec6be" flags="110000" assembly="App_Web_jw1ghhk5" type="ASP.backmanager_inventory_contract_add_aspx">
+    <filedeps>
+        <filedep name="/BackManager/inventory_contract/add.aspx" />
+        <filedep name="/BackManager/WUCHeader.ascx" />
+    </filedeps>
+</preserve>

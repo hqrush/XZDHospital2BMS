@@ -15,3 +15,6 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\Model.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\obj\Release\XZDHospital2BMS.csproj.CopyComplete
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\obj\Release\XZDHospital2BMS.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\obj\Release\XZDHospital2BMS.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\ICSharpCode.SharpZipLib.dll
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\ICSharpCode.SharpZipLib.pdb
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\ICSharpCode.SharpZipLib.xml

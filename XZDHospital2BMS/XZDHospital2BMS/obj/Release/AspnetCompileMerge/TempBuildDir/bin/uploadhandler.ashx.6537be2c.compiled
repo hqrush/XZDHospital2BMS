@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Handler/UploadHandler.ashx" hash="ffffffffdf645429" filehash="25554880f0af" flags="130000" assembly="XZDHospital2BMS" type="XZDHospital2BMS.Handler.UploadHandler">
+    <filedeps>
+        <filedep name="/Handler/UploadHandler.ashx" />
+    </filedeps>
+</preserve>
