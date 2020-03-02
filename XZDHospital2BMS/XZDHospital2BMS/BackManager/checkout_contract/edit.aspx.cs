@@ -33,6 +33,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         if (!"".Equals(listUnitName[1])) cbUnitName2.Checked = true;
         tbDepartmentName.Value = model.name_department;
         tbSignName.Value = model.name_sign;
+        tbTimeCreate.Value = model.time_create.ToString("yyyy-MM-dd");
         tbComment.Text = model.comment;
         if (model.flag > 0) cbFlag.Checked = true;
         BllDepartment.bindRPT(rptName);
@@ -46,6 +47,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       int intAdminId = (int)ViewState["AdminId"];
       int intId = (int)ViewState["id"];
       int intPage = (int)ViewState["page"];
+      string strThisPageUrl = "edit.aspx?id=" + intId + "&page=" + intPage;
       // 验证输入
       string strMsgError = "";
       string strUnitName, strUnitName1, strUnitName2;
@@ -57,17 +59,21 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       if ("".Equals(strDepartmentName)) strMsgError += "申请部门/科室不能为空！";
       string strSignName = tbSignName.Value.Trim();
       if ("".Equals(strSignName)) strMsgError += "申请人姓名不能为空！";
+      string strTimeCreate = tbTimeCreate.Value.Trim();
+      if ("".Equals(strTimeCreate)) strMsgError += "签发时间不能为空！";
+      if (!HelperUtility.isDateType(strTimeCreate)) strMsgError += "签发时间格式不正确！";
       string strComment = tbComment.Text.Trim();
       if (strComment.Length > 500) strMsgError += "备注信息不能超过500个字数！";
       if (!"".Equals(strMsgError))
       {
-        HelperUtility.showAlert(strMsgError, "add.aspx");
+        HelperUtility.showAlert(strMsgError, strThisPageUrl);
         return;
       }
       string strPhotoUrls = "";
       // 验证完毕，提交数据
       ModelCheckoutContract model = BllCheckoutContract.getById(intId);
       model.id_admin = intAdminId;
+      model.time_create = Convert.ToDateTime(strTimeCreate);
       model.name_unit = strUnitName;
       model.name_department = strDepartmentName;
       model.name_sign = strSignName;

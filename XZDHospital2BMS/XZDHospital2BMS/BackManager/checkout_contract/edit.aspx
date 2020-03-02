@@ -11,6 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap.min.css" />
   <link rel="stylesheet" href="/static/css/lib/bootstrap-theme.min.css" />
+  <link rel="stylesheet" href="/static/css/lib/datepicker.min.css" />
   <link rel="stylesheet" href="/static/css/common.css" />
   <link rel="stylesheet" href="/static/css/uploadfile.css" />
   <!--[if lt IE 9]>
@@ -78,6 +79,15 @@
               </div>
 
               <div class="form-group">
+                <label for="tbTimeSign" class="col-sm-2 control-label">
+                  <strong class="red">*</strong>出库时间：</label>
+                <div class="col-sm-5">
+                  <input runat="server" id="tbTimeCreate" type='text' style="width: 200px;"
+                    class="form-control datepicker-here" data-language='zh' data-position="right top" />
+                </div>
+              </div>
+
+              <div class="form-group">
                 <label for="tbComment" class="col-sm-2 control-label">备注：</label>
                 <div class="col-sm-8">
                   <asp:TextBox runat="server" ID="tbComment" TextMode="MultiLine" Rows="6"
@@ -103,6 +113,8 @@
   </form>
   <script type="text/javascript" src="/static/js/lib/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/static/js/lib/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/datepicker.min.js"></script>
+  <script type="text/javascript" src="/static/js/lib/i18n/datepicker.zh.js"></script>
   <script type="text/javascript" src="/static/js/check-form/checkout_contract.js"></script>
 </body>
 </html>

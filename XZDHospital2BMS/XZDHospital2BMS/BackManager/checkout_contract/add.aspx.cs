@@ -21,7 +21,6 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       }
     }
 
-
     protected void btnAdd_Click(object sender, EventArgs e)
     {
       if (!HelperUtility.hasPurviewOP("CheckoutContract_add"))

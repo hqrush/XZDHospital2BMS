@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/inventory_contract/edit.aspx" hash="fffffffb856575dd" filehash="61c96af713adfdac" flags="110000" assembly="App_Web_jw1ghhk5" type="ASP.backmanager_inventory_contract_edit_aspx">
+<preserve resultType="3" virtualPath="/BackManager/inventory_contract/edit.aspx" hash="fffffffb856575dd" filehash="61c96af713adfdac" flags="110000" assembly="App_Web_xukr0exl" type="ASP.backmanager_inventory_contract_edit_aspx">
     <filedeps>
         <filedep name="/BackManager/inventory_contract/edit.aspx" />
         <filedep name="/BackManager/WUCHeader.ascx" />

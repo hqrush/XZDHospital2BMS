@@ -11,7 +11,8 @@ function checkNotNull() {
 // 添加到盘点清单的ajax操作
 function addGoods(intInventoryContractId, intGoodsId, lblInventory, tbAmount) {
   // Label控件转成span标签，取值不是用val()，而是用text()
-  var dcmInventory = parseFloat($("#" + lblInventory + "").text());
+  var v = $("#" + lblInventory + "").text().replace(/,/g, '');
+  var dcmInventory = parseFloat(v);
   var dcmAmount = parseFloat($("#" + tbAmount + "").val());
   if (!(dcmAmount > 0)) {
     alert("提货数必须大于0！");

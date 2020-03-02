@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/medical_record/add.aspx" hash="fffffffb856575dd" filehash="96c514d06f323730" flags="110000" assembly="App_Web_td4gnqgc" type="ASP.backmanager_medical_record_add_aspx">
+<preserve resultType="3" virtualPath="/BackManager/medical_record/add.aspx" hash="fffffffb856575dd" filehash="96c514d06f323730" flags="110000" assembly="App_Web_ilyeb2y1" type="ASP.backmanager_medical_record_add_aspx">
     <filedeps>
         <filedep name="/BackManager/medical_record/add.aspx" />
         <filedep name="/BackManager/WUCHeader.ascx" />
