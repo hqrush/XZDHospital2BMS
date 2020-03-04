@@ -2,6 +2,7 @@
 using Helper;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using Model;
 using System;
 using System.Data;
 using System.IO;
@@ -31,9 +32,18 @@ namespace XZDHospital2BMS.BackManager.sales_goods
         lblCurentPage.Text = intCurrentPage.ToString();
         LoadDataPage();
         // 设置其他控件值，以货币形式显示 2.5.ToString("C")
+        // 得到入库单的信息
+        ModelSalesContract model = BllSalesContract.getById(intContractId);
+        if (model.id_company > 0)
+          lblCompanyName.Text = "【" + BllSalesCompany.getById(model.id_company).name + "】";
+        else
+          lblCompanyName.Text = "【预入库】";
+        lblTimeCreate.Text = model.time_create.ToString("yyyy-MM-dd");
         lblPriceTotal.Text = BllSalesGoods.getPriceTotal(intContractId).ToString("C");
         hlBackContract.NavigateUrl = "../sales_contract/list.aspx?page=" + ViewState["ContractPage"];
         hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
+        // 绑定所有入库单的下拉列表
+        BllSalesContract.bindDDL(ddlSalesContract);
       }
     }
 
@@ -172,6 +182,31 @@ namespace XZDHospital2BMS.BackManager.sales_goods
       hlDownloadExcel.Visible = true;
     }
 
+    // 批量更改选中货品的入库单ID
+    protected void btnTrans_Click(object sender, EventArgs e)
+    {
+      int intCount = 0, intId, intContractId;
+      intContractId = Convert.ToInt32(ddlSalesContract.SelectedValue);
+      foreach (GridViewRow objGVRow in gvShow.Rows)
+      {
+        CheckBox objCB = (CheckBox)objGVRow.FindControl("cbSelect");
+        //Label lblId = (Label)objGVRow.FindControl("lblId");
+        //intId = Convert.ToInt32(lblId.Text);
+        if (objCB == null) continue;
+        if (objCB.Checked)
+        {
+          intId = Convert.ToInt32(gvShow.DataKeys[objGVRow.RowIndex].Value);
+          if (intId > 0)
+          {
+            BllSalesGoods.updateContractId(intId, intContractId);
+            intCount += 1;
+          }
+        }
+      }
+      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
+      HelperUtility.showAlert("转移成功 " + intCount + " 条数据！",
+        "list.aspx" + strUrlBack + "&page=" + ViewState["page"]);
+    }
   }
 
 }

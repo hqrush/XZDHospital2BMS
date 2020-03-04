@@ -70,9 +70,9 @@ namespace Bll
       DataTable objDT = getAll();
       DataRow objDR = objDT.NewRow();
       objDR["id"] = 0;
-      objDR["name"] = "未知公司";
+      objDR["name"] = "预入库";
       objDT.Rows.InsertAt(objDR, 0);
-
+      // 绑定下拉菜单
       ddl.DataSource = objDT;
       ddl.DataTextField = "name";
       ddl.DataValueField = "id";
@@ -81,12 +81,14 @@ namespace Bll
 
     public static void bindRPT(Repeater rpt)
     {
+      // 得到所有公司
       DataTable objDT = getAll();
+      // 添加“预入库”标识
       DataRow objDR = objDT.NewRow();
       objDR["id"] = 0;
-      objDR["name"] = "未知公司";
+      objDR["name"] = "预入库";
       objDT.Rows.InsertAt(objDR, 0);
-
+      // 把数据绑定到Repeater上
       rpt.DataSource = objDT;
       rpt.DataBind();
     }

@@ -4,6 +4,7 @@ using Helper;
 using Model;
 using System;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace Bll
 {
@@ -35,6 +36,11 @@ namespace Bll
     public static DataTable getAll()
     {
       return DalSalesContract.getAll();
+    }
+
+    public static DataTable getForDDL()
+    {
+      return DalSalesContract.getForDDL();
     }
 
     public static DataTable getPage(int intPage, int intPageSize)
@@ -88,6 +94,15 @@ namespace Bll
         objDT.TableName = "DataTable" + i;
       }
       return aryReturn;
+    }
+
+    // 将入库单绑定到ddl上
+    public static void bindDDL(DropDownList objDDL)
+    {
+      objDDL.DataSource = getForDDL();
+      objDDL.DataTextField = "text_show";
+      objDDL.DataValueField = "id";
+      objDDL.DataBind();
     }
 
   }

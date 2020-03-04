@@ -43,7 +43,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       // 验证完毕，提交数据
       int intAdminId = (int)ViewState["AdminId"];
       ModelSalesContract model = new ModelSalesContract();
-      if (strCompanyName.Contains("未知公司")) model.id_company = 0;
+      if (strCompanyName.Contains("预入库")) model.id_company = 0;
       else model.id_company = BllSalesCompany.getIdByName(strCompanyName, intAdminId);
       model.id_admin = intAdminId;
       model.time_sign = Convert.ToDateTime(strTimeSign);

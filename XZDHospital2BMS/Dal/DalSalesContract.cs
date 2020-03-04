@@ -106,6 +106,22 @@ WHERE
       return HelperMySql.GetDataTable(strSQL);
     }
 
+    public static DataTable getForDDL()
+    {
+      string strSQL = @"
+SELECT 
+  contract.id,
+  contract.time_create,
+  company.name,
+  concat(DATE_FORMAT(contract.time_create, '%Y-%m-%d') , '-' , company.name) AS text_show
+FROM sales_contract contract
+  INNER JOIN sales_company company ON company.id = contract.id_company
+WHERE id_company > 0
+ORDER BY contract.id DESC
+";
+      return HelperMySql.GetDataTable(strSQL);
+    }
+
     /// <summary>
     /// 分页查询
     /// </summary>

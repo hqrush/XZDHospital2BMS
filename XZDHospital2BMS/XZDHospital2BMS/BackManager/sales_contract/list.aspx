@@ -27,6 +27,8 @@
         <div class="col-lg-12">
 
           <div class="wrapper-add">
+            <asp:CheckBox runat="server" ID="cbPreSale" Text="只看预入库单" Visible="false"
+              OnCheckedChanged="cbPreSale_CheckedChanged" />
             <a href="add.aspx" class="btn btn-info">添加入库单</a>
           </div>
 

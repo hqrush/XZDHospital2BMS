@@ -22,6 +22,11 @@ namespace Bll
       return DalSalesGoods.update(model);
     }
 
+    public static void updateContractId(int intId, int intContractId)
+    {
+      DalSalesGoods.updateContractId(intId, intContractId);
+    }
+
     public static int updateAmountStock(decimal dcmAmountOut, int intId)
     {
       return DalSalesGoods.updateAmountStock(dcmAmountOut, intId);

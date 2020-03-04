@@ -110,8 +110,11 @@ namespace Helper
     {
       string strExcelTemplateFullFileName = strRootPath + strExcelTemplateFileName;
       string strExcelOutFullFileName = strRootPath + strExcelOutFileName;
-      Workbook objWB = new Workbook(strExcelTemplateFullFileName);
-      objDesigner.Workbook = objWB;
+      // 如果不存在此目录则创建目录
+      string strExcelOutFullPath = Path.GetDirectoryName(strExcelOutFullFileName);
+      if (Directory.Exists(strExcelOutFullPath))
+        Directory.CreateDirectory(strExcelOutFullPath);
+      objDesigner.Workbook = new Workbook(strExcelTemplateFullFileName);
       objDesigner.Process();
       objDesigner.Workbook.Save(strExcelOutFullFileName);
     }

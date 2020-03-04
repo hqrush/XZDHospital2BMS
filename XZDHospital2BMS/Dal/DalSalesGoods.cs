@@ -127,6 +127,21 @@ WHERE
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    public static void updateContractId(int intId, int intContractId)
+    {
+      string strSQL = @"
+UPDATE sales_goods
+SET
+  id_contract = @id_contract
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      aryParams[1] = new MySqlParameter("@id", intId);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
     public static int updateAmountStock(decimal dcmAmountOut, int intId)
     {
       string strSQL = @"

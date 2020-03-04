@@ -43,7 +43,7 @@ namespace XZDHospital2BMS.BackManager.sales_contract
         if (intCompanyId != 0)
           lblCompanyId.Text = (BllSalesCompany.getById(intCompanyId)).name;
         else
-          lblCompanyId.Text = "未知公司";
+          lblCompanyId.Text = "预入库";
         int intAdminId = Convert.ToInt32(lblAdminId.Text);
         lblAdminId.Text = (BllAdmin.getById(intAdminId)).real_name;
       }
@@ -175,6 +175,10 @@ namespace XZDHospital2BMS.BackManager.sales_contract
       LoadDataPage();
     }
 
+    protected void cbPreSale_CheckedChanged(object sender, EventArgs e)
+    {
+
+    }
   }
 
 }

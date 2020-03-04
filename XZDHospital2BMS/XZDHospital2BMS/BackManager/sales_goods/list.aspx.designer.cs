@@ -69,6 +69,24 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     protected global::System.Web.UI.WebControls.HyperLink hlDownloadExcel;
 
     /// <summary>
+    /// lblCompanyName 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblCompanyName;
+
+    /// <summary>
+    /// lblTimeCreate 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblTimeCreate;
+
+    /// <summary>
     /// lblPriceTotal 控件。
     /// </summary>
     /// <remarks>
@@ -166,5 +184,23 @@ namespace XZDHospital2BMS.BackManager.sales_goods
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button btnJumpTo;
+
+    /// <summary>
+    /// ddlSalesContract 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.DropDownList ddlSalesContract;
+
+    /// <summary>
+    /// btnTrans 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Button btnTrans;
   }
 }
