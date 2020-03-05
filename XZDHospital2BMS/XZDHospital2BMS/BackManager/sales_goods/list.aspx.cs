@@ -1,11 +1,8 @@
 ﻿using Bll;
 using Helper;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 using Model;
 using System;
 using System.Data;
-using System.IO;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.sales_goods

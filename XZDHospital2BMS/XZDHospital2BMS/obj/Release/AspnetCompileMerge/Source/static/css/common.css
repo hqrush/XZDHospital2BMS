@@ -48,3 +48,16 @@
   background: #00589b;
   color: #FFF;
 }
+
+.wrapper-pager {
+}
+
+.wrapper-op-bottom {
+}
+
+  .wrapper-op-bottom .wrapper-pager {
+  }
+
+  .wrapper-op-bottom .wrapper-trans {
+    text-align: right;
+  }

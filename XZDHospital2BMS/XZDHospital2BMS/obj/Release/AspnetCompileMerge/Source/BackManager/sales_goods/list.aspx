@@ -23,22 +23,27 @@
     <wuc:wucHeader runat="server" ID="wucHeader" />
 
     <div class="container">
+
       <div class="row">
         <div class="col-lg-12">
 
           <div class="wrapper-op form-group">
-            <div class="wrapper-btn col-sm-6">
+            <div class="wrapper-btn col-sm-5">
               <asp:HyperLink runat="server" ID="hlBackContract"
-                Target="_self" Text="返回入库单列表" CssClass="btn btn-sm btn-success" />
+                Target="_self" Text="返回列表" CssClass="btn btn-sm btn-success" />
               <asp:HyperLink runat="server" ID="hlAddNew"
-                Target="_self" Text="添加新货品" CssClass="btn btn-sm btn-warning" />
-              <asp:Button runat="server" ID="btnExportExcel" Text="导出Excel表格"
+                Target="_self" Text="添加货品" CssClass="btn btn-sm btn-warning" />
+              <asp:Button runat="server" ID="btnExportExcel" Text="导出表格"
                 CssClass="btn btn-sm btn-info" OnClick="btnExportExcel_Click" />
-              <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"
+              <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载表格"
                 CssClass="btn btn-sm btn-info" Visible="false" />
             </div>
-            <div class="wrapper-info col-sm-6">
-              <p>总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" /></p>
+            <div class="wrapper-info col-sm-7">
+              <p>
+                <asp:Label runat="server" ID="lblCompanyName" />&nbsp;
+                <asp:Label runat="server" ID="lblTimeCreate" />&nbsp;
+                总金额（单位：元）：<asp:Label runat="server" ID="lblPriceTotal" CssClass="red" />
+              </p>
             </div>
           </div>
 
@@ -49,6 +54,12 @@
               <RowStyle BackColor="#e6eaee" />
               <AlternatingRowStyle BackColor="#f5f5f5" />
               <Columns>
+
+                <asp:TemplateField HeaderText="选择">
+                  <ItemTemplate>
+                    <asp:CheckBox runat="server" ID="cbSelect" />
+                  </ItemTemplate>
+                </asp:TemplateField>
 
                 <asp:TemplateField HeaderText="通用名称及剂型">
                   <ItemTemplate>
@@ -126,7 +137,13 @@
 
           </div>
 
-          <div class="wrapper-pager">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 wrapper-op-bottom">
+
+          <div class="col-lg-7 wrapper-pager">
             <span>共有<asp:Label ID="lblRecordCount" runat="server" />条记录，
                 当前页数：<asp:Label ID="lblCurentPage" runat="server" Text="1" />，
                 总页数：<asp:Label ID="lblPageCount" runat="server" />
@@ -140,8 +157,15 @@
               Text="跳转至" OnClick="btnJumpTo_Click" />
           </div>
 
+          <div class="col-lg-5 wrapper-trans">
+            <asp:DropDownList runat="server" ID="ddlSalesContract" />
+            <asp:Button runat="server" ID="btnTrans" CssClass="btn btn-xs btn-info"
+              OnClick="btnTrans_Click" Text="转移选中的货品" />
+          </div>
+
         </div>
       </div>
+
     </div>
 
   </form>

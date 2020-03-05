@@ -63,7 +63,11 @@ namespace Bll
     {
       // 得到此入库单的信息
       ModelSalesContract model = getById(intContractId);
-      string strCompanyName = BllSalesCompany.getById(model.id_company).name;
+      string strCompanyName;
+      if (model.id_company > 0)
+        strCompanyName = BllSalesCompany.getById(model.id_company).name;
+      else
+        strCompanyName = "预入库";
       string strYear = model.time_sign.Year.ToString();
       string strMonth = model.time_sign.Month.ToString();
       string strDay = model.time_sign.Day.ToString();
