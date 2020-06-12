@@ -15,3 +15,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\ICSharpCode.SharpZipLib.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\ICSharpCode.SharpZipLib.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\bin\Debug\ICSharpCode.SharpZipLib.xml
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Bll\obj\Debug\Bll.csproj.CoreCompileInputs.cache

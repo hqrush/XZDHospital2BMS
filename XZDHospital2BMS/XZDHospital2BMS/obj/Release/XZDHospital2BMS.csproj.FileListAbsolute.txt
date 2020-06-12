@@ -18,3 +18,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\obj\Release\XZDHo
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\ICSharpCode.SharpZipLib.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\ICSharpCode.SharpZipLib.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\bin\ICSharpCode.SharpZipLib.xml
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\XZDHospital2BMS\obj\Release\XZDHospital2BMS.csproj.CoreCompileInputs.cache

@@ -23,6 +23,8 @@
 
         <div class="wrapper-login">
 
+          <h1>欢迎使用信州区第二人民医院后台管理系统——药品器械管理</h1>
+
           <form runat="server" class="form-horizontal" role="form">
 
             <div class="form-group">

@@ -13,3 +13,4 @@ F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\MySql.Data.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\ICSharpCode.SharpZipLib.dll
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\ICSharpCode.SharpZipLib.pdb
 F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\bin\Debug\ICSharpCode.SharpZipLib.xml
+F:\WorkSpaceVS\XZDHospital2BMS\XZDHospital2BMS\Dal\obj\Debug\Dal.csproj.CoreCompileInputs.cache

@@ -150,6 +150,15 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       LoadDataPage();
     }
 
+    // 导出盘点单货品清单以便打印的Excel文件
+    //protected void btnExportExcel_Click(object sender, EventArgs e)
+    //{
+    //  string[] aryExcel = BllInventoryContract.setExcel(intContractId);
+    //  // 设置压缩文件的下载链接
+    //  hlDownloadExcel.NavigateUrl = HelperExcel.SetExcelZip(aryExcel);
+    //  hlDownloadExcel.Visible = true;
+    //}
+
   }
 
 }

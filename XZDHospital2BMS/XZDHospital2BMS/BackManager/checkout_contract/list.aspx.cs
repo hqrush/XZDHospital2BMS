@@ -61,9 +61,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
         Label lblId = (Label)e.Row.FindControl("lblId");
         Label lblAmount = (Label)e.Row.FindControl("lblAmount");
         int intContractId = Convert.ToInt32(lblId.Text);
-        // 
-        lblAmount.Text = BllAdmin.getRealNameById(intAdminId);
-        
+        lblAmount.Text = BllCheckoutRecord.getRecordsAmount(intContractId).ToString();
       }
     }
 
@@ -81,7 +79,7 @@ namespace XZDHospital2BMS.BackManager.checkout_contract
       else if (e.CommandName == "del")
       {
         if (HelperUtility.hasPurviewOP("CheckoutContract_del"))
-          BllSalesContract.deleteById(intId);
+          BllCheckoutContract.deleteById(intId);
         else
           HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
       }
