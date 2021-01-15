@@ -114,12 +114,20 @@
                       </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="库存量">
-                      <ItemStyle Width="70px" />
+                    <asp:TemplateField HeaderText="实时库存">
+                      <ItemStyle Width="100px" />
                       <ItemTemplate>
                         <asp:Label runat="server" ID="lblAmountIn" Visible="false"
                           Text='<%# Eval("amount", "{0:f2}") %>' />
                         <asp:Label runat="server" ID="lblInventory" />
+                      </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="盘后库存">
+                      <ItemStyle Width="100px" />
+                      <ItemTemplate>
+                        <asp:Label runat="server" ID="lblAmountStock"
+                          Text='<%# Eval("amount_stock", "{0:f2}") %>' />
                       </ItemTemplate>
                     </asp:TemplateField>
 

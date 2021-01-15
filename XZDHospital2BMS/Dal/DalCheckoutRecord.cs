@@ -34,6 +34,7 @@ INSERT INTO checkout_record (
       else return 0;
     }
 
+    // 出库货品表里删除此条出库记录，但是注意货品表里的库存还要加回去
     public static void deleteById(int intId)
     {
       string strSQL = @"DELETE FROM checkout_record WHERE id=@id";
@@ -175,15 +176,17 @@ WHERE id_contract = @id_contract";
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
       if (objDT == null || objDT.Rows.Count <= 0) return 0;
-      int intGoodsId;
-      decimal dcmAmount;
-      decimal dcmPriceUnit;
+      int intGoodsId = 0;
+      decimal dcmAmount = 0;
+      decimal dcmPriceUnit = 0;
       decimal dcmPriceTotal = 0;
+      ModelSalesGoods modelSalesGoods;
       for (int i = 0; i < objDT.Rows.Count; i++)
       {
         intGoodsId = Convert.ToInt32(objDT.Rows[i]["id_goods"]);
         dcmAmount = Convert.ToDecimal(objDT.Rows[i]["amount"]);
-        dcmPriceUnit = DalSalesGoods.getById(intGoodsId).price_unit;
+        modelSalesGoods = DalSalesGoods.getById(intGoodsId);
+        dcmPriceUnit = modelSalesGoods != null ? modelSalesGoods.price_unit : 0;
         dcmPriceTotal += dcmPriceUnit * dcmAmount;
       }
       return dcmPriceTotal;

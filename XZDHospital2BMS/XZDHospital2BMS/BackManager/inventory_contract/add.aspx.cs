@@ -39,7 +39,7 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       if (!HelperUtility.isDateType(strTimeEnd)) strMsgError += "结束时间格式不正确！";
       if (Convert.ToDateTime(strTimeEnd) <= Convert.ToDateTime(strTimeStart)) strMsgError += "结束时间不能早于开始时间！";
       string strNameSign = tbNameSign.Text.Trim();
-      if ("".Equals(strNameSign)) strMsgError += "公司名不能为空！";
+      if ("".Equals(strNameSign)) strMsgError += "盘点人员签名不能为空！";
       string strComment = tbComment.Text.Trim();
       if (strComment.Length > 500) strMsgError += "备注信息不能超过500个字数！";
       if (!"".Equals(strMsgError))

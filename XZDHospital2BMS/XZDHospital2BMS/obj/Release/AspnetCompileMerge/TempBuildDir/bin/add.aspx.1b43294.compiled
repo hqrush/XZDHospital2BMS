@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/checkout_record/add.aspx" hash="fffffffb856575dd" filehash="22dff467cc7df1b7" flags="110000" assembly="App_Web_sl4walsy" type="ASP.backmanager_checkout_record_add_aspx">
+<preserve resultType="3" virtualPath="/BackManager/checkout_record/add.aspx" hash="fffffffb856575dd" filehash="dc79dd3c07c20104" flags="110000" assembly="App_Web_x5w2c231" type="ASP.backmanager_checkout_record_add_aspx">
     <filedeps>
         <filedep name="/BackManager/checkout_record/add.aspx" />
         <filedep name="/BackManager/WUCHeader.ascx" />

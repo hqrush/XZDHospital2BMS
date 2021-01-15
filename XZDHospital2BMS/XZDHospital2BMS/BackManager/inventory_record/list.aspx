@@ -31,8 +31,6 @@
             <div class="wrapper-btn col-sm-4">
               <asp:HyperLink runat="server" ID="hlBackContract"
                 Target="_self" Text="返回盘点单" CssClass="btn btn-xs btn-success" />
-              <%--<asp:HyperLink runat="server" ID="hlAddNew"
-                Target="_self" Text="添加盘点货品" CssClass="btn btn-sm btn-success" />--%>
               <asp:Button runat="server" ID="btnExportExcel" Text="导出Excel表格"
                 CssClass="btn btn-xs btn-info" OnClick="btnExportExcel_Click" />
               <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"

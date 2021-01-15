@@ -74,6 +74,22 @@ INSERT INTO sales_goods (
       else return 0;
     }
 
+    // 当删除一条出货记录时，要将这条货品的出货数量加回到库存里
+    public static int addAmountStock(int intGoodsId, decimal dcmAmountOut)
+    {
+      string strSQL = @"
+UPDATE sales_goods
+SET
+  amount_stock = amount_stock + @amountOut
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@amountOut", dcmAmountOut);
+      aryParams[1] = new MySqlParameter("@id", intGoodsId);
+      return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
     public static void deleteById(int intId)
     {
       string strSQL = @"DELETE FROM sales_goods WHERE id=@id";
@@ -264,6 +280,12 @@ WHERE id_contract = @id_contract";
       return objTotal == null ? 0 : Convert.ToDecimal(objTotal);
     }
 
+    /// <summary>
+    /// 某出库单添加出库货品时，按名称搜索库存中货品
+    /// </summary>
+    /// <param name="strProductName">货品名称关键字词</param>
+    /// <param name="strFactoryName">货品厂商关键字词</param>
+    /// <returns>库存中货品列表返回给前台的DataList显示用</returns>
     public static DataTable getDTByName(string strProductName, string strFactoryName)
     {
       string strSql, strSqlHead, strSqlWhere;
@@ -310,6 +332,12 @@ ON
       return HelperMySql.GetDataTable(strSql, aryParams);
     }
 
+    /// <summary>
+    /// 查看某盘点单已添加的货品时，按名称搜索盘点单中货品
+    /// </summary>
+    /// <param name="strProductName">货品名称关键字词</param>
+    /// <param name="strFactoryName">货品厂商关键字词</param>
+    /// <returns>盘点单中货品列表返回给前台的DataList显示用</returns>
     public static DataTable getInventoryDTByName(string strProductName, string strFactoryName)
     {
       string strSql, strSqlHead, strSqlWhere;

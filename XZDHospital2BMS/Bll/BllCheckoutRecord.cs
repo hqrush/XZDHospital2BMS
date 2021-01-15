@@ -13,8 +13,15 @@ namespace Bll
       return DalCheckoutRecord.add(model);
     }
 
+    // 根据出库货品表里的id删除该表中一条记录，注意还要将出货数量加回去
     public static void deleteById(int intId)
     {
+      ModelCheckoutRecord modelCheckoutRecord = DalCheckoutRecord.getById(intId);
+      int intGoodsId = modelCheckoutRecord.id_goods;
+      decimal dcmAmountOut = modelCheckoutRecord.amount;
+      // 将出货数量加回去
+      BllSalesGoods.addAmountStock(intGoodsId, dcmAmountOut);
+      // 删除表里一条记录
       DalCheckoutRecord.deleteById(intId);
     }
 

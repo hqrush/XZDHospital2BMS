@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/admin/edit.aspx" hash="fffffffb856575dd" filehash="67a23c34ac4b4cd5" flags="110000" assembly="App_Web_y03uxcxc" type="ASP.backmanager_admin_edit_aspx">
+<preserve resultType="3" virtualPath="/BackManager/admin/edit.aspx" hash="fffffffb856575dd" filehash="67a23c34ac4b4cd5" flags="110000" assembly="App_Web_hn30gzcq" type="ASP.backmanager_admin_edit_aspx">
     <filedeps>
         <filedep name="/BackManager/admin/edit.aspx" />
         <filedep name="/BackManager/WUCHeader.ascx" />

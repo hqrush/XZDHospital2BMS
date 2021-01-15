@@ -12,6 +12,12 @@ namespace Bll
       return DalSalesGoods.add(model);
     }
 
+    // 当删除一条出货记录时，要将这条货品的出货数量加回到库存里
+    public static int addAmountStock(int intGoodsId, decimal dcmAmountOut)
+    {
+      return DalSalesGoods.addAmountStock(intGoodsId, dcmAmountOut);
+    }
+
     public static void deleteById(int intId)
     {
       DalSalesGoods.deleteById(intId);

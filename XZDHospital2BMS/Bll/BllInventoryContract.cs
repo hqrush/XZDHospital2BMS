@@ -80,7 +80,7 @@ namespace Bll
       objDT.Columns["temp1"].ColumnName = "time_sign";
       objDT.Columns["temp2"].ColumnName = "validity_period";
       // 得到此盘点单的信息，设置要输出的Excel文件的文件名
-      ModelInventoryContract model = BllInventoryContract.getById(intContractId);
+      ModelInventoryContract model = getById(intContractId);
       string strDateShow = "盘点单 " +
         model.time_start.ToString("yyyy年MM月dd日") +
         " 至 " +

@@ -59,14 +59,16 @@ namespace XZDHospital2BMS.BackManager.checkout_record
         hlProductName.NavigateUrl = "show.aspx?id=" + intGoodsId;
         // 记录进货总量的Label控件
         Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
-        // 记录库存总量的Label控件
+        // 记录实时库存总量的Label控件
         Label lblInventory = (Label)e.Row.FindControl("lblInventory");
+        // 记录盘后库存总量的Label控件
+        Label lblAmountStock = (Label)e.Row.FindControl("lblAmountStock");
         // 得到某个货品的出库总量
         decimal dcmOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
         // 得到入库的货品总量
         if ("".Equals(lblAmountIn.Text)) lblAmountIn.Text = "0";
         decimal dcmIn = Convert.ToDecimal(lblAmountIn.Text);
-        // 计算库存量
+        // 计算实时库存量
         decimal dcmInventory = dcmIn - dcmOut;
         lblInventory.Text = dcmInventory.ToString("N");
         // 根据出库单id，货品id，出库数量添加一条出库货品记录
@@ -80,6 +82,7 @@ namespace XZDHospital2BMS.BackManager.checkout_record
           intCheckoutContractId + "," +
           intGoodsId + ",\"" +
           lblInventory.ClientID + "\",\"" +
+          lblAmountStock.ClientID + "\",\"" +
           tbCheckoutAmount.ClientID + "\")";
         // 将上述值绑定到按钮事件上
         btnAddToList.Attributes.Add("onclick", strClickHandler);

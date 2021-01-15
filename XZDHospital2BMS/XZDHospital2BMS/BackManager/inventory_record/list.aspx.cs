@@ -11,13 +11,24 @@ namespace XZDHospital2BMS.BackManager.inventory_record
   public partial class list : System.Web.UI.Page
   {
 
+    /* 货品出库时
+     * 一、出库表里新加一条记录
+     * 二、更新某个货品的库存数量字段（amount_stock）（更新方法是amount_stock = amount_stock - amountOut）
+     * 添加出库货品时显示的是某个货品的库存量（amount_stock），
+     * 货品表里每个货品有一个进货数量（amount）和库存数量（amount_stock）
+     * 盘点时
+     * 一、新建盘点单，然后搜索所有库存量大于0的货品添加到此盘点单对应的盘点货品单里。
+     * 二、盘点时，修改盘点货品单里每个货品的盘点数量和修改（显示用）数量。
+     * 三、在修改盘点货品表时，同时将某次盘点货品单里所有货品的库存量（amount_stock）都修改为盘点量（还是修改量？？？）。
+     * 显示某盘点单下所有盘点货品时，显示的是该货品的库存数量（amount_stock）字段，盘点货品单下的盘点数量和修改数量。
+     */
+
     protected void Page_Load(object sender, EventArgs e)
     {
       if (!IsPostBack)
       {
         int intAdminId = HelperUtility.hasPurviewPage("InventoryRecord_show");
         ViewState["AdminId"] = intAdminId;
-        // 本页只能从list.aspx的编辑页转过来
         // 因此要得到要显示哪个盘点单的cid值和页面的cpage值用于返回
         int intContractId = HelperUtility.getQueryInt("cid");
         if (intContractId == 0) HelperUtility.showAlert("", "/BackManager/login.aspx");
@@ -95,9 +106,9 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         // 更新盘点表里的盘点数，同时更新盘点表里的修改数也是盘点数
         BllInventoryRecord.updateRealById(dcmInventoryAmountReal, intId);
         // 是否要同时更新库存量？这里有疑问，暂时不更新库存量
-        // 因为库存量是实时计算的，是真实的反映
+        // 因为库存量是实时计算的，是真实的反映，但老敏建议，还是同时修改库存量，因为添加出货时显示的是库存量
         // 更新货品的库存量为盘点量
-        // BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountReal, intGoodsId);
+        BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountReal, intGoodsId);
       }
       // 更新盘点修改数
       TextBox tbInventoryAmountShow = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountShow");
@@ -108,10 +119,8 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       if (dcmInventoryAmountShow > 0)
       {
         // 更新盘点表里的修改数，但是不更新盘点表里的盘点数
-        // 因为盘点数一般是真实的数据
         BllInventoryRecord.updateShowById(dcmInventoryAmountShow, intId);
-        // 同样的，因为库存量是实时计算的，是真实的反映，所以暂时不更新库存量
-        // 更新货品的盘点量的盘点修改量
+        // 这里不用修改量更新货品的库存量字段值
         // BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountShow, intGoodsId);
       }
       gvShow.EditIndex = -1;
@@ -215,6 +224,31 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         dcmPriceTotalShow.ToString("C") + "</span>";
     }
 
+    // 导出Excel文件
+    protected void btnExportExcel_Click(object sender, EventArgs e)
+    {
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      string[] aryExcel = BllInventoryContract.setExcel(intContractId);
+      // 设置压缩文件的下载链接
+      hlDownloadExcel.NavigateUrl = HelperExcel.SetExcelZip(aryExcel);
+      hlDownloadExcel.Visible = true;
+    }
+
+    // 点击根据关键字词查询某货品按钮
+    protected void btnQuery_Click(object sender, EventArgs e)
+    {
+      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
+      string strProductName = tbProductName.Value.Trim();
+      if ("".Equals(strProductName))
+      {
+        HelperUtility.showAlert("货品名称不能为空！", "list.aspx" + strUrlBack);
+        return;
+      }
+      ViewState["NameProduct"] = strProductName;
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      LoadDataQuery(intContractId, strProductName);
+    }
+
     public void LoadDataQuery(int intContractId, string strProductName)
     {
       DataTable objDT = BllInventoryRecord.getByQuery(intContractId, strProductName);
@@ -235,30 +269,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         dcmPriceTotalShow.ToString("C") + "</span>";
     }
 
-    // 导出Excel文件
-    protected void btnExportExcel_Click(object sender, EventArgs e)
-    {
-      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
-      string[] aryExcel = BllInventoryContract.setExcel(intContractId);
-      // 设置压缩文件的下载链接
-      hlDownloadExcel.NavigateUrl = HelperExcel.SetExcelZip(aryExcel);
-      hlDownloadExcel.Visible = true;
-    }
-
-    protected void btnQuery_Click(object sender, EventArgs e)
-    {
-      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
-      string strProductName = tbProductName.Value.Trim();
-      if ("".Equals(strProductName))
-      {
-        HelperUtility.showAlert("货品名称不能为空！", "list.aspx" + strUrlBack);
-        return;
-      }
-      ViewState["NameProduct"] = strProductName;
-      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
-      LoadDataQuery(intContractId, strProductName);
-    }
-
+    // 点击显示所有数据按钮
     protected void btnShowList_Click(object sender, EventArgs e)
     {
       string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
