@@ -40,7 +40,6 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         // 设置显示库存总金额的Label控件值，以货币形式显示 2.5.ToString("C")
         decimal dcmPriceTotalStock = BllInventoryRecord.getPriceTotalStock(intContractId);
         lblPriceTotalStock.Text = dcmPriceTotalStock.ToString("C");
-
         // 判断是否显示修改数列
         if (Session["Purviews"].ToString().Contains("SUPERADMIN"))
         {
@@ -101,7 +100,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       if ("".Equals(tbInventoryAmountReal.Text)) tbInventoryAmountReal.Text = "0";
       decimal dcmInventoryAmountReal = Convert.ToDecimal(tbInventoryAmountReal.Text);
       // 只有盘点数大于0的时候才去更新货品的盘点数和修改数
-      if (dcmInventoryAmountReal > 0)
+      if (dcmInventoryAmountReal >= 0)
       {
         // 更新盘点表里的盘点数，同时更新盘点表里的修改数也是盘点数
         BllInventoryRecord.updateRealById(dcmInventoryAmountReal, intId);
@@ -116,7 +115,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       if ("".Equals(tbInventoryAmountShow.Text)) tbInventoryAmountShow.Text = "0";
       decimal dcmInventoryAmountShow = Convert.ToDecimal(tbInventoryAmountShow.Text);
       // 只有修改数大于0的时候才去更新货品的盘点数和修改数
-      if (dcmInventoryAmountShow > 0)
+      if (dcmInventoryAmountShow >= 0)
       {
         // 更新盘点表里的修改数，但是不更新盘点表里的盘点数
         BllInventoryRecord.updateShowById(dcmInventoryAmountShow, intId);
@@ -164,64 +163,74 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       LoadDataPage();
     }
 
+    // 读取所有的数据并分页
     public void LoadDataPage()
     {
       int intContractId = Convert.ToInt32(ViewState["ContractId"]);
-      DataTable objDT;
-      if ("".Equals(lblCurentPage.Text.Trim())) lblCurentPage.Text = "1";
-      intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
-      if (intCurrentPage <= 0) intCurrentPage = 1;
-      // 得到总记录数
-      intRecordCount = BllInventoryRecord.getRecordsAmount(intContractId);
-      // 计算总页数
-      intPageCount = (intRecordCount + intPageSize - 1) / intPageSize;
-      if (intCurrentPage > intPageCount) intCurrentPage = intPageCount;
-      lblPageCount.Text = intPageCount.ToString();
-      // 根据当前页获取当前页的分页记录DataTable
-      if (intRecordCount > 0)
-        objDT = BllInventoryRecord.getPage(intContractId, intCurrentPage, intPageSize);
+      string strProductName = Convert.ToString(ViewState["NameProduct"]);
+      if (!"".Equals(strProductName))
+      {
+        // 如果关键字词不为空，说明是根据关键字词查询得到的数据
+        LoadDataQuery(intContractId, strProductName);
+      }
       else
       {
-        lblCurentPage.Text = "1";
-        objDT = null;
-      }
-      if (objDT != null && objDT.Rows.Count > 0)
-      {
-        lbtnFirst.Enabled = true;
-        lbtnPrev.Enabled = true;
-        lbtnNext.Enabled = true;
-        lbtnLast.Enabled = true;
-        if (intCurrentPage == 1)
+        DataTable objDT;
+        if ("".Equals(lblCurentPage.Text.Trim())) lblCurentPage.Text = "1";
+        intCurrentPage = Convert.ToInt32(lblCurentPage.Text.Trim());
+        if (intCurrentPage <= 0) intCurrentPage = 1;
+        // 得到总记录数
+        intRecordCount = BllInventoryRecord.getRecordsAmount(intContractId);
+        // 计算总页数
+        intPageCount = (intRecordCount + intPageSize - 1) / intPageSize;
+        if (intCurrentPage > intPageCount) intCurrentPage = intPageCount;
+        lblPageCount.Text = intPageCount.ToString();
+        // 根据当前页获取当前页的分页记录DataTable
+        if (intRecordCount > 0)
+          objDT = BllInventoryRecord.getPage(intContractId, intCurrentPage, intPageSize);
+        else
+        {
+          lblCurentPage.Text = "1";
+          objDT = null;
+        }
+        if (objDT != null && objDT.Rows.Count > 0)
+        {
+          lbtnFirst.Enabled = true;
+          lbtnPrev.Enabled = true;
+          lbtnNext.Enabled = true;
+          lbtnLast.Enabled = true;
+          if (intCurrentPage == 1)
+          {
+            lbtnFirst.Enabled = false;
+            lbtnPrev.Enabled = false;
+          }
+          if (intCurrentPage == intPageCount)
+          {
+            lbtnNext.Enabled = false;
+            lbtnLast.Enabled = false;
+          }
+        }
+        else
         {
           lbtnFirst.Enabled = false;
           lbtnPrev.Enabled = false;
-        }
-        if (intCurrentPage == intPageCount)
-        {
           lbtnNext.Enabled = false;
           lbtnLast.Enabled = false;
         }
+        gvShow.DataSource = objDT;
+        gvShow.DataBind();
+        lblRecordCount.Text = intRecordCount.ToString();
+        lblCurentPage.Text = intCurrentPage.ToString();
+        tbPageNum.Text = intCurrentPage.ToString();
+        ViewState["page"] = intCurrentPage;
+        // 设置显示盘点总金额的Label控件值，以货币形式显示 2.5.ToString("C")
+        decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
+        decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
+        decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
+        lblPriceTotalInventoryReal.Text = dcmPriceTotalReal.ToString("C");
+        lblPriceTotalInventoryShow.Text = "修改：<span class='red'>" +
+          dcmPriceTotalShow.ToString("C") + "</span>";
       }
-      else
-      {
-        lbtnFirst.Enabled = false;
-        lbtnPrev.Enabled = false;
-        lbtnNext.Enabled = false;
-        lbtnLast.Enabled = false;
-      }
-      gvShow.DataSource = objDT;
-      gvShow.DataBind();
-      lblRecordCount.Text = intRecordCount.ToString();
-      lblCurentPage.Text = intCurrentPage.ToString();
-      tbPageNum.Text = intCurrentPage.ToString();
-      ViewState["page"] = intCurrentPage;
-      // 设置显示盘点总金额的Label控件值，以货币形式显示 2.5.ToString("C")
-      decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
-      decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
-      decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
-      lblPriceTotalInventoryReal.Text = dcmPriceTotalReal.ToString("C");
-      lblPriceTotalInventoryShow.Text = "修改：<span class='red'>" +
-        dcmPriceTotalShow.ToString("C") + "</span>";
     }
 
     // 导出Excel文件
@@ -276,6 +285,13 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       Response.Redirect("list.aspx" + strUrlBack);
     }
 
-  }
+    protected void btnClearZero_Click(object sender, EventArgs e)
+    {
+      int intContractId = Convert.ToInt32(ViewState["ContractId"]);
+      BllInventoryRecord.clearZero(intContractId);
+      string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
+      Response.Redirect("list.aspx" + strUrlBack);
+    }
 
+  }
 }

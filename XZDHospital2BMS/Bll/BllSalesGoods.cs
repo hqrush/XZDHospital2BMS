@@ -38,6 +38,11 @@ namespace Bll
       return DalSalesGoods.updateAmountStock(dcmAmountOut, intId);
     }
 
+    public static int clearAmountStock(int intId)
+    {
+      return DalSalesGoods.clearAmountStock(intId);
+    }
+
     public static int updateAmountStockByInventory(decimal dcmAmountInventoryShow, int intId)
     {
       return DalSalesGoods.updateAmountStockByInventory(dcmAmountInventoryShow, intId);

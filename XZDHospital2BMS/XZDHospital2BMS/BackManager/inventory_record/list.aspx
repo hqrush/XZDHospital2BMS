@@ -35,6 +35,9 @@
                 CssClass="btn btn-xs btn-info" OnClick="btnExportExcel_Click" />
               <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"
                 CssClass="btn btn-xs btn-info" Visible="false" />
+              <asp:Button runat="server" ID="btnClearZero" Text="将所有库存清零"
+                CssClass="btn btn-xs btn-info" OnClick="btnClearZero_Click"
+                OnClientClick="return confirm('将次盘点单下所有库存清零，确定要执行此操作？');" />
             </div>
 
             <div class="wrapper-query col-sm-8">

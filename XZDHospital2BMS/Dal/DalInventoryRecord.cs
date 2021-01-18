@@ -303,7 +303,11 @@ WHERE record.id_contract = @id_contract";
       return aryReturn;
     }
 
-    // 新建某盘点单时，将所有库存量大于0的货品加到盘点货品表里，盘点数默认为0
+    /// <summary>
+    /// 新建某盘点单时，将所有库存量大于0的货品加到盘点货品表里，盘点数默认为0
+    /// 然后根据要求，又将所有库存量全部清0
+    /// </summary>
+    /// <param name="intContractId">盘点单id</param>
     public static void setRecord(int intContractId)
     {
       int intGoodsId;
@@ -330,7 +334,35 @@ ORDER BY time_add DESC
           model.amount_real = 0;
           model.amount_show = 0;
           add(model);
+          DalSalesGoods.clearAmountStock(intGoodsId);
         }
+      }
+    }
+
+    /// <summary>
+    /// 将某盘点单中所有货品的库存量全部清0
+    /// </summary>
+    /// <param name="intContractId">盘点单id</param>
+    public static void clearZero(int intContractId)
+    {
+      int intGoodsId;
+      // 找出所有在此盘点单中的货品
+      string strSQL = @"
+SELECT goods.id, goods.amount_stock
+FROM sales_goods goods
+LEFT JOIN inventory_record inventory
+ON inventory.id_goods = goods.id
+WHERE inventory.id_contract = @id_contract
+";
+      MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      if (objDT == null || objDT.Rows.Count <= 0) return;
+      for (int i = 0; i < objDT.Rows.Count; i++)
+      {
+        intGoodsId = Convert.ToInt32(objDT.Rows[i]["id"]);
+        // 执行清零操作
+        DalSalesGoods.clearAmountStock(intGoodsId);
       }
     }
 

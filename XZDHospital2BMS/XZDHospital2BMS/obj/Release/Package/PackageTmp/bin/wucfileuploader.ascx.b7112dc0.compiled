@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/WUCFileUploader.ascx" hash="fffffffb856575dd" filehash="440e998c7192" flags="110000" assembly="App_Web_nbcrmt4g" type="ASP.backmanager_wucfileuploader_ascx">
+<preserve resultType="3" virtualPath="/BackManager/WUCFileUploader.ascx" hash="fffffffb856575dd" filehash="440e998c7192" flags="110000" assembly="App_Web_xclaojz0" type="ASP.backmanager_wucfileuploader_ascx">
     <filedeps>
         <filedep name="/BackManager/WUCFileUploader.ascx" />
     </filedeps>
