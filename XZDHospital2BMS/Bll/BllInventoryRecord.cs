@@ -72,6 +72,11 @@ namespace Bll
       DalInventoryRecord.setRecord(intContractId);
     }
 
+    public static bool isRecordAdded(int intContractId, int intGoodsId)
+    {
+      return DalInventoryRecord.isRecordAdded(intContractId, intGoodsId);
+    }
+
     public static void clearZero(int intContractId)
     {
       DalInventoryRecord.clearZero(intContractId);

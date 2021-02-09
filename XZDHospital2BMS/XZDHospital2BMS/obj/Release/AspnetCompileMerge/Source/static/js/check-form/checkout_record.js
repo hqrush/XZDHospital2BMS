@@ -10,6 +10,7 @@ function checkNotNull() {
 
 // 添加到出库清单的ajax操作
 function addGoods(intCheckoutContractId, intGoodsId, lblInventory, lblAmountStock, tbAmount) {
+  // 1、先从盘点数、库存数、提货数3个控件得到相应值
   // Label控件转成span标签，取值不是用val()，而是用text()
   // 得到实际库存值
   var v = $("#" + lblInventory + "").text().replace(/,/g, '');
@@ -17,13 +18,14 @@ function addGoods(intCheckoutContractId, intGoodsId, lblInventory, lblAmountStoc
   // 得到盘后库存值
   var v1 = $("#" + lblAmountStock + "").text().replace(/,/g, '');
   var dcmAmountStock = parseFloat(v1);
+  // 得到提货数
   var dcmAmount = parseFloat($("#" + tbAmount + "").val());
-  if (!(dcmAmount > 0)) {
+  if (dcmAmount < 0) {
     alert("提货数必须大于0！");
     return false;
   }
-  if (dcmAmount > dcmInventory) {
-    alert("库存不足，提货数不能大于库存！");
+  if (dcmAmount >= dcmInventory) {
+    alert("库存不足，库存数不能小于提货数！");
     return false;
   }
   var formData = new FormData();

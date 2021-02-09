@@ -64,6 +64,17 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
         else
           HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
       }
+      else if (e.CommandName == "AddGoods")
+      {
+        if (HelperUtility.hasPurviewOP("InventoryRecord_add"))
+        {
+          // 跳到添加货品清单页面，传过去合同cid和合同分页的页面值以便添加完成后返回此页
+          strUrl = "../inventory_record/add.aspx?cid=" + intId.ToString() + "&cpage=" + ViewState["page"];
+          Response.Redirect(strUrl);
+        }
+        else
+          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
+      }
       LoadDataPage();
     }
 

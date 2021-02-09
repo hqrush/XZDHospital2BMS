@@ -1,12 +1,8 @@
 ﻿using Bll;
 using Helper;
+using Model;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace XZDHospital2BMS.BackManager.inventory_record
@@ -25,7 +21,6 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         ViewState["ContractId"] = intCId;
         int intCPage = HelperUtility.getQueryInt("cpage");
         ViewState["ContractPage"] = intCPage;
-
         pnlInfo.Visible = false;
         gvShow.Visible = false;
       }
@@ -47,7 +42,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       LoadData();
     }
 
-    protected void btnShowList_Click(object sender, EventArgs e)
+    protected void btnShowListAll_Click(object sender, EventArgs e)
     {
       string strUrlBack = "?cid=" + ViewState["ContractId"] + "&cpage=" + ViewState["ContractPage"];
       Response.Redirect("list.aspx" + strUrlBack);
@@ -60,8 +55,16 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         e.Row.Attributes.Add("onmouseover", "c=this.style.backgroundColor;this.style.backgroundColor='#e1f2e9'");
         e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=c");
 
+        int intContractId = Convert.ToInt32(ViewState["ContractId"]);
         Label lblGoodsId = (Label)e.Row.FindControl("lblGoodsId");
         int intGoodsId = Convert.ToInt32(lblGoodsId.Text);
+        if (BllInventoryRecord.isRecordAdded(intContractId, intGoodsId))
+        {
+          Button btnAddGoods = (Button)e.Row.FindControl("btnAddGoods");
+          btnAddGoods.Text = "已添加";
+          btnAddGoods.Enabled = false;
+          return;
+        }
         HyperLink hlProductName = (HyperLink)e.Row.FindControl("hlProductName");
         hlProductName.NavigateUrl = "/BackManager/sales_goods/show.aspx?id=" + intGoodsId;
         // 显示入库量、出库量、库存量要用到的Label控件
@@ -78,25 +81,24 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       }
     }
 
-    protected void gvShow_RowEditing(object sender, GridViewEditEventArgs e)
+    public void OP_Command(object sender, CommandEventArgs e)
     {
-      gvShow.EditIndex = e.NewEditIndex;
-      LoadData();
-    }
-
-    protected void gvShow_RowUpdating(object sender, GridViewUpdateEventArgs e)
-    {
-      string strId = gvShow.DataKeys[e.RowIndex].Values[0].ToString();
-      TextBox tbInventoryAmount = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmount");
-      if ("".Equals(tbInventoryAmount.Text)) tbInventoryAmount.Text = "0";
-      decimal dcmInventoryAmount = Convert.ToDecimal(tbInventoryAmount.Text);
-      gvShow.EditIndex = -1;
-      LoadData();
-    }
-
-    protected void gvShow_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-    {
-      gvShow.EditIndex = -1;
+      int intIdGoods = Convert.ToInt32(e.CommandArgument);
+      int intIdContract = Convert.ToInt32(ViewState["ContractId"]);
+      string strUrl;
+      if (e.CommandName == "AddGoods")
+      {
+        if (!HelperUtility.hasPurviewOP("InventoryContract_update"))
+        {
+          HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
+        }
+        ModelInventoryRecord model = new ModelInventoryRecord();
+        model.id_contract = intIdContract;
+        model.id_goods = intIdGoods;
+        model.amount_real = 0;
+        model.amount_show = 0;
+        BllInventoryRecord.add(model);
+      }
       LoadData();
     }
 

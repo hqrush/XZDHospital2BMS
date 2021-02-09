@@ -339,6 +339,22 @@ ORDER BY time_add DESC
       }
     }
 
+    // 手动添加盘点货品时，根据货品名称或者货品生产厂家查找货品时，要先判断此货品是否已经在盘点单中
+    public static bool isRecordAdded(int intContractId, int intGoodsId)
+    {
+      string strSQL = @"
+SELECT id
+FROM inventory_record
+WHERE id_contract = @id_contract
+AND id_goods = @id_goods
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
+      aryParams[1] = new MySqlParameter("@id_goods", intGoodsId);
+      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
+      return (objDT != null && objDT.Rows.Count > 0);
+    }
+
     /// <summary>
     /// 将某盘点单中所有货品的库存量全部清0
     /// </summary>

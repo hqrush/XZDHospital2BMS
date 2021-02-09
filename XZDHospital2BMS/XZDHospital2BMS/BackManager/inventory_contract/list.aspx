@@ -90,8 +90,8 @@
                   <ItemTemplate>
                     <asp:Button runat="server" ID="btnGoodsList" CssClass="btn btn-info btn-xs" Text="查看"
                       OnCommand="OP_Command" CommandName="ShowGoodsList" CommandArgument='<%# Eval("id") %>' />
-                    <%--<asp:Button runat="server" ID="btnGoodsAdd" CssClass="btn btn-info btn-xs" Text="添加"
-                      OnCommand="OP_Command" CommandName="AddGoods" CommandArgument='<%# Eval("id") %>' />--%>
+                    <asp:Button runat="server" ID="btnGoodsAdd" CssClass="btn btn-info btn-xs" Text="添加"
+                      OnCommand="OP_Command" CommandName="AddGoods" CommandArgument='<%# Eval("id") %>' />
                   </ItemTemplate>
                 </asp:TemplateField>
 

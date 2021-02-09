@@ -101,6 +101,11 @@ namespace Helper
       return intAdminId;
     }
 
+    /// <summary>
+    /// 显示一个警告框，点击确定后跳转到指定url
+    /// </summary>
+    /// <param name="strMsg"></param>
+    /// <param name="strUrl"></param>
     public static void showAlert(string strMsg, string strUrl)
     {
       string strScript = "<script>";
