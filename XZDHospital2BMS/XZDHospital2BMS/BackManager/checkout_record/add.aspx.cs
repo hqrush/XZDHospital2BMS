@@ -38,6 +38,8 @@ namespace XZDHospital2BMS.BackManager.checkout_record
         HelperUtility.showAlert("货品名称和厂家名称不能都为空！", "add.aspx" + strUrlBack);
         return;
       }
+      ViewState["NameProduct"] = strNameProduct;
+      ViewState["NameFactory"] = strNameFactory;
       LoadData(strNameProduct, strNameFactory);
     }
 

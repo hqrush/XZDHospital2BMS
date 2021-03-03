@@ -124,17 +124,28 @@
                       </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="出库量">
+                    <asp:TemplateField HeaderText="计算库存">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblAmountOut" Text="0" />
+                        <asp:Label runat="server" ID="lblAmountReal" Text="0" />
                       </ItemTemplate>
                     </asp:TemplateField>
 
-                    <asp:TemplateField HeaderText="库存量">
+                    <asp:TemplateField HeaderText="实时库存">
                       <ItemStyle Width="70px" />
                       <ItemTemplate>
-                        <asp:Label runat="server" ID="lblStock" Text="0" />
+                        <asp:Label runat="server" ID="lblAmountStock"
+                          Text='<%# Eval("amount_stock", "{0:f2}") %>' />
+                      </ItemTemplate>
+                    </asp:TemplateField>
+
+                    <asp:TemplateField HeaderText="盘点库存">
+                      <ItemStyle Width="70px" />
+                      <ItemTemplate>
+                        <asp:TextBox runat="server" ID="tbAmountFill" Text="0"
+                          onkeyup="if(isNaN(value))execCommand('undo')"
+                          onafterpaste="if(isNaN(value))execCommand('undo')"
+                          CssClass="form-control" Width="80" MaxLength="12" />
                       </ItemTemplate>
                     </asp:TemplateField>
 

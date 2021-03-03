@@ -24,7 +24,7 @@ function addGoods(intCheckoutContractId, intGoodsId, lblInventory, lblAmountStoc
     alert("提货数必须大于0！");
     return false;
   }
-  if (dcmAmount >= dcmInventory) {
+  if (dcmAmount >= dcmAmountStock) {
     alert("库存不足，库存数不能小于提货数！");
     return false;
   }

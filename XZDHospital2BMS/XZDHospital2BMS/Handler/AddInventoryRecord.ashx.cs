@@ -2,8 +2,6 @@
 using Helper;
 using Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 
 namespace XZDHospital2BMS.Handler
@@ -46,7 +44,8 @@ namespace XZDHospital2BMS.Handler
       model.id_contract = intCheckoutContractId;
       model.id_goods = intGoodsId;
       model.amount_real = dcmAmount;
-      model.amount_show = dcmAmount;
+      model.amount_stock = dcmAmount;
+      model.amount_fill = dcmAmount;
       int intId = BllInventoryRecord.add(model);
       if (intId > 0)
       {

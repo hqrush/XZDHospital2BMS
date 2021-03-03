@@ -58,18 +58,10 @@ namespace XZDHospital2BMS.BackManager.inventory_contract
       model.time_start = Convert.ToDateTime(strTimeStart);
       model.time_end = Convert.ToDateTime(strTimeEnd);
       int intContractId = BllInventoryContract.add(model);
-      if (intContractId > 0)
-      {
-        // 盘点单表添加完成后，在盘点物品表里添加所有库存量大于0的货品记录
-        BllInventoryRecord.setRecord(intContractId);
-        string strUrl = "list.aspx";
-        HelperUtility.showAlert("添加成功！", strUrl);
-      }
-      else
-      {
-        string strUrl = "add.aspx";
-        HelperUtility.showAlert("添加失败，请联系管理员！", strUrl);
-      }
+      if (intContractId <= 0) HelperUtility.showAlert("添加失败，请联系管理员！", "add.aspx");
+      // 盘点单表添加完成后，在盘点物品表里添加所有库存量大于0的货品记录
+      BllInventoryRecord.setInventoryRecord(intContractId);
+      HelperUtility.showAlert("添加成功！", "list.aspx");
     }
 
   }

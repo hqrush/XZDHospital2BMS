@@ -67,17 +67,15 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         }
         HyperLink hlProductName = (HyperLink)e.Row.FindControl("hlProductName");
         hlProductName.NavigateUrl = "/BackManager/sales_goods/show.aspx?id=" + intGoodsId;
-        // 显示入库量、出库量、库存量要用到的Label控件
+        // 显示入库量、计算库存、实时库存要用到的Label控件
         Label lblAmountIn = (Label)e.Row.FindControl("lblAmountIn");
-        Label lblAmountOut = (Label)e.Row.FindControl("lblAmountOut");
-        Label lblStock = (Label)e.Row.FindControl("lblStock");
+        Label lblAmountReal = (Label)e.Row.FindControl("lblAmountReal");
         // 得到入库的货品总量
         decimal intIn = Convert.ToDecimal(lblAmountIn.Text);
-        // 得到出库的货品总量
+        // 得到实际出库的货品总量
         decimal intOut = BllCheckoutRecord.getAmountByGoodsId(intGoodsId);
-        lblAmountOut.Text = intOut.ToString("N");
-        // 计算并显示库存量
-        lblStock.Text = (intIn - intOut).ToString("N");
+        // 显示计算库存量
+        lblAmountReal.Text = (intIn - intOut).ToString("N");
       }
     }
 
@@ -92,11 +90,19 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         {
           HelperUtility.showAlert("没有操作权限", "list.aspx?page=" + ViewState["page"]);
         }
+        int rowIndex = ((GridViewRow)((Button)sender).NamingContainer).RowIndex;
+        GridViewRow row = gvShow.Rows[rowIndex];
+        TextBox tbAmountFill = (TextBox)row.FindControl("tbAmountFill");
+        if (tbAmountFill is null) return;
+        Label lblAmountReal = (Label)row.FindControl("lblAmountReal");
+        Label lblAmountStock = (Label)row.FindControl("lblAmountStock");
+
         ModelInventoryRecord model = new ModelInventoryRecord();
         model.id_contract = intIdContract;
         model.id_goods = intIdGoods;
-        model.amount_real = 0;
-        model.amount_show = 0;
+        model.amount_real = Convert.ToDecimal(lblAmountReal.Text);
+        model.amount_stock = Convert.ToDecimal(lblAmountStock.Text);
+        model.amount_fill = Convert.ToDecimal(tbAmountFill.Text);
         BllInventoryRecord.add(model);
       }
       LoadData();
@@ -106,7 +112,7 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     {
       string strNameProduct = ViewState["NameProduct"].ToString();
       string strNameFactory = ViewState["NameFactory"].ToString();
-      DataTable objDT = BllSalesGoods.getInventoryDTByName(strNameProduct, strNameFactory);
+      DataTable objDT = BllSalesGoods.getDTByName(strNameProduct, strNameFactory);
       if (objDT == null || objDT.Rows.Count <= 0)
       {
         pnlInfo.Visible = true;

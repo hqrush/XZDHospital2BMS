@@ -38,19 +38,10 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         hlBackContract.NavigateUrl = "../inventory_contract/list.aspx?page=" + ViewState["ContractPage"];
         // hlAddNew.NavigateUrl = "add.aspx?cid=" + intContractId;
         // 设置显示库存总金额的Label控件值，以货币形式显示 2.5.ToString("C")
-        decimal dcmPriceTotalStock = BllInventoryRecord.getPriceTotalStock(intContractId);
-        lblPriceTotalStock.Text = dcmPriceTotalStock.ToString("C");
-        // 判断是否显示修改数列
-        if (Session["Purviews"].ToString().Contains("SUPERADMIN"))
-        {
-          gvShow.Columns[9].Visible = true;
-          lblPriceTotalInventoryShow.Visible = true;
-        }
-        else
-        {
-          gvShow.Columns[9].Visible = false;
-          lblPriceTotalInventoryShow.Visible = false;
-        }
+        decimal[] aryPriceTotal = BllInventoryRecord.getPriceTotalInventory(intContractId);
+        lblPriceTotalReal.Text = aryPriceTotal[0].ToString("C");
+        lblPriceTotalStock.Text = aryPriceTotal[1].ToString("C");
+        lblPriceTotalFill.Text = aryPriceTotal[2].ToString("C");
       }
     }
 
@@ -95,32 +86,17 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       if (lblGoodsId != null) intGoodsId = Convert.ToInt32(lblGoodsId.Text);
       else intGoodsId = 0;
       // 更新盘点数
-      TextBox tbInventoryAmountReal = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountReal");
-      if (null == tbInventoryAmountReal) return;
-      if ("".Equals(tbInventoryAmountReal.Text)) tbInventoryAmountReal.Text = "0";
-      decimal dcmInventoryAmountReal = Convert.ToDecimal(tbInventoryAmountReal.Text);
-      // 只有盘点数大于0的时候才去更新货品的盘点数和修改数
-      if (dcmInventoryAmountReal >= 0)
+      TextBox tbInventoryAmountFill = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountFill");
+      if (null == tbInventoryAmountFill) return;
+      if ("".Equals(tbInventoryAmountFill.Text)) tbInventoryAmountFill.Text = "0";
+      decimal dcmInventoryAmountFill = Convert.ToDecimal(tbInventoryAmountFill.Text);
+      // 只有盘点数大于0的时候才去更新货品的盘点数
+      if (dcmInventoryAmountFill >= 0)
       {
-        // 更新盘点表里的盘点数，同时更新盘点表里的修改数也是盘点数
-        BllInventoryRecord.updateRealById(dcmInventoryAmountReal, intId);
-        // 是否要同时更新库存量？这里有疑问，暂时不更新库存量
-        // 因为库存量是实时计算的，是真实的反映，但老敏建议，还是同时修改库存量，因为添加出货时显示的是库存量
-        // 更新货品的库存量为盘点量
-        BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountReal, intGoodsId);
-      }
-      // 更新盘点修改数
-      TextBox tbInventoryAmountShow = (TextBox)gvShow.Rows[e.RowIndex].FindControl("tbInventoryAmountShow");
-      if (null == tbInventoryAmountShow) return;
-      if ("".Equals(tbInventoryAmountShow.Text)) tbInventoryAmountShow.Text = "0";
-      decimal dcmInventoryAmountShow = Convert.ToDecimal(tbInventoryAmountShow.Text);
-      // 只有修改数大于0的时候才去更新货品的盘点数和修改数
-      if (dcmInventoryAmountShow >= 0)
-      {
-        // 更新盘点表里的修改数，但是不更新盘点表里的盘点数
-        BllInventoryRecord.updateShowById(dcmInventoryAmountShow, intId);
-        // 这里不用修改量更新货品的库存量字段值
-        // BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountShow, intGoodsId);
+        // 更新盘点表里的盘点数
+        BllInventoryRecord.updateFillById(dcmInventoryAmountFill, intId);
+        // 同时更新货品的库存量为盘点量
+        BllSalesGoods.updateAmountStockByInventory(dcmInventoryAmountFill, intGoodsId);
       }
       gvShow.EditIndex = -1;
       LoadDataPage();
@@ -224,12 +200,10 @@ namespace XZDHospital2BMS.BackManager.inventory_record
         tbPageNum.Text = intCurrentPage.ToString();
         ViewState["page"] = intCurrentPage;
         // 设置显示盘点总金额的Label控件值，以货币形式显示 2.5.ToString("C")
-        decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
-        decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
-        decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
-        lblPriceTotalInventoryReal.Text = dcmPriceTotalReal.ToString("C");
-        lblPriceTotalInventoryShow.Text = "修改：<span class='red'>" +
-          dcmPriceTotalShow.ToString("C") + "</span>";
+        decimal[] aryPriceTotal = BllInventoryRecord.getPriceTotalInventory(intContractId);
+        lblPriceTotalReal.Text = aryPriceTotal[0].ToString("C");
+        lblPriceTotalStock.Text = aryPriceTotal[1].ToString("C");
+        lblPriceTotalFill.Text = aryPriceTotal[2].ToString("C");
       }
     }
 
@@ -270,12 +244,10 @@ namespace XZDHospital2BMS.BackManager.inventory_record
       ViewState["page"] = "1";
       lblCurentPage.Text = "1";
       // 设置显示盘点总金额的Label控件值，以货币形式显示 2.5.ToString("C")
-      decimal[] aryPriceTotalInventory = BllInventoryRecord.getPriceTotalInventory(intContractId);
-      decimal dcmPriceTotalReal = aryPriceTotalInventory[0];
-      decimal dcmPriceTotalShow = aryPriceTotalInventory[1];
-      lblPriceTotalInventoryReal.Text = dcmPriceTotalReal.ToString("C");
-      lblPriceTotalInventoryShow.Text = "修改：<span class='red'>" +
-        dcmPriceTotalShow.ToString("C") + "</span>";
+      decimal[] aryPriceTotal = BllInventoryRecord.getPriceTotalInventory(intContractId);
+      lblPriceTotalReal.Text = aryPriceTotal[0].ToString("C");
+      lblPriceTotalStock.Text = aryPriceTotal[1].ToString("C");
+      lblPriceTotalFill.Text = aryPriceTotal[2].ToString("C");
     }
 
     // 点击显示所有数据按钮

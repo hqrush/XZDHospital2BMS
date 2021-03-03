@@ -11,7 +11,8 @@ namespace Model
     private int _id_contract = 0;
     private int _id_goods = 0;
     private decimal _amount_real = 0;
-    private decimal _amount_show = 0;
+    private decimal _amount_stock = 0;
+    private decimal _amount_fill = 0;
 
     public ModelInventoryRecord() { }
 
@@ -63,15 +64,27 @@ namespace Model
       }
     }
 
-    public decimal amount_show
+    public decimal amount_stock
     {
       get
       {
-        return _amount_show;
+        return _amount_stock;
       }
       set
       {
-        _amount_show = value;
+        _amount_stock = value;
+      }
+    }
+
+    public decimal amount_fill
+    {
+      get
+      {
+        return _amount_fill;
+      }
+      set
+      {
+        _amount_fill = value;
       }
     }
 

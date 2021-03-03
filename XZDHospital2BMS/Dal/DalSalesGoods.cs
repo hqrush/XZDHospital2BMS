@@ -143,6 +143,11 @@ WHERE
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    /// <summary>
+    /// 设置货品的所属入库单
+    /// </summary>
+    /// <param name="intId"></param>
+    /// <param name="intContractId"></param>
     public static void updateContractId(int intId, int intContractId)
     {
       string strSQL = @"
@@ -158,7 +163,13 @@ WHERE
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
-    public static int updateAmountStock(decimal dcmAmountOut, int intId)
+    /// <summary>
+    /// 当某货品出库时，实时更新该货品的库存数，即已有库存数减去出库数
+    /// </summary>
+    /// <param name="dcmAmountOut">出库数</param>
+    /// <param name="intId">货品id</param>
+    /// <returns></returns>
+    public static int updateAmountStockByCheckOut(decimal dcmAmountOut, int intId)
     {
       string strSQL = @"
 UPDATE sales_goods
@@ -173,20 +184,31 @@ WHERE
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
+    /// <summary>
+    /// 将某货品的库存数清零
+    /// </summary>
+    /// <param name="intId">货品id</param>
+    /// <returns></returns>
     public static int clearAmountStock(int intId)
     {
       string strSQL = @"
 UPDATE sales_goods
-SET
-  amount_stock = 0
-WHERE
-  id = @id
+SET amount_stock = 0
+WHERE id = @id
 ";
       MySqlParameter[] aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       return HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
-
+    
+    /// <summary>
+    /// 盘点时，将某货品的库存数设置为盘点数
+    /// 本来货品的库存数是实时计算的，但是由于各种原因，库存数和盘点数对不上
+    /// 因此根据老敏要求，盘点时直接将库存数修改为盘点数
+    /// </summary>
+    /// <param name="dcmAmountInventoryShow"></param>
+    /// <param name="intId"></param>
+    /// <returns></returns>
     public static int updateAmountStockByInventory(decimal dcmAmountInventoryShow, int intId)
     {
       string strSQL = @"
@@ -295,7 +317,7 @@ WHERE id_contract = @id_contract";
     }
 
     /// <summary>
-    /// 某出库单添加出库货品时，按名称搜索库存中货品
+    /// 某出库单添加出库货品或者某盘点单单独添加某货品时，按名称搜索库存中货品
     /// </summary>
     /// <param name="strProductName">货品名称关键字词</param>
     /// <param name="strFactoryName">货品厂商关键字词</param>
@@ -307,87 +329,37 @@ WHERE id_contract = @id_contract";
 SELECT
   goods.id,
   goods.id_contract,
-  contract.time_sign,
-  name_product,
-  name_factory,
-  type,
-  price_unit,
-  validity_period,
-  amount,
-  amount_stock
+  goods.name_product,
+  goods.name_factory,
+  goods.type,
+  goods.price_unit,
+  goods.validity_period,
+  goods.amount,
+  goods.amount_stock,
+  contract.time_sign
 FROM sales_goods goods
 INNER JOIN sales_contract contract
 ON
   goods.id_contract = contract.id
+WHERE
+  goods.amount_stock > 0 
 ";
       MySqlParameter[] aryParams;
       if (!"".Equals(strProductName) && "".Equals(strFactoryName))
       {
-        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%')";
+        strSqlWhere = " AND name_product LIKE CONCAT('%', @ProductName, '%')";
         aryParams = new MySqlParameter[1];
         aryParams[0] = new MySqlParameter("@ProductName", strProductName);
       }
       else if ("".Equals(strProductName) && !"".Equals(strFactoryName))
       {
-        strSqlWhere = " WHERE name_factory LIKE CONCAT('%', @FactoryName, '%')";
+        strSqlWhere = " AND name_factory LIKE CONCAT('%', @FactoryName, '%')";
         aryParams = new MySqlParameter[1];
         aryParams[0] = new MySqlParameter("@FactoryName", strFactoryName);
       }
       else if (!"".Equals(strProductName) && !"".Equals(strFactoryName))
       {
-        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%') AND " +
-            "name_factory LIKE CONCAT('%', @FactoryName, '%')";
-        aryParams = new MySqlParameter[2];
-        aryParams[0] = new MySqlParameter("@ProductName", strProductName);
-        aryParams[1] = new MySqlParameter("@FactoryName", strFactoryName);
-      }
-      else return null;
-      strSql = strSqlHead + strSqlWhere;
-      return HelperMySql.GetDataTable(strSql, aryParams);
-    }
-
-    /// <summary>
-    /// 查看某盘点单已添加的货品时，按名称搜索盘点单中货品
-    /// </summary>
-    /// <param name="strProductName">货品名称关键字词</param>
-    /// <param name="strFactoryName">货品厂商关键字词</param>
-    /// <returns>盘点单中货品列表返回给前台的DataList显示用</returns>
-    public static DataTable getInventoryDTByName(string strProductName, string strFactoryName)
-    {
-      string strSql, strSqlHead, strSqlWhere;
-      strSqlHead = @"
-SELECT
-  goods.id,
-  goods.id_contract,
-  contract.time_sign,
-  name_product,
-  name_factory,
-  type,
-  price_unit,
-  validity_period,
-  amount,
-  amount_stock
-FROM sales_goods goods
-INNER JOIN sales_contract contract
-ON
-  goods.id_contract = contract.id
-";
-      MySqlParameter[] aryParams;
-      if (!"".Equals(strProductName) && "".Equals(strFactoryName))
-      {
-        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%')";
-        aryParams = new MySqlParameter[1];
-        aryParams[0] = new MySqlParameter("@ProductName", strProductName);
-      }
-      else if ("".Equals(strProductName) && !"".Equals(strFactoryName))
-      {
-        strSqlWhere = " WHERE name_factory LIKE CONCAT('%', @FactoryName, '%')";
-        aryParams = new MySqlParameter[1];
-        aryParams[0] = new MySqlParameter("@FactoryName", strFactoryName);
-      }
-      else if (!"".Equals(strProductName) && !"".Equals(strFactoryName))
-      {
-        strSqlWhere = " WHERE name_product LIKE CONCAT('%', @ProductName, '%') AND " +
+        strSqlWhere = " AND name_product LIKE CONCAT('%', @ProductName, '%') AND " +
             "name_factory LIKE CONCAT('%', @FactoryName, '%')";
         aryParams = new MySqlParameter[2];
         aryParams[0] = new MySqlParameter("@ProductName", strProductName);

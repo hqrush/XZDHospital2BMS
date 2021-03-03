@@ -35,9 +35,9 @@
                 CssClass="btn btn-xs btn-info" OnClick="btnExportExcel_Click" />
               <asp:HyperLink runat="server" ID="hlDownloadExcel" Text="下载此Excel"
                 CssClass="btn btn-xs btn-info" Visible="false" />
-              <asp:Button runat="server" ID="btnClearZero" Text="将所有库存清零"
+              <asp:Button runat="server" ID="btnClearZero" Text="将所有库存清零" Visible="false"
                 CssClass="btn btn-xs btn-info" OnClick="btnClearZero_Click"
-                OnClientClick="return confirm('将次盘点单下所有库存清零，确定要执行此操作？');" />
+                OnClientClick="return confirm('将此盘点单下所有库存清零，确定要执行此操作？');" />
             </div>
 
             <div class="wrapper-query col-sm-8">
@@ -126,7 +126,15 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="库存">
+                <asp:TemplateField HeaderText="计算库存">
+                  <ItemStyle Width="80px" />
+                  <ItemTemplate>
+                    <asp:Label runat="server" ID="lblAmountReal"
+                      Text='<%# Eval("amount_real", "{0:f2}") %>' />
+                  </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="显示库存">
                   <ItemStyle Width="80px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAmountStock"
@@ -134,30 +142,15 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="盘点数">
+                <asp:TemplateField HeaderText="盘点库存">
                   <ItemStyle Width="80px" />
                   <ItemTemplate>
-                    <asp:Label runat="server" ID="lblAmountReal"
-                      Text='<%# Eval("amount_real", "{0:f2}") %>' />
+                    <asp:Label runat="server" ID="lblAmountFill"
+                      Text='<%# Eval("amount_fill", "{0:f2}") %>' />
                   </ItemTemplate>
                   <EditItemTemplate>
-                    <asp:TextBox runat="server" ID="tbInventoryAmountReal"
-                      Text='<%# Eval("amount_real", "{0:f2}") %>'
-                      onkeyup="if(isNaN(value))execCommand('undo')"
-                      onafterpaste="if(isNaN(value))execCommand('undo')"
-                      CssClass="form-control" Width="60" MaxLength="12" />
-                  </EditItemTemplate>
-                </asp:TemplateField>
-
-                <asp:TemplateField HeaderText="修改数">
-                  <ItemStyle Width="80px" />
-                  <ItemTemplate>
-                    <asp:Label runat="server" ID="lblAmountShow"
-                      Text='<%# Eval("amount_show", "{0:f2}") %>' />
-                  </ItemTemplate>
-                  <EditItemTemplate>
-                    <asp:TextBox runat="server" ID="tbInventoryAmountShow"
-                      Text='<%# Eval("amount_show", "{0:f2}") %>'
+                    <asp:TextBox runat="server" ID="tbInventoryAmountFill"
+                      Text='<%# Eval("amount_fill", "{0:f2}") %>'
                       onkeyup="if(isNaN(value))execCommand('undo')"
                       onafterpaste="if(isNaN(value))execCommand('undo')"
                       CssClass="form-control" Width="60" MaxLength="12" />
@@ -202,9 +195,9 @@
 
             <div class="wrapper-price col-sm-5">
               <p>
-                库存：<asp:Label runat="server" ID="lblPriceTotalStock" CssClass="red" />
-                盘点：<asp:Label runat="server" ID="lblPriceTotalInventoryReal" CssClass="red" />
-                <asp:Label runat="server" ID="lblPriceTotalInventoryShow" Visible="false" />
+                计算库存总价：<asp:Label runat="server" ID="lblPriceTotalReal" CssClass="red" />
+                实时库存总价：<asp:Label runat="server" ID="lblPriceTotalStock" CssClass="red" />
+                盘点库存总价：<asp:Label runat="server" ID="lblPriceTotalFill" CssClass="red" />
               </p>
             </div>
 

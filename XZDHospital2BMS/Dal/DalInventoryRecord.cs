@@ -16,18 +16,21 @@ INSERT INTO inventory_record (
   id_contract,
   id_goods,
   amount_real,
-  amount_show
+  amount_stock,
+  amount_fill
 ) VALUES (
   @id_contract,
   @id_goods,
   @amount_real,
-  @amount_show
+  @amount_stock,
+  @amount_fill
 )";
-      MySqlParameter[] aryParams = new MySqlParameter[4];
+      MySqlParameter[] aryParams = new MySqlParameter[5];
       aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
       aryParams[1] = new MySqlParameter("@id_goods", model.id_goods);
       aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
-      aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
+      aryParams[3] = new MySqlParameter("@amount_stock", model.amount_stock);
+      aryParams[4] = new MySqlParameter("@amount_fill", model.amount_fill);
       if (HelperMySql.ExecuteNonQuery(strSQL, aryParams) > 0)
       {
         strSQL = "SELECT MAX(id) FROM inventory_record";
@@ -53,27 +56,30 @@ SET
   id_contract = @id_contract,
   id_goods = @id_goods,
   amount_real = @amount_real,
-  amount_show = @amount_show
+  amount_stock = @amount_stock,
+  amount_fill = @amount_fill
 WHERE
   id = @id
 ";
-      MySqlParameter[] aryParams = new MySqlParameter[5];
+      MySqlParameter[] aryParams = new MySqlParameter[6];
       aryParams[0] = new MySqlParameter("@id_contract", model.id_contract);
       aryParams[1] = new MySqlParameter("@id_goods", model.id_goods);
       aryParams[2] = new MySqlParameter("@amount_real", model.amount_real);
-      aryParams[3] = new MySqlParameter("@amount_show", model.amount_show);
-      aryParams[4] = new MySqlParameter("@id", model.id);
+      aryParams[3] = new MySqlParameter("@amount_stock", model.amount_stock);
+      aryParams[4] = new MySqlParameter("@amount_fill", model.amount_fill);
+      aryParams[5] = new MySqlParameter("@id", model.id);
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
-    // 修改盘点记录的盘点数，修改真实记录时同时修改现实值
+    /// <summary>
+    /// 修改盘点记录的真实计算库存数
+    /// </summary>
     public static void updateRealById(decimal dcmAmountReal, int intId)
     {
       string strSQL = @"
 UPDATE inventory_record
 SET
-  amount_real = @amount_real,
-  amount_show = @amount_real
+  amount_real = @amount_real
 WHERE
   id = @id
 ";
@@ -83,17 +89,38 @@ WHERE
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
 
-    public static void updateShowById(decimal dcmAmountShow, int intId)
+    /// <summary>
+    /// 修改盘点记录的实时库存数
+    /// </summary>
+    public static void updateStockById(decimal dcmAmountStock, int intId)
     {
       string strSQL = @"
 UPDATE inventory_record
 SET
-  amount_show = @amount_show
+  amount_stock = @amount_stock
 WHERE
   id = @id
 ";
       MySqlParameter[] aryParams = new MySqlParameter[2];
-      aryParams[0] = new MySqlParameter("@amount_show", dcmAmountShow);
+      aryParams[0] = new MySqlParameter("@amount_stock", dcmAmountStock);
+      aryParams[1] = new MySqlParameter("@id", intId);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+    }
+
+    /// <summary>
+    /// 修改盘点记录的库存盘点数
+    /// </summary>
+    public static void updateFillById(decimal dcmAmountFill, int intId)
+    {
+      string strSQL = @"
+UPDATE inventory_record
+SET
+  amount_fill = @amount_fill
+WHERE
+  id = @id
+";
+      MySqlParameter[] aryParams = new MySqlParameter[2];
+      aryParams[0] = new MySqlParameter("@amount_fill", dcmAmountFill);
       aryParams[1] = new MySqlParameter("@id", intId);
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }
@@ -111,12 +138,18 @@ WHERE
         model.id_contract = Convert.ToInt32(objDT.Rows[0]["id_contract"]);
         model.id_goods = Convert.ToInt32(objDT.Rows[0]["id_goods"]);
         model.amount_real = Convert.ToDecimal(objDT.Rows[0]["amount_real"]);
-        model.amount_show = Convert.ToDecimal(objDT.Rows[0]["amount_show"]);
+        model.amount_stock = Convert.ToDecimal(objDT.Rows[0]["amount_stock"]);
+        model.amount_fill = Convert.ToDecimal(objDT.Rows[0]["amount_fill"]);
         return model;
       }
       else return null;
     }
 
+    /// <summary>
+    /// 得到某盘点单下所有盘点货品记录，用于生成excel表的数据
+    /// </summary>
+    /// <param name="intContractId"></param>
+    /// <returns></returns>
     public static DataTable getAll(int intContractId)
     {
       string strSQL = @"
@@ -124,7 +157,8 @@ SELECT
   record.id,
   record.id_goods,
   record.amount_real,
-  record.amount_show,
+  record.amount_stock,
+  record.amount_fill,
   contract.time_sign,
   goods.name_product,
   goods.name_factory,
@@ -156,7 +190,8 @@ SELECT
   record.id,
   record.id_goods,
   record.amount_real,
-  record.amount_show,
+  record.amount_stock,
+  record.amount_fill,
   contract.time_sign,
   goods.name_product,
   goods.name_factory,
@@ -207,7 +242,8 @@ SELECT
   record.id,
   record.id_goods,
   record.amount_real,
-  record.amount_show,
+  record.amount_stock,
+  record.amount_fill,
   contract.time_sign,
   goods.name_product,
   goods.name_factory,
@@ -233,49 +269,18 @@ ORDER BY contract.time_sign ASC, goods.name_product ASC
     }
 
     /// <summary>
-    /// 得到某个盘点单下所有货品的库存总价
-    /// </summary>
-    /// <param name="intContractId">盘点单id</param>
-    /// <returns>某个盘点单下所有货品的库存总价</returns>
-    public static decimal getPriceTotalStock(int intContractId)
-    {
-      string strSQL = @"
-SELECT
-  goods.price_unit,
-  goods.amount_stock
-FROM inventory_record record
-INNER JOIN sales_goods goods
-ON record.id_goods = goods.id
-WHERE record.id_contract = @id_contract";
-      MySqlParameter[] aryParams = new MySqlParameter[1];
-      aryParams[0] = new MySqlParameter("@id_contract", intContractId);
-      DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
-      if (objDT == null || objDT.Rows.Count <= 0) return 0;
-
-      decimal dcmPriceUnit;
-      decimal dcmAmountStock;
-      decimal dcmPriceTotal = 0;
-      for (int i = 0; i < objDT.Rows.Count; i++)
-      {
-        dcmPriceUnit = Convert.ToDecimal(objDT.Rows[i]["price_unit"]);
-        dcmAmountStock = Convert.ToDecimal(objDT.Rows[i]["amount_stock"]);
-        dcmPriceTotal += dcmPriceUnit * dcmAmountStock;
-      }
-      return dcmPriceTotal;
-    }
-
-    /// <summary>
-    /// 得到某个盘点单下所有货品的盘点总价数组，第一个数字是真实盘点数，第二个数字是显示数
+    /// 得到某个盘点单下所有货品的盘点总价数组，第一个数字是真实库存数，第二个数字是实时库存数，第三个数字是盘点库存数
     /// </summary>
     /// <param name="intContractId">盘点单id</param>
     /// <returns>某个盘点单下所有货品的盘点总价</returns>
     public static decimal[] getPriceTotalInventory(int intContractId)
     {
-      decimal[] aryReturn = { 0, 0 };
+      decimal[] aryReturn = { 0, 0, 0 };
       string strSQL = @"
 SELECT
   record.amount_real,
-  record.amount_show,
+  record.amount_stock,
+  record.amount_fill,
   goods.price_unit
 FROM inventory_record record
 INNER JOIN sales_goods goods
@@ -285,56 +290,67 @@ WHERE record.id_contract = @id_contract";
       aryParams[0] = new MySqlParameter("@id_contract", intContractId);
       DataTable objDT = HelperMySql.GetDataTable(strSQL, aryParams);
       if (objDT == null || objDT.Rows.Count <= 0) return aryReturn;
-
-      decimal dcmAmountReal, dcmAmountShow;
+      decimal dcmAmountReal, dcmAmountStock, dcmAmountFill;
       decimal dcmPriceUnit;
       decimal dcmPriceTotalReal = 0;
-      decimal dcmPriceTotalShow = 0;
+      decimal dcmPriceTotalStock = 0;
+      decimal dcmPriceTotalFill = 0;
       for (int i = 0; i < objDT.Rows.Count; i++)
       {
-        dcmAmountReal = Convert.ToDecimal(objDT.Rows[i]["amount_real"]);
-        dcmAmountShow = Convert.ToDecimal(objDT.Rows[i]["amount_show"]);
+        if (objDT.Rows[i]["amount_real"] is DBNull) dcmAmountReal = 0;
+        else dcmAmountReal = Convert.ToDecimal(objDT.Rows[i]["amount_real"]);
+        if (objDT.Rows[i]["amount_stock"] is DBNull) dcmAmountStock = 0;
+        else dcmAmountStock = Convert.ToDecimal(objDT.Rows[i]["amount_stock"]);
+        if (objDT.Rows[i]["amount_fill"] is DBNull) dcmAmountFill = 0;
+        else dcmAmountFill = Convert.ToDecimal(objDT.Rows[i]["amount_fill"]);
         dcmPriceUnit = Convert.ToDecimal(objDT.Rows[i]["price_unit"]);
         dcmPriceTotalReal += dcmPriceUnit * dcmAmountReal;
-        dcmPriceTotalShow += dcmPriceUnit * dcmAmountShow;
+        dcmPriceTotalStock += dcmPriceUnit * dcmAmountStock;
+        dcmPriceTotalFill += dcmPriceUnit * dcmAmountFill;
       }
       aryReturn[0] = dcmPriceTotalReal;
-      aryReturn[1] = dcmPriceTotalShow;
+      aryReturn[1] = dcmPriceTotalStock;
+      aryReturn[2] = dcmPriceTotalFill;
       return aryReturn;
     }
 
     /// <summary>
-    /// 新建某盘点单时，将所有库存量大于0的货品加到盘点货品表里，盘点数默认为0
-    /// 然后根据要求，又将所有库存量全部清0
+    /// 新建某盘点单时，计算某货品的真实库存量，然后将所有真实计算库存量大于0的货品加到盘点货品表里
     /// </summary>
     /// <param name="intContractId">盘点单id</param>
-    public static void setRecord(int intContractId)
+    public static void setInventoryRecord(int intContractId)
     {
       int intGoodsId;
-      decimal dcmAmountStock;
+      decimal dcmAmount, dcmAmountStock, dcmAmountStockReal;
       ModelInventoryRecord model;
-      // 找出所有库存量大于0的货品id
+      // 查询所有货品
       string strSQL = @"
-SELECT id, amount_stock
+SELECT id, amount, amount_stock
 FROM sales_goods
-WHERE amount_stock > 0
 ORDER BY time_add DESC
 ";
       DataTable objDT = HelperMySql.GetDataTable(strSQL);
       if (objDT == null || objDT.Rows.Count <= 0) return;
+      // 循环遍历所有货品
       for (int i = 0; i < objDT.Rows.Count; i++)
       {
         intGoodsId = Convert.ToInt32(objDT.Rows[i]["id"]);
+        dcmAmount = Convert.ToDecimal(objDT.Rows[i]["amount"]);
         dcmAmountStock = Convert.ToDecimal(objDT.Rows[i]["amount_stock"]);
-        if (dcmAmountStock > 0)
+        // 真实库存量
+        dcmAmountStockReal = dcmAmount - DalCheckoutRecord.getAmountByGoodsId(intGoodsId);
+        // 如果记录的库存量或者计算的真实库存量大于0，就将该货品加到盘点表里
+        if (dcmAmountStock > 0 || dcmAmountStockReal > 0)
         {
           model = new ModelInventoryRecord();
           model.id_contract = intContractId;
           model.id_goods = intGoodsId;
-          model.amount_real = 0;
-          model.amount_show = 0;
+          model.amount_real = dcmAmountStockReal;
+          model.amount_stock = dcmAmountStock;
+          model.amount_fill = 0;
           add(model);
-          DalSalesGoods.clearAmountStock(intGoodsId);
+          // 将某货品的库存清零
+          // DalSalesGoods.clearAmountStock(intGoodsId);
         }
       }
     }

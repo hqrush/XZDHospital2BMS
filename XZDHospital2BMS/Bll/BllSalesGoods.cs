@@ -33,9 +33,9 @@ namespace Bll
       DalSalesGoods.updateContractId(intId, intContractId);
     }
 
-    public static int updateAmountStock(decimal dcmAmountOut, int intId)
+    public static int updateAmountStockByCheckOut(decimal dcmAmountOut, int intId)
     {
-      return DalSalesGoods.updateAmountStock(dcmAmountOut, intId);
+      return DalSalesGoods.updateAmountStockByCheckOut(dcmAmountOut, intId);
     }
 
     public static int clearAmountStock(int intId)
@@ -76,11 +76,6 @@ namespace Bll
     public static DataTable getDTByName(string strProductName, string strFactoryName)
     {
       return DalSalesGoods.getDTByName(strProductName, strFactoryName);
-    }
-
-    public static DataTable getInventoryDTByName(string strProductName, string strFactoryName)
-    {
-      return DalSalesGoods.getInventoryDTByName(strProductName, strFactoryName);
     }
 
   }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/WUCHeader.ascx" hash="fffffffb856575dd" filehash="421177c99a34" flags="110000" assembly="App_Web_vn52bnon" type="ASP.backmanager_wucheader_ascx">
+<preserve resultType="3" virtualPath="/BackManager/WUCHeader.ascx" hash="fffffffb856575dd" filehash="421177c99a34" flags="110000" assembly="App_Web_mfivjjog" type="ASP.backmanager_wucheader_ascx">
     <filedeps>
         <filedep name="/BackManager/WUCHeader.ascx" />
     </filedeps>

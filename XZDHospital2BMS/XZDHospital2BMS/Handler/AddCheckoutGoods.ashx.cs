@@ -49,7 +49,7 @@ namespace XZDHospital2BMS.Handler
       if (intId > 0)
       {
         // 出库货品表里添加完了一条记录后，更新此货品的库存量
-        BllSalesGoods.updateAmountStock(dcmAmount, intGoodsId);
+        BllSalesGoods.updateAmountStockByCheckOut(dcmAmount, intGoodsId);
         context.Response.Write(HelperUtility.setReturnJson("200", "", intId.ToString()));
         return;
       }

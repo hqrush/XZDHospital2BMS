@@ -186,6 +186,15 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     protected global::System.Web.UI.WebControls.Button btnJumpTo;
 
     /// <summary>
+    /// lblPriceTotalReal 控件。
+    /// </summary>
+    /// <remarks>
+    /// 自动生成的字段。
+    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.Label lblPriceTotalReal;
+
+    /// <summary>
     /// lblPriceTotalStock 控件。
     /// </summary>
     /// <remarks>
@@ -195,21 +204,12 @@ namespace XZDHospital2BMS.BackManager.inventory_record
     protected global::System.Web.UI.WebControls.Label lblPriceTotalStock;
 
     /// <summary>
-    /// lblPriceTotalInventoryReal 控件。
+    /// lblPriceTotalFill 控件。
     /// </summary>
     /// <remarks>
     /// 自动生成的字段。
     /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
     /// </remarks>
-    protected global::System.Web.UI.WebControls.Label lblPriceTotalInventoryReal;
-
-    /// <summary>
-    /// lblPriceTotalInventoryShow 控件。
-    /// </summary>
-    /// <remarks>
-    /// 自动生成的字段。
-    /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-    /// </remarks>
-    protected global::System.Web.UI.WebControls.Label lblPriceTotalInventoryShow;
+    protected global::System.Web.UI.WebControls.Label lblPriceTotalFill;
   }
 }
