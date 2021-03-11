@@ -48,8 +48,14 @@ INSERT INTO inventory_contract (
 
     public static void deleteById(int intId)
     {
-      string strSQL = @"DELETE FROM inventory_contract WHERE id = @id";
+      // 删除某盘点单要先删除此盘点单下所有盘点记录
+      string strSQL = @"DELETE FROM inventory_record WHERE id_contract = @id_contract";
       MySqlParameter[] aryParams = new MySqlParameter[1];
+      aryParams[0] = new MySqlParameter("@id_contract", intId);
+      HelperMySql.ExecuteNonQuery(strSQL, aryParams);
+      // 删除某盘点单
+      strSQL = @"DELETE FROM inventory_contract WHERE id = @id";
+      aryParams = new MySqlParameter[1];
       aryParams[0] = new MySqlParameter("@id", intId);
       HelperMySql.ExecuteNonQuery(strSQL, aryParams);
     }

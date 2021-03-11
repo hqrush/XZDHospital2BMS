@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/inventory_record/list.aspx" hash="fffffffb856575dd" filehash="d1d8cd195cefcfc4" flags="110000" assembly="App_Web_oesuyndc" type="ASP.backmanager_inventory_record_list_aspx">
+<preserve resultType="3" virtualPath="/BackManager/inventory_record/list.aspx" hash="fffffffb856575dd" filehash="d24b2a7b502f340e" flags="110000" assembly="App_Web_hu3sfqnf" type="ASP.backmanager_inventory_record_list_aspx">
     <filedeps>
         <filedep name="/BackManager/inventory_record/list.aspx" />
         <filedep name="/BackManager/WUCHeader.ascx" />

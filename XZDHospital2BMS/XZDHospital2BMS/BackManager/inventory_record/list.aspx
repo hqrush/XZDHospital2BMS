@@ -126,7 +126,7 @@
                   </ItemTemplate>
                 </asp:TemplateField>
 
-                <asp:TemplateField HeaderText="计算库存">
+                <asp:TemplateField HeaderText="计算库存" Visible="false">
                   <ItemStyle Width="80px" />
                   <ItemTemplate>
                     <asp:Label runat="server" ID="lblAmountReal"

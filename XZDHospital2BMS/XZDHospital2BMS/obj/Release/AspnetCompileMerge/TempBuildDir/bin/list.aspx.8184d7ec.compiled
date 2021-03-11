@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<preserve resultType="3" virtualPath="/BackManager/sales_company/list.aspx" hash="fffffffb856575dd" filehash="98481b2c048eb8fc" flags="110000" assembly="App_Web_l5ckr13w" type="ASP.backmanager_sales_company_list_aspx">
+<preserve resultType="3" virtualPath="/BackManager/sales_company/list.aspx" hash="fffffffb856575dd" filehash="98481b2c048eb8fc" flags="110000" assembly="App_Web_vgxvbzwv" type="ASP.backmanager_sales_company_list_aspx">
     <filedeps>
         <filedep name="/BackManager/sales_company/list.aspx" />
         <filedep name="/BackManager/WUCHeader.ascx" />

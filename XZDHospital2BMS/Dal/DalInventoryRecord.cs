@@ -340,7 +340,8 @@ ORDER BY time_add DESC
         // 真实库存量
         dcmAmountStockReal = dcmAmount - DalCheckoutRecord.getAmountByGoodsId(intGoodsId);
         // 如果记录的库存量或者计算的真实库存量大于0，就将该货品加到盘点表里
-        if (dcmAmountStock > 0 || dcmAmountStockReal > 0)
+        // if (dcmAmountStock > 0 || dcmAmountStockReal > 0)
+        if (dcmAmountStock > 0)
         {
           model = new ModelInventoryRecord();
           model.id_contract = intContractId;
